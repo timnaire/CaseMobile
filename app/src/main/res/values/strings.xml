@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Case</string>
+
+    <string-array name="RegChoice">
+        <item>--Select--</item>
+        <item>Client</item>
+        <item>Lawyer</item>
+    </string-array>
+
+    <string-array name="province">
+        <item>--Select Province--</item>
+        <item>Bohol</item>
+        <item>Cebu</item>
+    </string-array>
+
+    <string-array name="lawpractice">
+        <item>--Select a Law Practice--</item>
+        <item>Family</item>
+        <item>Employment</item>
+        <item>Criminal Defense</item>
+        <item>Real Estate</item>
+        <item>Business</item>
+        <item>Immigration</item>
+        <item>Personal Injury</item>
+        <item>Wills and Estates</item>
+        <item>Bankruptcy</item>
+        <item>Intellectual Property</item>
+        <item>Others</item>
+    </string-array>
+
+</resources>
