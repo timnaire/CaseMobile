@@ -1,9 +1,9 @@
 package org.kidzonshock.acase.acase.Interfaces;
 
-import org.kidzonshock.acase.acase.Models.LoginLawyer;
-import org.kidzonshock.acase.acase.Models.LoginResponse;
-import org.kidzonshock.acase.acase.Models.RegisterLawyer;
-import org.kidzonshock.acase.acase.Models.RegisterResponse;
+import org.kidzonshock.acase.acase.Models.SigninLawyer;
+import org.kidzonshock.acase.acase.Models.SigninResponse;
+import org.kidzonshock.acase.acase.Models.SignupLawyer;
+import org.kidzonshock.acase.acase.Models.SignupResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -13,14 +13,14 @@ import retrofit2.http.POST;
 
 public interface Case {
 
-    String BASE_URL = "http://192.168.1.10:8080/";
+    String BASE_URL = "http://case-legal-aid.appspot.com/";
 
     @Headers("Content-Type: application/json")
-    @POST("signup/lawyer")
-    Call<RegisterResponse> registerLawyer(@Body RegisterLawyer body);
+    @POST("lawyer/signup")
+    Call<SignupResponse> signupLawyer(@Body SignupLawyer body);
 
     @Headers("Content-Type: application/json")
-    @GET("signin/lawyer")
-    Call<LoginResponse> loginLawyer(@Body LoginLawyer body);
+    @POST("lawyer/signin")
+    Call<SigninResponse> signinLawyer(@Body SigninLawyer body);
 
 }

@@ -18,8 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LawyerRegistration.Register1" />
-        <activity android:name=".LawyerRegistration.Register2" />
+        <activity android:name=".Lawyer.Signup1" />
+        <activity android:name=".Lawyer.Signup2" />
+        <activity
+            android:name=".Lawyer.Dashboard"
+            android:label="@string/title_activity_dashboard"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

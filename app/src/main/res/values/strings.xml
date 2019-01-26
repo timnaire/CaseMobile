@@ -7,25 +7,78 @@
         <item>Lawyer</item>
     </string-array>
 
-    <string-array name="province">
-        <item>--Select Province--</item>
-        <item>Bohol</item>
-        <item>Cebu</item>
+    <string-array name="cityOrMunicipality">
+        <item>Select City or Municipality</item>
+        <item>Alcantara</item>
+        <item>Alcoy</item>
+        <item>Alegria</item>
+        <item>Aloguinsan</item>
+        <item>Argao</item>
+        <item>Asturias</item>
+        <item>Badian</item>
+        <item>Balamban</item>
+        <item>Bantayan</item>
+        <item>Barili</item>
+        <item>Bogo</item>
+        <item>Boljoon</item>
+        <item>Borbon</item>
+        <item>Carcar</item>
+        <item>Carmen</item>
+        <item>Catmon</item>
+        <item>Cebu City</item>
+        <item>Compostela</item>
+        <item>Consolacion</item>
+        <item>Cordova</item>
+        <item>Daanbantayan</item>
+        <item>Dalaguete</item>
+        <item>Danao</item>
+        <item>Dumanjug</item>
+        <item>Ginatilan</item>
+        <item>Lapu-Lapu</item>
+        <item>Liloan</item>
+        <item>Madridejos</item>
+        <item>Malabuyoc</item>
+        <item>Mandaue</item>
+        <item>Medellin</item>
+        <item>Minglanilla</item>
+        <item>Moalboal</item>
+        <item>Naga</item>
+        <item>Oslob</item>
+        <item>Pilar</item>
+        <item>Pinamungajan</item>
+        <item>Poro</item>
+        <item>Samboan</item>
+        <item>San Fernando</item>
+        <item>San Francisco</item>
+        <item>Santa Fe</item>
+        <item>Santander</item>
+        <item>Sibonga</item>
+        <item>Sogod</item>
+        <item>Tabogon</item>
+        <item>Tabuelan</item>
+        <item>Talisay</item>
+        <item>Toledo</item>
+        <item>Tuburan</item>
+        <item>Tudela</item>
     </string-array>
 
-    <string-array name="lawpractice">
-        <item>--Select a Law Practice--</item>
-        <item>Family</item>
-        <item>Employment</item>
-        <item>Criminal Defense</item>
-        <item>Real Estate</item>
-        <item>Business</item>
-        <item>Immigration</item>
-        <item>Personal Injury</item>
-        <item>Wills and Estates</item>
+    <string-array name="law_practice">
+        <item>Select area of Practice</item>
         <item>Bankruptcy</item>
-        <item>Intellectual Property</item>
-        <item>Others</item>
+        <item>Business</item>
+        <item>Commercial Law</item>
+        <item>Criminal Defense</item>
+        <item>Employment</item>
+        <item>Family</item>
+        <item>Immigration</item>
+        <item>Real Estate</item>
+        <item>Wills, Trust, and Estates</item>
     </string-array>
-
+    <string name="title_activity_dashboard">Dashboard</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>
