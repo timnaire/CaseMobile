@@ -3,11 +3,12 @@ package org.kidzonshock.acase.acase.Models;
 public class SigninResponse {
 
     private boolean error;
-    private String message, first_name, last_name, email, phone, cityOrMunicipality, office, profile_pic;
+    private String message, lawyer, first_name, last_name, email, phone, cityOrMunicipality, office, profile_pic;
 
-    public SigninResponse(boolean error, String message, String first_name, String last_name, String email, String phone, String cityOrMunicipality, String office, String profile_pic) {
+    public SigninResponse(boolean error, String message, String lawyer, String first_name, String last_name, String email, String phone, String cityOrMunicipality, String office, String profile_pic) {
         this.error = error;
         this.message = message;
+        this.lawyer = lawyer;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -23,6 +24,10 @@ public class SigninResponse {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getLawyer() {
+        return lawyer;
     }
 
     public String getFirst_name() {

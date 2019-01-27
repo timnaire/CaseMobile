@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "712857136348",
+    "firebase_url": "https://case-legal-aid.firebaseio.com",
+    "project_id": "case-legal-aid",
+    "storage_bucket": "case-legal-aid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712857136348:android:7af8abd44be28bdd",
+        "android_client_info": {
+          "package_name": "org.kidzonshock.acase.acase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712857136348-4c7aifhhu5km9avn1h3ho3lfrv6r570h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.kidzonshock.acase.acase",
+            "certificate_hash": "3d4dae7aa61af710faec5ee5a5c7420287869b40"
+          }
+        },
+        {
+          "client_id": "712857136348-qp5ghpngk01ikif1pavjjn8cnu83oc3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOsRBkcwATURe-pPY5JcBYgOlpkonht_U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712857136348-qp5ghpngk01ikif1pavjjn8cnu83oc3l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

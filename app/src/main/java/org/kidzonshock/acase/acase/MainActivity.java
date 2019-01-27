@@ -8,13 +8,11 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import cc.cloudist.acplibrary.ACProgressFlower;
-import cc.cloudist.acplibrary.ACProgressConstant;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Lawyer.Dashboard;
@@ -22,6 +20,8 @@ import org.kidzonshock.acase.acase.Lawyer.Signup1;
 import org.kidzonshock.acase.acase.Models.SigninLawyer;
 import org.kidzonshock.acase.acase.Models.SigninResponse;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
     String selectedRegChoice,email,password;
     ACProgressFlower dialog;
     Context context;
-
+    Intent intent;
+    private static final String TAG = "MyActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        intent = new Intent(MainActivity.this, Dashboard.class);
     }
 
     private void sendLoginRequest(String email, String password){
@@ -101,10 +103,18 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<SigninResponse> call, Response<SigninResponse> response) {
                 SigninResponse signinResponse = response.body();
                 dialog.dismiss();
-                if(response.isSuccessful() && signinResponse.isError()){
+                Log.v(TAG, "Response:" + signinResponse.isError());
+                if(!signinResponse.isError()){
                     Toast.makeText(MainActivity.this, signinResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, Dashboard.class);
-                    context.startActivity(intent);
+                    intent.putExtra("lawyer_id", signinResponse.getLawyer());
+                    intent.putExtra("first_name",signinResponse.getFirst_name());
+                    intent.putExtra("last_name",signinResponse.getLast_name());
+                    intent.putExtra("email",signinResponse.getEmail());
+                    intent.putExtra("phone",signinResponse.getPhone());
+                    intent.putExtra("cityOrMunicipality",signinResponse.getCityOrMunicipality());
+                    intent.putExtra("office",signinResponse.getOffice());
+                    intent.putExtra("profile_pic",signinResponse.getProfile_pic());
+                    startActivity(intent);
                 } else {
                     Toast.makeText(MainActivity.this, signinResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -113,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SigninResponse> call, Throwable t) {
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this, t.getMessage() , Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Please check your internet connection" , Toast.LENGTH_SHORT).show();
             }
         });
     }

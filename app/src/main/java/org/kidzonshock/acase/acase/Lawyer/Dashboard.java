@@ -1,13 +1,11 @@
 package org.kidzonshock.acase.acase.Lawyer;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,12 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import org.kidzonshock.acase.acase.R;
 
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
+    private String lawyer_id,first_name,last_name,email,phone,cityOrMunicipality,office,profile_pic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +75,14 @@ public class Dashboard extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Fragment fragment = null;
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Fragment fragment = null;
         if (id == R.id.nav_dashboard) {
 
             toolbar.setTitle("Dashboard");
+            fragment = new DashboardFragment();
 
         } else if (id == R.id.nav_mycase) {
 
@@ -91,21 +92,40 @@ public class Dashboard extends AppCompatActivity
         } else if (id == R.id.nav_account) {
 
             toolbar.setTitle("My Account");
+            Intent prev = getIntent();
+            lawyer_id = prev.getStringExtra("lawyer_id");
+            first_name = prev.getStringExtra("first_name");
+            last_name = prev.getStringExtra("last_name");
+            email = prev.getStringExtra("email");
+            phone = prev.getStringExtra("phone");
+            cityOrMunicipality = prev.getStringExtra("cityOrMunicipality");
+            office = prev.getStringExtra("office");
+            profile_pic = prev.getStringExtra("profile_pic");
+            Bundle info = new Bundle();
+            info.putString("lawyer_id",lawyer_id);
+            info.putString("first_name",first_name);
+            info.putString("last_name",last_name);
+            info.putString("email",email);
+            info.putString("phone",phone);
+            info.putString("cityOrMunicipality",cityOrMunicipality);
+            info.putString("office",office);
+            info.putString("profile_pic",profile_pic);
             fragment = new AccountFragment();
+            fragment.setArguments(info);
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_signout) {
-
+            this.finish();
         }
 
         if(fragment != null){
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction ft = fragmentManager.beginTransaction();
 
-            ft.replace(R.id.fragment_container, fragment);
+            ft.replace(R.id.screen_area, fragment);
             ft.commit();
         }
 
