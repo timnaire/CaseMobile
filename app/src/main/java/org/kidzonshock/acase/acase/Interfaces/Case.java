@@ -28,7 +28,7 @@ public interface Case {
     @POST("lawyer/signin")
     Call<SigninResponse> signinLawyer(@Body SigninLawyer body);
 
-    @Headers("Content-Type: application/json")
+
     @POST("lawyer/{lawyer_id}/profile-picture")
     Call<UpdatePictureResponse> updatePicture(@Path("lawyer_id") String lawyer_id, @Body UpdatePicture body );
 

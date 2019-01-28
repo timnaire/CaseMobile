@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     ACProgressFlower dialog;
     Context context;
     Intent intent;
-    private static final String TAG = "MyActivity";
+
+    final String TAG = "MyActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

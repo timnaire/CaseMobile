@@ -11,8 +11,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.kidzonshock.acase.acase.R;
 
@@ -22,6 +29,8 @@ public class Dashboard extends AppCompatActivity
     Toolbar toolbar;
     private String lawyer_id,first_name,last_name,email,phone,cityOrMunicipality,office,profile_pic;
 
+    final String TAG = "Dashboard";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +38,15 @@ public class Dashboard extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Intent prev = getIntent();
+        lawyer_id = prev.getStringExtra("lawyer_id");
+        first_name = prev.getStringExtra("first_name");
+        last_name = prev.getStringExtra("last_name");
+        email = prev.getStringExtra("email");
+        phone = prev.getStringExtra("phone");
+        cityOrMunicipality = prev.getStringExtra("cityOrMunicipality");
+        office = prev.getStringExtra("office");
+        profile_pic = prev.getStringExtra("profile_pic");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -37,6 +55,25 @@ public class Dashboard extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerLayout = navigationView.getHeaderView(0);
+
+        Log.d(TAG, first_name);
+        Log.d(TAG, last_name);
+        Log.d(TAG, profile_pic);
+
+        ImageView ivProfilePic = headerLayout.findViewById(R.id.nav_profile_pic);
+        RequestOptions options = new RequestOptions()
+                .circleCrop()
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher_round);
+
+        Glide.with(this).load(profile_pic).apply(options).into(ivProfilePic);
+
+        TextView tvName  = headerLayout.findViewById(R.id.nav_lawyer_name);
+        tvName.setText(first_name + " " + last_name);
+        TextView tvEmail = headerLayout.findViewById(R.id.nav_lawyer_email);
+        tvEmail.setText(email);
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -46,7 +83,10 @@ public class Dashboard extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
         }
     }
 
@@ -92,15 +132,6 @@ public class Dashboard extends AppCompatActivity
         } else if (id == R.id.nav_account) {
 
             toolbar.setTitle("My Account");
-            Intent prev = getIntent();
-            lawyer_id = prev.getStringExtra("lawyer_id");
-            first_name = prev.getStringExtra("first_name");
-            last_name = prev.getStringExtra("last_name");
-            email = prev.getStringExtra("email");
-            phone = prev.getStringExtra("phone");
-            cityOrMunicipality = prev.getStringExtra("cityOrMunicipality");
-            office = prev.getStringExtra("office");
-            profile_pic = prev.getStringExtra("profile_pic");
             Bundle info = new Bundle();
             info.putString("lawyer_id",lawyer_id);
             info.putString("first_name",first_name);
