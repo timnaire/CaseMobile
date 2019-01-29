@@ -3,9 +3,9 @@ package org.kidzonshock.acase.acase.Models;
 public class SigninResponse {
 
     private boolean error;
-    private String message, lawyer, first_name, last_name, email, phone, cityOrMunicipality, office, profile_pic;
+    private String message, lawyer, first_name, last_name, email, phone, cityOrMunicipality, office, profile_pic, aboutme;
 
-    public SigninResponse(boolean error, String message, String lawyer, String first_name, String last_name, String email, String phone, String cityOrMunicipality, String office, String profile_pic) {
+    public SigninResponse(boolean error, String message, String lawyer, String first_name, String last_name, String email, String phone, String cityOrMunicipality, String office, String profile_pic, String aboutme) {
         this.error = error;
         this.message = message;
         this.lawyer = lawyer;
@@ -16,6 +16,7 @@ public class SigninResponse {
         this.cityOrMunicipality = cityOrMunicipality;
         this.office = office;
         this.profile_pic = profile_pic;
+        this.aboutme = aboutme;
     }
 
     public boolean isError() {
@@ -57,4 +58,6 @@ public class SigninResponse {
     public String getProfile_pic() {
         return profile_pic;
     }
+
+    public String getAboutme() { return aboutme; }
 }

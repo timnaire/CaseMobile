@@ -53,12 +53,12 @@ public class Signup1 extends AppCompatActivity {
     private boolean validateForm(String firstname,String lastname,String email) {
         boolean valid = true;
 
-        if (TextUtils.isEmpty(firstname)) {
-            layoutRegFirstname.setError("Required");
-            layoutRegFirstname.requestFocus();
+        if (TextUtils.isEmpty(email)) {
+            layoutRegEmail.setError("Required");
+            layoutRegEmail.requestFocus();
             valid = false;
         } else {
-            layoutRegFirstname.setError(null);
+            layoutRegEmail.setError(null);
         }
 
         if (TextUtils.isEmpty(lastname)) {
@@ -69,12 +69,12 @@ public class Signup1 extends AppCompatActivity {
             layoutRegLastname.setError(null);
         }
 
-        if (TextUtils.isEmpty(email)) {
-            layoutRegEmail.setError("Required");
-            layoutRegEmail.requestFocus();
+        if (TextUtils.isEmpty(firstname)) {
+            layoutRegFirstname.setError("Required");
+            layoutRegFirstname.requestFocus();
             valid = false;
         } else {
-            layoutRegEmail.setError(null);
+            layoutRegFirstname.setError(null);
         }
 
         return valid;

@@ -38,6 +38,8 @@
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Lawyer.ChangePicture" />
+        <activity android:name=".Lawyer.ChangeInformation"></activity>
     </application>
 
 </manifest>

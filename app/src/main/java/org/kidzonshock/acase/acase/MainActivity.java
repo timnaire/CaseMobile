@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<SigninResponse> call, Response<SigninResponse> response) {
                 SigninResponse signinResponse = response.body();
                 dialog.dismiss();
-                Log.v(TAG, "Response:" + signinResponse.isError());
+
                 if(!signinResponse.isError()){
                     Toast.makeText(MainActivity.this, signinResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     intent.putExtra("lawyer_id", signinResponse.getLawyer());
@@ -115,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("cityOrMunicipality",signinResponse.getCityOrMunicipality());
                     intent.putExtra("office",signinResponse.getOffice());
                     intent.putExtra("profile_pic",signinResponse.getProfile_pic());
+                    intent.putExtra("aboutme", signinResponse.getAboutme());
                     startActivity(intent);
                 } else {
                     Toast.makeText(MainActivity.this, signinResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -131,6 +131,13 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean validateForm(String email, String password){
         boolean valid = true;
+        if (TextUtils.isEmpty(password)) {
+            layoutPassword.setError("Required");
+            layoutPassword.requestFocus();
+            valid = false;
+        } else {
+            layoutPassword.setError(null);
+        }
 
         if (TextUtils.isEmpty(email)) {
             layoutEmail.setError("Required");
@@ -140,13 +147,6 @@ public class MainActivity extends AppCompatActivity {
             layoutEmail.setError(null);
         }
 
-        if (TextUtils.isEmpty(password)) {
-            layoutPassword.setError("Required");
-            layoutPassword.requestFocus();
-            valid = false;
-        } else {
-            layoutPassword.setError(null);
-        }
 
         return valid;
     }

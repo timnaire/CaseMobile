@@ -1,11 +1,11 @@
 package org.kidzonshock.acase.acase.Models;
 
-public class UpdatePictureResponse {
+public class CommonResponse {
 
     private boolean error;
     private String message;
 
-    public UpdatePictureResponse(boolean error, String message) {
+    public CommonResponse(boolean error, String message) {
         this.error = error;
         this.message = message;
     }

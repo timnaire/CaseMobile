@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.MainActivity;
+import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.SignupLawyer;
-import org.kidzonshock.acase.acase.Models.SignupResponse;
 import org.kidzonshock.acase.acase.R;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
@@ -90,11 +90,11 @@ public class Signup2 extends AppCompatActivity {
         dialog.show();
         Case service = retrofit.create(Case.class);
 
-        Call<SignupResponse> registerResponseCall = service.signupLawyer(new SignupLawyer(firstname,lastname,email,phone, selectedProvince,office,lawpractice));
-        registerResponseCall.enqueue(new Callback<SignupResponse>() {
+        Call<CommonResponse> commonResponseCall = service.signupLawyer(new SignupLawyer(firstname,lastname,email,phone, selectedProvince,office,lawpractice));
+        commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
-            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
-                SignupResponse signupResponse = response.body();
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse signupResponse = response.body();
                 dialog.dismiss();
                 if(response.isSuccessful() && signupResponse.isError()){
                     Toast.makeText(Signup2.this, signupResponse.getMessage(), Toast.LENGTH_LONG).show();
@@ -105,7 +105,7 @@ public class Signup2 extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<SignupResponse> call, Throwable t) {
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
                 dialog.dismiss();
 
                 Toast.makeText(Signup2.this, "Server response: "+t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -116,20 +116,20 @@ public class Signup2 extends AppCompatActivity {
     private boolean validateFormAgain(String phone,String office) {
         boolean valid = true;
 
-        if (TextUtils.isEmpty(phone)) {
-            layoutRegPhone.setError("Required");
-            layoutRegPhone.requestFocus();
-            valid = false;
-        } else {
-            layoutRegPhone.setError(null);
-        }
-
         if (TextUtils.isEmpty(office)) {
             layoutRegOffice.setError("Required");
             layoutRegOffice.requestFocus();
             valid = false;
         } else {
             layoutRegOffice.setError(null);
+        }
+
+        if (TextUtils.isEmpty(phone)) {
+            layoutRegPhone.setError("Required");
+            layoutRegPhone.requestFocus();
+            valid = false;
+        } else {
+            layoutRegPhone.setError(null);
         }
 
         return valid;
