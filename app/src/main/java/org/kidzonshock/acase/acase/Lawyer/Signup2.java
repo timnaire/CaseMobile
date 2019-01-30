@@ -48,6 +48,10 @@ public class Signup2 extends AppCompatActivity {
                 .text("Please wait")
                 .fadeColor(Color.DKGRAY).build();
 
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Registration - Step 2");
+
         btnRegSend = findViewById(R.id.btnRegSend);
         inputRegPhone = findViewById(R.id.inputRegPhone);
         inputRegOffice = findViewById(R.id.inputRegOffice);
@@ -78,6 +82,12 @@ public class Signup2 extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     private void sendPostRequest(String firstname, String lastname, String email, String phone, String selectedProvince, String office, String lawpractice) {

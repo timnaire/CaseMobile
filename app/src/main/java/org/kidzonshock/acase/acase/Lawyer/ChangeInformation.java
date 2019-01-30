@@ -21,9 +21,8 @@ import cc.cloudist.acplibrary.ACProgressFlower;
 public class ChangeInformation extends AppCompatActivity {
 
     String lawyer_id, first_name,last_name,phone,office,cityOrMunicipality, aboutme;
+    String[] law_practice;
 
-
-    String[] available_practice = {"Family","Employment","Criminal Defense","Business","Personal Injury","Immigration","Bankruptcy","Wills, Trust, and Estates", "Real Estate","Commercial Law"};
     CheckBox chkBankruptcy, chkBusiness,chkCommercial,chkCriminal,chkEmployment,chkFamily,chkImmigration,chkInjury,chkRealEstate,chkWills;
     ACProgressFlower dialog;
 
@@ -47,6 +46,7 @@ public class ChangeInformation extends AppCompatActivity {
         cityOrMunicipality = prev.getStringExtra("cityOrMunicipality");
         office = prev.getStringExtra("office");
         aboutme = prev.getStringExtra("aboutme");
+        law_practice = prev.getStringArrayExtra("law_practice");
 
 //        set all the id from views
         btnSaveInfo = findViewById(R.id.btnSaveInfo);
@@ -77,7 +77,7 @@ public class ChangeInformation extends AppCompatActivity {
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Back");
+        getSupportActionBar().setTitle("Change Information");
 
         dialog = new ACProgressFlower.Builder(ChangeInformation.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
@@ -90,20 +90,66 @@ public class ChangeInformation extends AppCompatActivity {
         inputUpdatePhone.setText(phone);
         inputUpdateCity.setText(cityOrMunicipality);
         inputUpdateOffice.setText(office);
+        updateAboutme.setText(aboutme);
+
+        for(int i=0; i < law_practice.length; i++){
+            if(law_practice[i].equals(chkBankruptcy.getText().toString())){
+                chkBankruptcy.setChecked(true);
+            }else if(law_practice[i].equals(chkBusiness.getText().toString())){
+                chkBusiness.setChecked(true);
+            }else if(law_practice[i].equals(chkCommercial.getText().toString())){
+                chkCommercial.setChecked(true);
+            }else if(law_practice[i].equals(chkCriminal.getText().toString())){
+                chkCriminal.setChecked(true);
+            }else if(law_practice[i].equals(chkEmployment.getText().toString())){
+                chkEmployment.setChecked(true);
+            }else if(law_practice[i].equals(chkFamily.getText().toString())){
+                chkFamily.setChecked(true);
+            }else if(law_practice[i].equals(chkImmigration.getText().toString())){
+                chkImmigration.setChecked(true);
+            }else if(law_practice[i].equals(chkInjury.getText().toString())){
+                chkInjury.setChecked(true);
+            }else if(law_practice[i].equals(chkRealEstate.getText().toString())){
+                chkRealEstate.setChecked(true);
+            }else if(law_practice[i].equals(chkWills.getText().toString())){
+                chkWills.setChecked(true);
+            }
+        }
+
 
         btnSaveInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateForm(first_name,last_name,phone,cityOrMunicipality,office)){
-                    Toast.makeText(ChangeInformation.this, "Testing saving Info !", Toast.LENGTH_SHORT).show();
+                String newFirstname = inputUpdateFirst.getText().toString();
+                String newLastname = inputUpdateLast.getText().toString();
+                String newPhone = inputUpdatePhone.getText().toString();
+                String newCity = inputUpdateCity.getText().toString();
+                String newOffice = inputUpdateOffice.getText().toString();
+                String newAboutme = updateAboutme.getText().toString();
+                if(validateForm(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme)){
+                    updateInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme);
                 }
             }
         });
 
     }
 
-    private boolean validateForm(String first,String last, String phone, String city, String office) {
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    public void updateInfo(String newFirstname, String newLastname, String newPhone, String newCity, String newOffice, String newAboutme){
+        Toast.makeText(ChangeInformation.this, "Testing saving Info !", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean validateForm(String first,String last, String phone, String city, String office,String aboutme) {
         boolean valid = true;
+
+        if(aboutme.equals(null)){
+            valid = false;
+        }
 
         if (TextUtils.isEmpty(office)) {
             layoutUpdateOffice.setError("Required");

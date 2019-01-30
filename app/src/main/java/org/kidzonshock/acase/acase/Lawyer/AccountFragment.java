@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class AccountFragment extends Fragment {
 
     String lawyer_id,first_name,last_name,email,phone,cityOrMunicipality,office,profile_pic,aboutme;
-
+    String[] law_practice;
     ListView lv;
     ArrayList<Setting> titles = new ArrayList<>();
     SettingAdapter adapter;
@@ -46,6 +46,7 @@ public class AccountFragment extends Fragment {
         office = getArguments().getString("office");
         profile_pic = getArguments().getString("profile_pic");
         aboutme = getArguments().getString("aboutme");
+        law_practice = getArguments().getStringArray("law_practice");
 
         lv = view.findViewById(R.id.listview);
 
@@ -74,6 +75,7 @@ public class AccountFragment extends Fragment {
                     changeinfo.putExtra("cityOrMunicipality",cityOrMunicipality);
                     changeinfo.putExtra("office",office);
                     changeinfo.putExtra("aboutme",aboutme);
+                    changeinfo.putExtra("law_practice",law_practice);
                     startActivity(changeinfo);
                 } else if(position == 2){
 

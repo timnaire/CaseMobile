@@ -74,7 +74,7 @@ public class ChangePicture extends AppCompatActivity {
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Back");
+        getSupportActionBar().setTitle("Change Picture");
 
         dialog = new ACProgressFlower.Builder(ChangePicture.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)

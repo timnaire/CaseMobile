@@ -16,6 +16,7 @@ import android.widget.Toast;
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Lawyer.Dashboard;
 import org.kidzonshock.acase.acase.Lawyer.Signup1;
+import org.kidzonshock.acase.acase.Models.PreferenceData;
 import org.kidzonshock.acase.acase.Models.SigninLawyer;
 import org.kidzonshock.acase.acase.Models.SigninResponse;
 
@@ -87,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         intent = new Intent(MainActivity.this, Dashboard.class);
+        if(PreferenceData.getUserLoggedInStatus(MainActivity.this)){
+            startActivity(intent);
+        }
     }
 
     private void sendLoginRequest(String email, String password){
@@ -103,18 +107,20 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<SigninResponse> call, Response<SigninResponse> response) {
                 SigninResponse signinResponse = response.body();
                 dialog.dismiss();
-
                 if(!signinResponse.isError()){
+//                  populating preference data to be saved in shared preference.
+                    PreferenceData.setLoggedInLawyerid(MainActivity.this,signinResponse.getLawyer());
+                    PreferenceData.setLoggedInFirstname(MainActivity.this,signinResponse.getFirst_name());
+                    PreferenceData.setLoggedInLastname(MainActivity.this,signinResponse.getLast_name());
+                    PreferenceData.setLoggedInEmail(MainActivity.this,signinResponse.getEmail());
+                    PreferenceData.setLoggedInPhone(MainActivity.this,signinResponse.getPhone());
+                    PreferenceData.setLoggedInCityOrMunicipality(MainActivity.this,signinResponse.getCityOrMunicipality());
+                    PreferenceData.setLoggedInOffice(MainActivity.this,signinResponse.getOffice());
+                    PreferenceData.setLoggedInAboutme(MainActivity.this,signinResponse.getAboutme());
+                    PreferenceData.setLoggedInProfilePicture(MainActivity.this,signinResponse.getProfile_pic());
+
+                    PreferenceData.setUserLoggedInStatus(MainActivity.this,true);
                     Toast.makeText(MainActivity.this, signinResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    intent.putExtra("lawyer_id", signinResponse.getLawyer());
-                    intent.putExtra("first_name",signinResponse.getFirst_name());
-                    intent.putExtra("last_name",signinResponse.getLast_name());
-                    intent.putExtra("email",signinResponse.getEmail());
-                    intent.putExtra("phone",signinResponse.getPhone());
-                    intent.putExtra("cityOrMunicipality",signinResponse.getCityOrMunicipality());
-                    intent.putExtra("office",signinResponse.getOffice());
-                    intent.putExtra("profile_pic",signinResponse.getProfile_pic());
-                    intent.putExtra("aboutme", signinResponse.getAboutme());
                     startActivity(intent);
                 } else {
                     Toast.makeText(MainActivity.this, signinResponse.getMessage(), Toast.LENGTH_SHORT).show();

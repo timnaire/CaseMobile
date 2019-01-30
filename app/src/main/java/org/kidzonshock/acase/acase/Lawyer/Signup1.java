@@ -23,6 +23,10 @@ public class Signup1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup1);
 
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Registration - Step 1");
+
         btnRegisterNext = findViewById(R.id.btnRegisterNext);
         inputRegFirstname = findViewById(R.id.inputRegFirstname);
         inputRegLastname = findViewById(R.id.inputRegLastname);
@@ -50,6 +54,13 @@ public class Signup1 extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
     private boolean validateForm(String firstname,String lastname,String email) {
         boolean valid = true;
 

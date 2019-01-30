@@ -25,8 +25,10 @@ import com.bumptech.glide.request.RequestOptions;
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.LawPractice;
+import org.kidzonshock.acase.acase.Models.PreferenceData;
 import org.kidzonshock.acase.acase.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -50,16 +52,16 @@ public class Dashboard extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent prev = getIntent();
-        lawyer_id = prev.getStringExtra("lawyer_id");
-        first_name = prev.getStringExtra("first_name");
-        last_name = prev.getStringExtra("last_name");
-        email = prev.getStringExtra("email");
-        phone = prev.getStringExtra("phone");
-        cityOrMunicipality = prev.getStringExtra("cityOrMunicipality");
-        office = prev.getStringExtra("office");
-        profile_pic = prev.getStringExtra("profile_pic");
-        aboutme = prev.getStringExtra("aboutme");
+        lawyer_id = PreferenceData.getLoggedInLawyerid(Dashboard.this);
+        first_name = PreferenceData.getLoggedInFirstname(Dashboard.this);
+        last_name = PreferenceData.getLoggedInLastname(Dashboard.this);
+        email = PreferenceData.getLoggedInEmail(Dashboard.this);
+        phone = PreferenceData.getLoggedInPhone(Dashboard.this);
+        cityOrMunicipality = PreferenceData.getLoggedInCityOrMunicipality(Dashboard.this);
+        office = PreferenceData.getLoggedInOffice(Dashboard.this);
+        aboutme = PreferenceData.getLoggedInAboutme(Dashboard.this);
+        profile_pic = PreferenceData.getLoggedInProfilePicture(Dashboard.this);
+
         getPractice();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -69,10 +71,6 @@ public class Dashboard extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
-
-        Log.d(TAG, first_name);
-        Log.d(TAG, last_name);
-        Log.d(TAG, profile_pic);
 
         ImageView ivProfilePic = headerLayout.findViewById(R.id.nav_profile_pic);
         RequestOptions options = new RequestOptions()
@@ -157,7 +155,7 @@ public class Dashboard extends AppCompatActivity
             info.putString("office",office);
             info.putString("profile_pic",profile_pic);
             info.putString("aboutme", aboutme);
-//            info.putStringArrayList("law_practice", new ArrayList<>(law_practice));
+            info.putStringArray("law_practice",law_practice);
             fragment = new AccountFragment();
             fragment.setArguments(info);
 
@@ -166,6 +164,8 @@ public class Dashboard extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_signout) {
+            PreferenceData.setUserLoggedInStatus(Dashboard.this,false);
+            PreferenceData.clearLoggedInLawyer(Dashboard.this);
             this.finish();
         }
 
