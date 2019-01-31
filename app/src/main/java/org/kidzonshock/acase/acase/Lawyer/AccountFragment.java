@@ -29,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AccountFragment extends Fragment {
 
-    String lawyer_id,profile_pic;
+    String lawyer_id,profile_pic,email;
     String[] law_practice;
     ListView lv;
     ArrayList<Setting> titles = new ArrayList<>();
@@ -47,6 +47,7 @@ public class AccountFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getPractice();
+        getEmail();
 //        law_practice = getArguments().getStringArray("law_practice");
         lawyer_id = PreferenceData.getLoggedInLawyerid(getActivity());
         profile_pic = PreferenceData.getLoggedInProfilePicture(getActivity());
@@ -69,13 +70,16 @@ public class AccountFragment extends Fragment {
                     changepic.putExtra("profile_pic",profile_pic);
                     startActivity(changepic);
                 } else if(position == 1){
-                    Intent changeinfo = new Intent(getActivity(), ChangeInformation.class);
-                    changeinfo.putExtra("law_practice",law_practice);
-                    startActivity(changeinfo);
+                    Intent changeInfo = new Intent(getActivity(), ChangeInformation.class);
+                    changeInfo.putExtra("law_practice",law_practice);
+                    startActivity(changeInfo);
                 } else if(position == 2){
-
+                    Intent changeEmail = new Intent(getActivity(), ChangeEmail.class);
+                    changeEmail.putExtra("email", email);
+                    startActivity(changeEmail);
                 } else if(position == 3){
-
+                    Intent changePass = new Intent(getActivity(), ChangePassword.class);
+                    startActivity(changePass);
                 }
             }
         });
@@ -85,7 +89,12 @@ public class AccountFragment extends Fragment {
     @Override
     public void onResume() {
         getPractice();
+        getEmail();
         super.onResume();
+    }
+
+    public String getEmail(){
+        return email = PreferenceData.getLoggedInEmail(getActivity());
     }
 
     public void getPractice(){

@@ -17,17 +17,17 @@
             android:icon="@drawable/accounticon"
             android:title="My Account" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_events"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="My Event" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_subscription"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Subscription" />
             <item
                 android:id="@+id/nav_signout"
                 android:icon="@drawable/signouticon"

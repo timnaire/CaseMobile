@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -78,6 +77,20 @@ public class Dashboard extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        lawyer_id = PreferenceData.getLoggedInLawyerid(Dashboard.this);
+        first_name = PreferenceData.getLoggedInFirstname(Dashboard.this);
+        last_name = PreferenceData.getLoggedInLastname(Dashboard.this);
+        email = PreferenceData.getLoggedInEmail(Dashboard.this);
+        phone = PreferenceData.getLoggedInPhone(Dashboard.this);
+        cityOrMunicipality = PreferenceData.getLoggedInCityOrMunicipality(Dashboard.this);
+        office = PreferenceData.getLoggedInOffice(Dashboard.this);
+        aboutme = PreferenceData.getLoggedInAboutme(Dashboard.this);
+        profile_pic = PreferenceData.getLoggedInProfilePicture(Dashboard.this);
+        super.onResume();
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -90,27 +103,27 @@ public class Dashboard extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.dashboard, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.dashboard, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -137,9 +150,9 @@ public class Dashboard extends AppCompatActivity
             fragment = new AccountFragment();
 //            fragment.setArguments(info);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_events) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_subscription) {
 
         } else if (id == R.id.nav_signout) {
             PreferenceData.setUserLoggedInStatus(Dashboard.this,false);
@@ -160,30 +173,4 @@ public class Dashboard extends AppCompatActivity
         return true;
     }
 
-//    public void getPractice(){
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Case.BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        Case service = retrofit.create(Case.class);
-//        Call<GetLawPractice> commonResponseCall = service.getPractice(lawyer_id);
-//        commonResponseCall.enqueue(new Callback<GetLawPractice>() {
-//            @Override
-//            public void onResponse(Call<GetLawPractice> call, Response<GetLawPractice> response) {
-//                GetLawPractice data = response.body();
-//                List<LawPractice> lawpracticelist = data.getPractice();
-//
-//                law_practice = new String[lawpracticelist.size()];
-//
-//                for(int i=0; i < lawpracticelist.size(); i++){
-//                    law_practice[i] = lawpracticelist.get(i).getLaw_practice();
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<GetLawPractice> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 }

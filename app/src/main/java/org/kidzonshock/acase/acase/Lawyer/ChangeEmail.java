@@ -1,5 +1,6 @@
 package org.kidzonshock.acase.acase.Lawyer;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -46,7 +47,7 @@ public class ChangeEmail extends AppCompatActivity {
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Profile Picture");
+        getSupportActionBar().setTitle("Change Email");
 
 //        get lawyer id from SharedPrefence
         lawyer_id = PreferenceData.getLoggedInLawyerid(getApplication());
@@ -62,6 +63,11 @@ public class ChangeEmail extends AppCompatActivity {
 
         btnChangeEmail = findViewById(R.id.btnChangeEmail);
 
+        Intent prev = getIntent();
+        String email = prev.getStringExtra("email");
+
+        inputCurrent.setText(email);
+
         btnChangeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +77,7 @@ public class ChangeEmail extends AppCompatActivity {
                 pass = inputPass.getText().toString();
                 if(validateForm(current,newemail,pass)){
                     changeEmail(current,newemail,pass);
+
                 }
 
             }
@@ -78,7 +85,7 @@ public class ChangeEmail extends AppCompatActivity {
 
     }
 
-    public void changeEmail(String current, String newemail, String pass){
+    public void changeEmail(String current, final String newemail, String pass){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -92,7 +99,11 @@ public class ChangeEmail extends AppCompatActivity {
                 CommonResponse commonResponse = response.body();
                 dialog.dismiss();
                 if(!commonResponse.isError()){
+                    PreferenceData.setLoggedInEmail(getApplication(),newemail);
                     Toast.makeText(ChangeEmail.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    inputCurrent.setText("");
+                    inputNewEmail.setText("");
+                    inputPass.setText("");
                 }else{
                     Toast.makeText(ChangeEmail.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }

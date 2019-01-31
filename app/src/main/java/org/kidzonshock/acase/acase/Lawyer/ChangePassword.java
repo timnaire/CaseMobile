@@ -46,7 +46,7 @@ public class ChangePassword extends AppCompatActivity {
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Profile Picture");
+        getSupportActionBar().setTitle("Change Password");
 
 //      get lawyer id from SharedPreference
         lawyer_id = PreferenceData.getLoggedInLawyerid(getApplication());
@@ -70,6 +70,7 @@ public class ChangePassword extends AppCompatActivity {
                 confirmpass = inputConfirmPass.getText().toString();
                 if(validateForm(currentpass,newpass,confirmpass)){
                     changePassword(currentpass,newpass,confirmpass);
+
                 }
             }
         });
@@ -91,6 +92,9 @@ public class ChangePassword extends AppCompatActivity {
                 dialog.dismiss();
                 if(!commonResponse.isError()){
                     Toast.makeText(ChangePassword.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    inputCurrentPass.setText("");
+                    inputConfirmPass.setText("");
+                    inputNewpass.setText("");
                 }else{
                     Toast.makeText(ChangePassword.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
