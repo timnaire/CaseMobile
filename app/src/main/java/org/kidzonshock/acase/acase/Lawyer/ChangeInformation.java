@@ -13,10 +13,21 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.PreferenceData;
+import org.kidzonshock.acase.acase.Models.UpdateLawyerInfo;
 import org.kidzonshock.acase.acase.R;
+
+import java.util.ArrayList;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChangeInformation extends AppCompatActivity {
 
@@ -39,13 +50,13 @@ public class ChangeInformation extends AppCompatActivity {
         setContentView(R.layout.activity_change_information);
 
         Intent prev = getIntent();
-        lawyer_id = prev.getStringExtra("lawyer_id");
-        first_name = prev.getStringExtra("first_name");
-        last_name = prev.getStringExtra("last_name");
-        phone = prev.getStringExtra("phone");
-        cityOrMunicipality = prev.getStringExtra("cityOrMunicipality");
-        office = prev.getStringExtra("office");
-        aboutme = prev.getStringExtra("aboutme");
+        lawyer_id = PreferenceData.getLoggedInLawyerid(getApplicationContext());
+        first_name = PreferenceData.getLoggedInFirstname(getApplicationContext());
+        last_name = PreferenceData.getLoggedInLastname(getApplicationContext());
+        phone = PreferenceData.getLoggedInPhone(getApplicationContext());
+        cityOrMunicipality = PreferenceData.getLoggedInCityOrMunicipality(getApplicationContext());
+        office = PreferenceData.getLoggedInOffice(getApplicationContext());
+        aboutme = PreferenceData.getLoggedInAboutme(getApplicationContext());
         law_practice = prev.getStringArrayExtra("law_practice");
 
 //        set all the id from views
@@ -77,7 +88,7 @@ public class ChangeInformation extends AppCompatActivity {
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Change Information");
+        getSupportActionBar().setTitle("Profile Information");
 
         dialog = new ACProgressFlower.Builder(ChangeInformation.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
@@ -127,7 +138,39 @@ public class ChangeInformation extends AppCompatActivity {
                 String newOffice = inputUpdateOffice.getText().toString();
                 String newAboutme = updateAboutme.getText().toString();
                 if(validateForm(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme)){
-                    updateInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme);
+                    ArrayList<String> newLaw_practice = new ArrayList<String>();
+                    if(chkBankruptcy.isChecked()){
+                        newLaw_practice.add(chkBankruptcy.getText().toString());
+                    }
+                    if(chkBusiness.isChecked()){
+                        newLaw_practice.add(chkBusiness.getText().toString());
+                    }
+                    if(chkCommercial.isChecked()){
+                        newLaw_practice.add(chkCommercial.getText().toString());
+                    }
+                    if(chkCriminal.isChecked()){
+                        newLaw_practice.add(chkCriminal.getText().toString());
+                    }
+                    if(chkEmployment.isChecked()){
+                        newLaw_practice.add(chkEmployment.getText().toString());
+                    }
+                    if(chkFamily.isChecked()){
+                        newLaw_practice.add(chkFamily.getText().toString());
+                    }
+                    if(chkImmigration.isChecked()){
+                        newLaw_practice.add(chkImmigration.getText().toString());
+                    }
+                    if(chkInjury.isChecked()){
+                        newLaw_practice.add(chkInjury.getText().toString());
+                    }
+                    if(chkRealEstate.isChecked()){
+                        newLaw_practice.add(chkRealEstate.getText().toString());
+                    }
+                    if(chkWills.isChecked()){
+                        newLaw_practice.add(chkWills.getText().toString());
+                    }
+
+                    updateInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme, newLaw_practice);
                 }
             }
         });
@@ -140,8 +183,39 @@ public class ChangeInformation extends AppCompatActivity {
         return true;
     }
 
-    public void updateInfo(String newFirstname, String newLastname, String newPhone, String newCity, String newOffice, String newAboutme){
-        Toast.makeText(ChangeInformation.this, "Testing saving Info !", Toast.LENGTH_SHORT).show();
+    public void updateInfo(final String newFirstname, final String newLastname, final String newPhone, final String newCity, final String newOffice, final String newAboutme, final ArrayList<String> newLaw_practice){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        dialog.show();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> updateLawyerInfoCall = service.updateInfo(lawyer_id,new UpdateLawyerInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme,newLaw_practice));
+        updateLawyerInfoCall.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse commonResponse = response.body();
+                dialog.dismiss();
+                if(!commonResponse.isError()){
+                    PreferenceData.setLoggedInFirstname(ChangeInformation.this,newFirstname);
+                    PreferenceData.setLoggedInLastname(ChangeInformation.this,newLastname);
+                    PreferenceData.setLoggedInPhone(ChangeInformation.this,newPhone);
+                    PreferenceData.setLoggedInCityOrMunicipality(ChangeInformation.this,newCity);
+                    PreferenceData.setLoggedInOffice(ChangeInformation.this,newOffice);
+                    PreferenceData.setLoggedInAboutme(ChangeInformation.this,newAboutme);
+                    Toast.makeText(ChangeInformation.this, commonResponse.getMessage() , Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ChangeInformation.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                dialog.dismiss();
+                Toast.makeText(ChangeInformation.this, "Unable to update your information, please try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private boolean validateForm(String first,String last, String phone, String city, String office,String aboutme) {

@@ -39,7 +39,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Lawyer.ChangePicture" />
-        <activity android:name=".Lawyer.ChangeInformation"></activity>
+        <activity android:name=".Lawyer.ChangeInformation" />
+        <activity android:name=".Lawyer.ChangeEmail" />
+        <activity android:name=".Lawyer.ChangePassword"></activity>
     </application>
 
 </manifest>

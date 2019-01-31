@@ -15,6 +15,7 @@ public class PreferenceData
     static final String pref_office = "logged_in_office";
     static final String pref_aboutme = "logged_in_aboutme";
     static final String pref_profilepic = "logged_in_profilepic";
+    static final String pref_lawpractice = "logged_in_lawpractice";
     static final String pref_status = "logged_in_status";
 
     public static SharedPreferences getSharedPreferences(Context ctx)

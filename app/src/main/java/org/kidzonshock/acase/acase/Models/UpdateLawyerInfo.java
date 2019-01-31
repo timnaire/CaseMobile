@@ -2,6 +2,8 @@ package org.kidzonshock.acase.acase.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class UpdateLawyerInfo {
 
     @SerializedName("first_name")
@@ -17,9 +19,9 @@ public class UpdateLawyerInfo {
     @SerializedName("aboutme")
     String aboutme;
     @SerializedName("law_practice")
-    String[] law_practice;
+    ArrayList<String> law_practice;
 
-    public UpdateLawyerInfo(String first_name, String last_name, String phone, String cityOrMunicipality, String office, String aboutme, String[] law_practice) {
+    public UpdateLawyerInfo(String first_name, String last_name, String phone, String cityOrMunicipality, String office, String aboutme, ArrayList<String> law_practice) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.phone = phone;
@@ -77,11 +79,11 @@ public class UpdateLawyerInfo {
         this.aboutme = aboutme;
     }
 
-    public String[] getLaw_practice() {
+    public ArrayList<String> getLaw_practice() {
         return law_practice;
     }
 
-    public void setLaw_practice(String[] law_practice) {
+    public void setLaw_practice(ArrayList<String> law_practice) {
         this.law_practice = law_practice;
     }
 }

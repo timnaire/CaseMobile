@@ -11,14 +11,25 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.GetLawPractice;
+import org.kidzonshock.acase.acase.Models.LawPractice;
+import org.kidzonshock.acase.acase.Models.PreferenceData;
 import org.kidzonshock.acase.acase.Models.Setting;
 import org.kidzonshock.acase.acase.R;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AccountFragment extends Fragment {
 
-    String lawyer_id,first_name,last_name,email,phone,cityOrMunicipality,office,profile_pic,aboutme;
+    String lawyer_id,profile_pic;
     String[] law_practice;
     ListView lv;
     ArrayList<Setting> titles = new ArrayList<>();
@@ -35,18 +46,10 @@ public class AccountFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //getting the data from bundle in dashboard activty
-        lawyer_id = getArguments().getString("lawyer_id");
-        first_name = getArguments().getString("first_name");
-        last_name = getArguments().getString("last_name");
-        email = getArguments().getString("email");
-        phone = getArguments().getString("phone");
-        cityOrMunicipality = getArguments().getString("cityOrMunicipality");
-        office = getArguments().getString("office");
-        profile_pic = getArguments().getString("profile_pic");
-        aboutme = getArguments().getString("aboutme");
-        law_practice = getArguments().getStringArray("law_practice");
+        getPractice();
+//        law_practice = getArguments().getStringArray("law_practice");
+        lawyer_id = PreferenceData.getLoggedInLawyerid(getActivity());
+        profile_pic = PreferenceData.getLoggedInProfilePicture(getActivity());
 
         lv = view.findViewById(R.id.listview);
 
@@ -67,14 +70,6 @@ public class AccountFragment extends Fragment {
                     startActivity(changepic);
                 } else if(position == 1){
                     Intent changeinfo = new Intent(getActivity(), ChangeInformation.class);
-                    changeinfo.putExtra("lawyer_id",lawyer_id);
-                    changeinfo.putExtra("first_name",first_name);
-                    changeinfo.putExtra("last_name",last_name);
-                    changeinfo.putExtra("email",email);
-                    changeinfo.putExtra("phone",phone);
-                    changeinfo.putExtra("cityOrMunicipality",cityOrMunicipality);
-                    changeinfo.putExtra("office",office);
-                    changeinfo.putExtra("aboutme",aboutme);
                     changeinfo.putExtra("law_practice",law_practice);
                     startActivity(changeinfo);
                 } else if(position == 2){
@@ -87,5 +82,37 @@ public class AccountFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        getPractice();
+        super.onResume();
+    }
+
+    public void getPractice(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Case service = retrofit.create(Case.class);
+        Call<GetLawPractice> commonResponseCall = service.getPractice(lawyer_id);
+        commonResponseCall.enqueue(new Callback<GetLawPractice>() {
+            @Override
+            public void onResponse(Call<GetLawPractice> call, Response<GetLawPractice> response) {
+                GetLawPractice data = response.body();
+                List<LawPractice> lawpracticelist = data.getPractice();
+
+                law_practice = new String[lawpracticelist.size()];
+
+                for(int i=0; i < lawpracticelist.size(); i++){
+                    law_practice[i] = lawpracticelist.get(i).getLaw_practice();
+                }
+            }
+            @Override
+            public void onFailure(Call<GetLawPractice> call, Throwable t) {
+
+            }
+        });
+    }
 
 }

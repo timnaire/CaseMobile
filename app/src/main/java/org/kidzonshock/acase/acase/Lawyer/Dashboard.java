@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,20 +21,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.kidzonshock.acase.acase.Interfaces.Case;
-import org.kidzonshock.acase.acase.Models.GetLawPractice;
-import org.kidzonshock.acase.acase.Models.LawPractice;
 import org.kidzonshock.acase.acase.Models.PreferenceData;
 import org.kidzonshock.acase.acase.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,7 +49,7 @@ public class Dashboard extends AppCompatActivity
         aboutme = PreferenceData.getLoggedInAboutme(Dashboard.this);
         profile_pic = PreferenceData.getLoggedInProfilePicture(Dashboard.this);
 
-        getPractice();
+//        getPractice();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -145,19 +132,10 @@ public class Dashboard extends AppCompatActivity
         } else if (id == R.id.nav_account) {
 
             toolbar.setTitle("My Account");
-            Bundle info = new Bundle();
-            info.putString("lawyer_id",lawyer_id);
-            info.putString("first_name",first_name);
-            info.putString("last_name",last_name);
-            info.putString("email",email);
-            info.putString("phone",phone);
-            info.putString("cityOrMunicipality",cityOrMunicipality);
-            info.putString("office",office);
-            info.putString("profile_pic",profile_pic);
-            info.putString("aboutme", aboutme);
-            info.putStringArray("law_practice",law_practice);
+//            Bundle info = new Bundle();
+//            info.putStringArray("law_practice",law_practice);
             fragment = new AccountFragment();
-            fragment.setArguments(info);
+//            fragment.setArguments(info);
 
         } else if (id == R.id.nav_manage) {
 
@@ -182,30 +160,30 @@ public class Dashboard extends AppCompatActivity
         return true;
     }
 
-    public void getPractice(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Case.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        Case service = retrofit.create(Case.class);
-        Call<GetLawPractice> commonResponseCall = service.getPractice(lawyer_id);
-        commonResponseCall.enqueue(new Callback<GetLawPractice>() {
-            @Override
-            public void onResponse(Call<GetLawPractice> call, Response<GetLawPractice> response) {
-                GetLawPractice data = response.body();
-                List<LawPractice> lawpracticelist = data.getPractice();
-
-                law_practice = new String[lawpracticelist.size()];
-
-                for(int i=0; i < lawpracticelist.size(); i++){
-                    law_practice[i] = lawpracticelist.get(i).getLaw_practice();
-                }
-            }
-            @Override
-            public void onFailure(Call<GetLawPractice> call, Throwable t) {
-
-            }
-        });
-    }
+//    public void getPractice(){
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(Case.BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        Case service = retrofit.create(Case.class);
+//        Call<GetLawPractice> commonResponseCall = service.getPractice(lawyer_id);
+//        commonResponseCall.enqueue(new Callback<GetLawPractice>() {
+//            @Override
+//            public void onResponse(Call<GetLawPractice> call, Response<GetLawPractice> response) {
+//                GetLawPractice data = response.body();
+//                List<LawPractice> lawpracticelist = data.getPractice();
+//
+//                law_practice = new String[lawpracticelist.size()];
+//
+//                for(int i=0; i < lawpracticelist.size(); i++){
+//                    law_practice[i] = lawpracticelist.get(i).getLaw_practice();
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<GetLawPractice> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 }

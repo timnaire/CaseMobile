@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.inputPassword);
 
         layoutEmail = findViewById(R.id.layoutEmail);
-        layoutPassword = findViewById(R.id.layoutPassword);
+        layoutPassword = findViewById(R.id.layoutPass);
 
         btnRegister = findViewById(R.id.btnRegister);
         btnLogin = findViewById(R.id.btnLogin);
@@ -152,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             layoutEmail.setError(null);
         }
-
-
         return valid;
     }
 

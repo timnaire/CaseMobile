@@ -118,7 +118,7 @@ public class Signup2 extends AppCompatActivity {
             public void onFailure(Call<CommonResponse> call, Throwable t) {
                 dialog.dismiss();
 
-                Toast.makeText(Signup2.this, "Server response: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Signup2.this, "Unable to register Case Account with error "+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

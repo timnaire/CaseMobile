@@ -24,6 +24,7 @@ import com.kosalgeek.android.photoutil.GalleryPhoto;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.PreferenceData;
 import org.kidzonshock.acase.acase.Models.UpdatePicture;
 import org.kidzonshock.acase.acase.R;
 
@@ -74,7 +75,7 @@ public class ChangePicture extends AppCompatActivity {
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Change Picture");
+        getSupportActionBar().setTitle("Profile Picture");
 
         dialog = new ACProgressFlower.Builder(ChangePicture.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
@@ -163,7 +164,7 @@ public class ChangePicture extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
-                    String picuri = downloadUri.toString();
+                    final String picuri = downloadUri.toString();
                     profile_pic = picuri;
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(Case.BASE_URL)
@@ -178,7 +179,10 @@ public class ChangePicture extends AppCompatActivity {
                             dialog.dismiss();
                             CommonResponse updatePictureResponse = response.body();
                             if(!updatePictureResponse.isError()){
+                                PreferenceData.setLoggedInProfilePicture(getApplicationContext(),picuri);
                                 Toast.makeText(getApplicationContext(), updatePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(ChangePicture.this, updatePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
