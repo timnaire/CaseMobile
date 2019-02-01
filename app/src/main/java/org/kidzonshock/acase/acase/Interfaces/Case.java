@@ -1,6 +1,8 @@
 package org.kidzonshock.acase.acase.Interfaces;
 
+import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.SigninLawyer;
 import org.kidzonshock.acase.acase.Models.SigninResponse;
@@ -21,6 +23,7 @@ public interface Case {
 
     String BASE_URL = "http://case-legal-aid.appspot.com/";
 
+//    POST REQUEST
     @Headers("Content-Type: application/json")
     @POST("lawyer/signup")
     Call<CommonResponse> signupLawyer(@Body SignupLawyer body);
@@ -46,7 +49,17 @@ public interface Case {
     Call<CommonResponse> updatePassword(@Path("lawyer_id") String lawyer_id, @Body UpdatePassword body );
 
     @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/mycase")
+        Call<CommonResponse> addCase(@Path("lawyer_id") String lawyer_id, @Body AddCase body);
+
+//    GET REQUEST
+    @Headers("Content-Type: application/json")
     @GET("lawyer/{lawyer_id}/get-lawyer-practice")
     Call<GetLawPractice> getPractice(@Path("lawyer_id") String lawyer_id);
+
+    @Headers("Content-Type: application/json")
+    @GET("lawyer/{lawyer_id}/get-lawyer-practice")
+    Call<GetCase> getCases(@Path("lawyer_id") String lawyer_id);
+
 
 }
