@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
                     PreferenceData.setLoggedInOffice(MainActivity.this,signinResponse.getOffice());
                     PreferenceData.setLoggedInAboutme(MainActivity.this,signinResponse.getAboutme());
                     PreferenceData.setLoggedInProfilePicture(MainActivity.this,signinResponse.getProfile_pic());
-
                     PreferenceData.setUserLoggedInStatus(MainActivity.this,true);
                     Toast.makeText(MainActivity.this, signinResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     startActivity(intent);

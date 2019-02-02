@@ -4,14 +4,12 @@ public class CaseModel {
 
     private String title;
     private String clientname;
-    private String description;
     private String date_created;
     private String status;
 
-    public CaseModel(String title, String clientname, String description, String date_created, String status) {
+    public CaseModel(String title, String clientname, String date_created, String status) {
         this.title = title;
         this.clientname = clientname;
-        this.description = description;
         this.date_created = date_created;
         this.status = status;
     }
@@ -30,14 +28,6 @@ public class CaseModel {
 
     public void setClientname(String clientid) {
         this.clientname = clientid;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getDate_created() {

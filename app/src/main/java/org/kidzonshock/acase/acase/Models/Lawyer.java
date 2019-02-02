@@ -3,7 +3,7 @@ package org.kidzonshock.acase.acase.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Client {
+public class Lawyer {
 
     @SerializedName("first_name")
     @Expose
@@ -21,17 +21,9 @@ public class Client {
     @Expose
     private String phone;
 
-    @SerializedName("address")
+    @SerializedName("office")
     @Expose
-    private String address;
-
-    public Client(String first_name, String last_name, String email, String phone, String address) {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-    }
+    private String office;
 
     public String getFirst_name() {
         return first_name;
@@ -65,11 +57,11 @@ public class Client {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
+    public String getOffice() {
+        return office;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setOffice(String office) {
+        this.office = office;
     }
 }

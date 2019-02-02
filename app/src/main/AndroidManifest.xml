@@ -41,7 +41,12 @@
         <activity android:name=".Lawyer.ChangePicture" />
         <activity android:name=".Lawyer.ChangeInformation" />
         <activity android:name=".Lawyer.ChangeEmail" />
-        <activity android:name=".Lawyer.ChangePassword"></activity>
+        <activity android:name=".Lawyer.ChangePassword" />
+        <activity
+            android:name=".Client.ClientNavigation"
+            android:label="@string/title_activity_client_navigation"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Lawyer.MyEvent"></activity>
     </application>
 
 </manifest>

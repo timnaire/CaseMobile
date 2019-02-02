@@ -23,16 +23,14 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.AddCase;
-import org.kidzonshock.acase.acase.Models.CaseDetails;
 import org.kidzonshock.acase.acase.Models.CaseModel;
-import org.kidzonshock.acase.acase.Models.Client;
+import org.kidzonshock.acase.acase.Models.Cases;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.PreferenceData;
 import org.kidzonshock.acase.acase.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,10 +55,6 @@ public class MyCaseFragment extends Fragment {
     ListView lv;
     CaseAdapter adapter;
     ArrayList<CaseModel> caselist = new ArrayList<>();
-
-    String[] case_title;
-    String[] case_created;
-    String[] client_first,client_last;
 
     @Nullable
     @Override
@@ -133,9 +127,9 @@ public class MyCaseFragment extends Fragment {
 
         add = builder1.create();
 
+
+
     }
-
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -183,20 +177,17 @@ public class MyCaseFragment extends Fragment {
         getCaseCall.enqueue(new Callback<GetCase>() {
             @Override
             public void onResponse(Call<GetCase> call, Response<GetCase> response) {
-                GetCase data = response.body();
-                List<CaseDetails> caseDetailsList = data.getCase_details();
-                List<Client> clients = data.getClient_details();
-
-                case_title = new String[caseDetailsList.size()];
-                case_created = new String[caseDetailsList.size()];
-                for(int i = 0; i < caseDetailsList.size(); i++){
-                    case_title[i] = caseDetailsList.get(i).getCase_title();
-                    case_created[i] = caseDetailsList.get(i).getCreated();
+//                ArrayList<Client> clientlist = response.body().getCases();
+                ArrayList<Cases> cases = response.body().getCases();
+                for(int i=0; i < cases.size(); i++){
+                    String title = cases.get(i).getCase_title();
+                    String name = cases.get(i).getClient().getFirst_name()+ " " +cases.get(i).getClient().getLast_name();
+                    String date = cases.get(i).getCreated();
+                    String status = cases.get(i).getCase_status();
+                    caselist.add(new CaseModel(title,name,date,status));
                 }
-
-
-
-                Toast.makeText(getActivity(), "Fetching all cases..", Toast.LENGTH_SHORT).show();
+                adapter = new CaseAdapter(getActivity(),caselist);
+                lv.setAdapter(adapter);
             }
 
             @Override
@@ -219,9 +210,9 @@ public class MyCaseFragment extends Fragment {
                 CommonResponse commonResponse = response.body();
                 if(!commonResponse.isError()){
                     Toast.makeText(getActivity(), commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    add.dismiss();
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.detach(MyCaseFragment.this).attach(MyCaseFragment.this).commit();
-                    add.dismiss();
                 } else{
                     Toast.makeText(getActivity(), commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
