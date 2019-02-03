@@ -46,7 +46,8 @@
             android:name=".Client.ClientNavigation"
             android:label="@string/title_activity_client_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Lawyer.MyEvent"></activity>
+        <activity android:name=".Lawyer.MyEvent" />
+        <activity android:name=".Lawyer.CaseDocument"></activity>
     </application>
 
 </manifest>

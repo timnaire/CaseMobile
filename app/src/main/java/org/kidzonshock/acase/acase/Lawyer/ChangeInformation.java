@@ -170,11 +170,7 @@ public class ChangeInformation extends AppCompatActivity {
                         newLaw_practice.add(chkWills.getText().toString());
                     }
 
-                    if(first_name.equals(newFirstname) && last_name.equals(newLastname) && phone.equals(newPhone) && cityOrMunicipality.equals(newCity) && office.equals(newOffice) ){
-                        Toast.makeText(ChangeInformation.this, "No changes has been made.", Toast.LENGTH_SHORT).show();
-                    }{
-                        updateInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme, newLaw_practice);
-                    }
+                    updateInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme, newLaw_practice);
 
                 }
             }

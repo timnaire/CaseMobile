@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
@@ -34,7 +35,7 @@ public class AccountFragment extends Fragment {
     ListView lv;
     ArrayList<Setting> titles = new ArrayList<>();
     SettingAdapter adapter;
-
+    LinearLayout loading;
     private static final String TAG = "AccountFragment";
     
     @Nullable
@@ -46,7 +47,10 @@ public class AccountFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loading = view.findViewById(R.id.linlaHeaderProgress);
+
         getPractice();
+        loading.setVisibility(View.VISIBLE);
         getEmail();
 //        law_practice = getArguments().getStringArray("law_practice");
         lawyer_id = PreferenceData.getLoggedInLawyerid(getActivity());
@@ -108,6 +112,7 @@ public class AccountFragment extends Fragment {
         commonResponseCall.enqueue(new Callback<GetLawPractice>() {
             @Override
             public void onResponse(Call<GetLawPractice> call, Response<GetLawPractice> response) {
+                loading.setVisibility(View.GONE);
                 GetLawPractice data = response.body();
                 List<LawPractice> lawpracticelist = data.getPractice();
 
@@ -119,7 +124,7 @@ public class AccountFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<GetLawPractice> call, Throwable t) {
-
+                loading.setVisibility(View.VISIBLE);
             }
         });
     }

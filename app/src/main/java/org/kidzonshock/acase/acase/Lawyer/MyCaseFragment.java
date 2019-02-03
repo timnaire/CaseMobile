@@ -1,6 +1,7 @@
 package org.kidzonshock.acase.acase.Lawyer;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -55,6 +57,7 @@ public class MyCaseFragment extends Fragment {
     ListView lv;
     CaseAdapter adapter;
     ArrayList<CaseModel> caselist = new ArrayList<>();
+    LinearLayout loading;
 
     @Nullable
     @Override
@@ -66,9 +69,13 @@ public class MyCaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getAllCase();
         lawyer_id = PreferenceData.getLoggedInLawyerid(getActivity());
         lv = view.findViewById(R.id.list_caseview);
+
+        loading = view.findViewById(R.id.linlaHeaderProgress);
+
+        getAllCase();
+        loading.setVisibility(View.VISIBLE);
 
         layoutCaseTitle = new TextInputLayout(getActivity());
         inputCaseTitle = new TextInputEditText(getActivity());
@@ -127,8 +134,27 @@ public class MyCaseFragment extends Fragment {
 
         add = builder1.create();
 
-
-
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == parent.getItemIdAtPosition(position)){
+                    CaseModel caseitem = (CaseModel) parent.getItemAtPosition(position);
+                    Intent intent = new Intent(getActivity(), CaseDocument.class);
+                    intent.putExtra("title", caseitem.getTitle());
+                    intent.putExtra("clientName", caseitem.getClientName());
+                    intent.putExtra("date", caseitem.getDate_created());
+                    intent.putExtra("status", caseitem.getStatus());
+                    intent.putExtra("clientEmail", caseitem.getClientEmail());
+                    intent.putExtra("clientPhone", caseitem.getClientPhone());
+                    intent.putExtra("clientAddress", caseitem.getClientAddress());
+                    intent.putExtra("lawyerName", caseitem.getLawyerName());
+                    intent.putExtra("lawyerEmail", caseitem.getLawyyerEmail());
+                    intent.putExtra("lawyerPhone", caseitem.getLawyerPhone());
+                    intent.putExtra("lawyerOffice", caseitem.getLawyerOffice());
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -153,18 +179,11 @@ public class MyCaseFragment extends Fragment {
                     description = inputCaseDescription.getText().toString();
                     if(validateForm(title,clientid,description)){
                         addCase(title,clientid,description);
-
                     }
                 }
             });
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onResume() {
-        getAllCase();
-        super.onResume();
     }
 
     public void getAllCase(){
@@ -177,25 +196,42 @@ public class MyCaseFragment extends Fragment {
         getCaseCall.enqueue(new Callback<GetCase>() {
             @Override
             public void onResponse(Call<GetCase> call, Response<GetCase> response) {
-//                ArrayList<Client> clientlist = response.body().getCases();
-                ArrayList<Cases> cases = response.body().getCases();
-                for(int i=0; i < cases.size(); i++){
-                    String title = cases.get(i).getCase_title();
-                    String name = cases.get(i).getClient().getFirst_name()+ " " +cases.get(i).getClient().getLast_name();
-                    String date = cases.get(i).getCreated();
-                    String status = cases.get(i).getCase_status();
-                    caselist.add(new CaseModel(title,name,date,status));
+                GetCase getCase = response.body();
+                loading.setVisibility(View.GONE);
+                if(!getCase.isError()){
+                    ArrayList<Cases> cases = response.body().getCases();
+                    String title,name,date,status,clientEmail, clientPhone,clientAddress, lawyerName, lawyerEmail, lawyerPhone, lawyerOffice;
+                    for(int i=0; i < cases.size(); i++){
+                        title = cases.get(i).getCase_title();
+                        name = cases.get(i).getClient().getFirst_name()+ " " +cases.get(i).getClient().getLast_name();
+                        date = cases.get(i).getCreated();
+                        status = cases.get(i).getCase_status();
+                        clientEmail = cases.get(i).getClient().getEmail();
+                        clientPhone = cases.get(i).getClient().getPhone();
+                        clientAddress = cases.get(i).getClient().getAddress();
+                        lawyerName = cases.get(i).getLawyer().getFirst_name() +" "+cases.get(i).getLawyer().getLast_name();
+                        lawyerEmail = cases.get(i).getLawyer().getEmail();
+                        lawyerPhone = cases.get(i).getLawyer().getPhone();
+                        lawyerOffice = cases.get(i).getLawyer().getOffice();
+                        caselist.add(new CaseModel(title,name,date,status,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
+                    }
+                    adapter = new CaseAdapter(getActivity(),caselist);
+                    lv.setAdapter(adapter);
+                    Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
+                }else{
+                    loading.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                adapter = new CaseAdapter(getActivity(),caselist);
-                lv.setAdapter(adapter);
             }
 
             @Override
             public void onFailure(Call<GetCase> call, Throwable t) {
-                Toast.makeText(getActivity(), "Unable to get cases, please try again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Unable to get cases, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
 
     public void addCase(String title, String clientid, String description){
         Retrofit retrofit = new Retrofit.Builder()

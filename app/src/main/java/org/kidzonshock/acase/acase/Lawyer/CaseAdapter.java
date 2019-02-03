@@ -52,7 +52,7 @@ public class CaseAdapter extends BaseAdapter {
         CaseModel c = list.get(position);
 
         case_title.setText(c.getTitle());
-        case_clientname.setText(c.getClientname());
+        case_clientname.setText(c.getClientName());
         case_date.setText(c.getDate_created());
         case_status.setText(c.getStatus());
 

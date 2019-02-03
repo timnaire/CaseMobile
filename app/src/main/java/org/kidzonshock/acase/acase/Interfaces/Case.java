@@ -58,7 +58,7 @@ public interface Case {
     Call<GetLawPractice> getPractice(@Path("lawyer_id") String lawyer_id);
 
     @Headers("Content-Type: application/json")
-    @GET("lawyer/{lawyer_id}/get-lawyer-practice")
+    @GET("lawyer/{lawyer_id}/get-case")
     Call<GetCase> getCases(@Path("lawyer_id") String lawyer_id);
 
 
