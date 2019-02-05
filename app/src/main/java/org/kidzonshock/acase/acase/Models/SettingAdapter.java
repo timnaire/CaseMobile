@@ -1,4 +1,4 @@
-package org.kidzonshock.acase.acase.Lawyer;
+package org.kidzonshock.acase.acase.Models;
 
 import android.content.Context;
 import android.view.LayoutInflater;

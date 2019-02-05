@@ -27,8 +27,7 @@ public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
-    private String lawyer_id,first_name,last_name,email,phone,cityOrMunicipality,office,profile_pic,aboutme;
-    private String[] law_practice;
+    private String first_name,last_name,email,profile_pic;
     final String TAG = "Dashboard";
 
     @Override
@@ -38,14 +37,9 @@ public class Dashboard extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(Dashboard.this);
         first_name = PreferenceDataLawyer.getLoggedInFirstname(Dashboard.this);
         last_name = PreferenceDataLawyer.getLoggedInLastname(Dashboard.this);
         email = PreferenceDataLawyer.getLoggedInEmail(Dashboard.this);
-        phone = PreferenceDataLawyer.getLoggedInPhone(Dashboard.this);
-        cityOrMunicipality = PreferenceDataLawyer.getLoggedInCityOrMunicipality(Dashboard.this);
-        office = PreferenceDataLawyer.getLoggedInOffice(Dashboard.this);
-        aboutme = PreferenceDataLawyer.getLoggedInAboutme(Dashboard.this);
         profile_pic = PreferenceDataLawyer.getLoggedInProfilePicture(Dashboard.this);
 
 //        getPractice();
@@ -78,14 +72,9 @@ public class Dashboard extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(Dashboard.this);
         first_name = PreferenceDataLawyer.getLoggedInFirstname(Dashboard.this);
         last_name = PreferenceDataLawyer.getLoggedInLastname(Dashboard.this);
         email = PreferenceDataLawyer.getLoggedInEmail(Dashboard.this);
-        phone = PreferenceDataLawyer.getLoggedInPhone(Dashboard.this);
-        cityOrMunicipality = PreferenceDataLawyer.getLoggedInCityOrMunicipality(Dashboard.this);
-        office = PreferenceDataLawyer.getLoggedInOffice(Dashboard.this);
-        aboutme = PreferenceDataLawyer.getLoggedInAboutme(Dashboard.this);
         profile_pic = PreferenceDataLawyer.getLoggedInProfilePicture(Dashboard.this);
         super.onResume();
     }

@@ -29,10 +29,10 @@ public class SignupClient1 extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Client Sign-Up - Step 1");
 
-        btnRegisterNextClient = findViewById(R.id.btnRegisterNext);
-        inputRegFirstnameClient = findViewById(R.id.inputRegFirstnameLawyer);
-        inputRegLastnameClient = findViewById(R.id.inputRegLastnameLawyer);
-        inputRegEmailClient = findViewById(R.id.inputRegEmailLawyer);
+        btnRegisterNextClient = findViewById(R.id.btnRegisterNextClient);
+        inputRegFirstnameClient = findViewById(R.id.inputRegFirstnameClient);
+        inputRegLastnameClient = findViewById(R.id.inputRegLastnameClient);
+        inputRegEmailClient = findViewById(R.id.inputRegEmailClient);
 
         layoutRegFirstnameClient = findViewById(R.id.layoutRegFirstnameClient);
         layoutRegLastnameClient = findViewById(R.id.layoutRegLastnameClient);

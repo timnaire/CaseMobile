@@ -52,6 +52,8 @@ dependencies {
 //    photo util for picking iamge in the gallery
     implementation files('libs/PhotoUtil.jar')
 
+//    paypal
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.15.3'
 //    google calendar
 //    implementation 'com.google.api-client:google-api-client:1.23.0'
 //    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'

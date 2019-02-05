@@ -51,7 +51,11 @@
         <activity android:name=".Lawyer.LawyerSignin" />
         <activity android:name=".Client.ClientSignin" />
         <activity android:name=".Client.SignupClient1" />
-        <activity android:name=".Client.SignupClient2"></activity>
+        <activity android:name=".Client.SignupClient2" />
+        <activity android:name=".Client.ClientChangePicture" />
+        <activity android:name=".Client.ClientChangeEmail" />
+        <activity android:name=".Client.ClientChangeInformation" />
+        <activity android:name=".Client.ClientChangePassword"></activity>
     </application>
 
 </manifest>

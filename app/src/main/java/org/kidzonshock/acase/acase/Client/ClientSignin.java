@@ -61,6 +61,7 @@ public class ClientSignin extends AppCompatActivity {
         layoutEmailClient = findViewById(R.id.layoutEmailClient);
         layoutPasswordClient = findViewById(R.id.layoutPasswordClient);
         btnSigninClient = findViewById(R.id.btnSigninClient);
+        btnSignupClient = findViewById(R.id.btnSignupClient);
 
         btnSigninClient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +83,7 @@ public class ClientSignin extends AppCompatActivity {
                 startActivity(reg);
             }
         });
+
         intentLogin = new Intent(ClientSignin.this, ClientNavigation.class);
         if(PreferenceDataClient.getUserLoggedInStatus(ClientSignin.this)){
             startActivity(intentLogin);
@@ -108,16 +110,20 @@ public class ClientSignin extends AppCompatActivity {
             public void onResponse(Call<SigninResponseClient> call, Response<SigninResponseClient> response) {
                 SigninResponseClient signinResponseClient = response.body();
                 dialog.dismiss();
-                PreferenceDataClient.setLoggedInClientid(ClientSignin.this, signinResponseClient.getClient());
-                PreferenceDataClient.setLoggedInFirstname(ClientSignin.this, signinResponseClient.getFirst_name());
-                PreferenceDataClient.setLoggedInLastname(ClientSignin.this, signinResponseClient.getLast_name());
-                PreferenceDataClient.setLoggedInEmail(ClientSignin.this, signinResponseClient.getEmail());
-                PreferenceDataClient.setLoggedInPhone(ClientSignin.this, signinResponseClient.getPhone());
-                PreferenceDataClient.setLoggedInAddress(ClientSignin.this, signinResponseClient.getAdress());
-                PreferenceDataLawyer.setLoggedInProfilePicture(ClientSignin.this, signinResponseClient.getProfile_pic());
-                PreferenceDataLawyer.setUserLoggedInStatus(ClientSignin.this,true);
-                Toast.makeText(ClientSignin.this, signinResponseClient.getMessage(), Toast.LENGTH_SHORT).show();
-                startActivity(intentLogin);
+                if(!signinResponseClient.isError()){
+                    PreferenceDataClient.setLoggedInClientid(ClientSignin.this, signinResponseClient.getClient());
+                    PreferenceDataClient.setLoggedInFirstname(ClientSignin.this, signinResponseClient.getFirst_name());
+                    PreferenceDataClient.setLoggedInLastname(ClientSignin.this, signinResponseClient.getLast_name());
+                    PreferenceDataClient.setLoggedInEmail(ClientSignin.this, signinResponseClient.getEmail());
+                    PreferenceDataClient.setLoggedInPhone(ClientSignin.this, signinResponseClient.getPhone());
+                    PreferenceDataClient.setLoggedInAddress(ClientSignin.this, signinResponseClient.getAdress());
+                    PreferenceDataLawyer.setLoggedInProfilePicture(ClientSignin.this, signinResponseClient.getProfile_pic());
+                    PreferenceDataLawyer.setUserLoggedInStatus(ClientSignin.this,true);
+                    Toast.makeText(ClientSignin.this, signinResponseClient.getMessage(), Toast.LENGTH_SHORT).show();
+                    startActivity(intentLogin);
+                } else {
+                    Toast.makeText(ClientSignin.this, signinResponseClient.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

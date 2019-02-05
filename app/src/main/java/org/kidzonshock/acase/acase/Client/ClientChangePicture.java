@@ -1,4 +1,4 @@
-package org.kidzonshock.acase.acase.Lawyer;
+package org.kidzonshock.acase.acase.Client;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -38,10 +38,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ChangePicture extends AppCompatActivity {
+public class ClientChangePicture extends AppCompatActivity {
 
-    ImageView lawyer_profile_pic;
-    Button btnSavePic;
+    ImageView client_profile_pic;
+    Button btnSavePicClient;
 
     final int GALLERY_REQUEST = 345;
     GalleryPhoto galleryPhoto;
@@ -52,7 +52,7 @@ public class ChangePicture extends AppCompatActivity {
     StorageReference filepath;
     UploadTask uploadTask;
 
-    String lawyer_id, profile_pic;
+    String client_id, profile_pic;
 
     final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     SecureRandom rnd = new SecureRandom();
@@ -60,24 +60,22 @@ public class ChangePicture extends AppCompatActivity {
     ACProgressFlower dialog;
     RequestOptions options;
 
-    private static final String TAG = "ChangePicture";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_picture);
-
-        //firebase storage reference
-        storageReference = FirebaseStorage.getInstance().getReference();
-        galleryPhoto = new GalleryPhoto(getApplicationContext());
-        lawyer_profile_pic = findViewById(R.id.lawyer_profile_pic);
-        btnSavePic = findViewById(R.id.btnSavePic);
+        setContentView(R.layout.activity_client_change_picture);
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Profile Picture");
 
-        dialog = new ACProgressFlower.Builder(ChangePicture.this)
+        //firebase storage reference
+        storageReference = FirebaseStorage.getInstance().getReference();
+        galleryPhoto = new GalleryPhoto(getApplicationContext());
+        client_profile_pic = findViewById(R.id.client_profile_pic);
+        btnSavePicClient = findViewById(R.id.btnSavePicClient);
+
+        dialog = new ACProgressFlower.Builder(ClientChangePicture.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)
                 .text("Please wait")
@@ -85,26 +83,26 @@ public class ChangePicture extends AppCompatActivity {
 
         // get intent extra
         Intent prev = getIntent();
-        lawyer_id = prev.getStringExtra("lawyer_id");
+        client_id = prev.getStringExtra("client_id");
         profile_pic = prev.getStringExtra("profile_pic");
 
         options = new RequestOptions()
-                 .circleCrop()
-                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                 .skipMemoryCache(true)
-                 .placeholder(R.drawable.accounticon)
-                 .error(R.mipmap.ic_launcher_round);
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .placeholder(R.drawable.accounticon)
+                .error(R.mipmap.ic_launcher_round);
 
-        Glide.with(this).load(profile_pic).apply(options).into(lawyer_profile_pic);
+        Glide.with(this).load(profile_pic).apply(options).into(client_profile_pic);
 
-        lawyer_profile_pic.setOnClickListener(new View.OnClickListener() {
+        client_profile_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
             }
         });
 
-        btnSavePic.setOnClickListener(new View.OnClickListener() {
+        btnSavePicClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(imagePath != null){
@@ -116,13 +114,6 @@ public class ChangePicture extends AppCompatActivity {
                 }
             }
         });
-
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
     }
 
     @Override
@@ -139,7 +130,7 @@ public class ChangePicture extends AppCompatActivity {
 //                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(160,160).getBitmap();
 //                    bitmap = Bitmap.createScaledBitmap(bitmap, 160,160,true);
 //                    lawyer_profile_pic.setImageBitmap(bitmap);
-                Glide.with(this).load(photoPath).apply(options).into(lawyer_profile_pic);
+                Glide.with(this).load(photoPath).apply(options).into(client_profile_pic);
 //                } catch (FileNotFoundException e){
 //                    Toast.makeText(getApplicationContext(), "Something wrong while choosing photos", Toast.LENGTH_SHORT).show();
 //                }
@@ -147,7 +138,6 @@ public class ChangePicture extends AppCompatActivity {
         }
     }
 
-    //     file upload
     private void uploadFile(Uri fileUrl){
         uploadTask = filepath.putFile(fileUrl);
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -172,7 +162,7 @@ public class ChangePicture extends AppCompatActivity {
                             .build();
                     Case service = retrofit.create(Case.class);
 
-                    Call<CommonResponse> updatePictureResponseCall = service.updatePicture(lawyer_id,new UpdatePicture(picuri));
+                    Call<CommonResponse> updatePictureResponseCall = service.updatePicture(client_id,new UpdatePicture(picuri));
                     updatePictureResponseCall.enqueue(new Callback<CommonResponse>() {
                         @Override
                         public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -182,7 +172,7 @@ public class ChangePicture extends AppCompatActivity {
                                 PreferenceDataLawyer.setLoggedInProfilePicture(getApplicationContext(),picuri);
                                 Toast.makeText(getApplicationContext(), updatePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }else {
-                                Toast.makeText(ChangePicture.this, updatePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ClientChangePicture.this, updatePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -198,6 +188,12 @@ public class ChangePicture extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     // for generating name for folder upon uploading to cloud storage
