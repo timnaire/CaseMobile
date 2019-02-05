@@ -15,8 +15,7 @@ public class PreferenceDataLawyer
     static final String pref_office = "logged_in_office";
     static final String pref_aboutme = "logged_in_aboutme";
     static final String pref_profilepic = "logged_in_profilepic";
-    static final String pref_lawpractice = "logged_in_lawpractice";
-    static final String pref_status = "logged_in_status";
+    static final String pref_status_lawyer = "logged_in_status_lawyer";
 
     public static SharedPreferences getSharedPreferences(Context ctx)
     {
@@ -130,14 +129,14 @@ public class PreferenceDataLawyer
     public static void setUserLoggedInStatus(Context ctx, boolean status)
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.remove(pref_status);
-        editor.putBoolean(pref_status, status);
+        editor.remove(pref_status_lawyer);
+        editor.putBoolean(pref_status_lawyer, status);
         editor.commit();
     }
 
     public static boolean getUserLoggedInStatus(Context ctx)
     {
-        return getSharedPreferences(ctx).getBoolean(pref_status, false);
+        return getSharedPreferences(ctx).getBoolean(pref_status_lawyer, false);
     }
 
 //    clearing preferences
@@ -153,7 +152,7 @@ public class PreferenceDataLawyer
         editor.remove(pref_office);
         editor.remove(pref_aboutme);
         editor.remove(pref_profilepic);
-        editor.remove(pref_status);
+        editor.remove(pref_status_lawyer);
         editor.commit();
     }
 }

@@ -7,27 +7,27 @@
         <item
             android:id="@+id/nav_mycase_client"
             android:icon="@drawable/fileicon"
-            android:title="My Case" />
+            android:title="Case" />
         <item
-            android:id="@+id/nav_myaccount_client"
-            android:icon="@drawable/accounticon"
-            android:title="My Account" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_event_client"
+            android:icon="@drawable/calendar"
+            android:title="Event" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:icon="@drawable/credit_card_payment"
+            android:title="Payment" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/usersicon"
+            android:title="Lawyer" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Other">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_myaccount_client"
+                android:icon="@drawable/accounticon"
+                android:title="Account" />
             <item
                 android:id="@+id/nav_signout_client"
                 android:icon="@drawable/signouticon"

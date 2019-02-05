@@ -28,7 +28,7 @@ public class ClientChangePassword extends AppCompatActivity {
 
     String client_id;
     TextInputLayout layoutCurrentPassClient,layoutNewPassClient,layoutConfirmPassClient;
-    TextInputEditText inputCurrentPassClient,inputNewpassClient,inputConfirmPassClient;
+    TextInputEditText inputCurrentPassClient,inputNewPassClient,inputConfirmPassClient;
     Button btnChangePasswordClient;
 
     ACProgressFlower dialog;
@@ -52,21 +52,22 @@ public class ClientChangePassword extends AppCompatActivity {
 //        get client id from SharedPreference
         client_id = PreferenceDataClient.getLoggedInClientid(ClientChangePassword.this);
 //      text input layout
-        layoutCurrentPassClient = findViewById(R.id.layoutCurrentPass);
-        layoutNewPassClient = findViewById(R.id.layoutNewPass);
-        layoutConfirmPassClient = findViewById(R.id.layoutConfirmPass);
+        layoutCurrentPassClient = findViewById(R.id.layoutCurrentPassClient);
+        layoutNewPassClient = findViewById(R.id.layoutNewPassClient);
+        layoutConfirmPassClient = findViewById(R.id.layoutConfirmPassClient);
 //      text input edit text
-        inputCurrentPassClient = findViewById(R.id.inputCurrentPass);
-        inputNewpassClient = findViewById(R.id.inputNewPass);
-        inputConfirmPassClient = findViewById(R.id.inputConfirmPass);
+        inputCurrentPassClient = findViewById(R.id.inputCurrentPassClient);
+        inputNewPassClient = findViewById(R.id.inputNewPassClient);
+        inputConfirmPassClient = findViewById(R.id.inputConfirmPassClient);
 
         btnChangePasswordClient = findViewById(R.id.btnChangePasswordClient);
+
         btnChangePasswordClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String currentpass, newpass, confirmpass;
                 currentpass = inputCurrentPassClient.getText().toString();
-                newpass = inputNewpassClient.getText().toString();
+                newpass = inputNewPassClient.getText().toString();
                 confirmpass = inputConfirmPassClient.getText().toString();
                 if(validateForm(currentpass,newpass,confirmpass)){
                     changePassword(currentpass,newpass,confirmpass);
@@ -91,9 +92,9 @@ public class ClientChangePassword extends AppCompatActivity {
                 dialog.dismiss();
                 if(!commonResponse.isError()){
                     Toast.makeText(ClientChangePassword.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    inputCurrentPassClient.setText("");
                     inputConfirmPassClient.setText("");
-                    inputNewpassClient.setText("");
+                    inputNewPassClient.setText("");
+                    inputCurrentPassClient.setText("");
                 }else{
                     Toast.makeText(ClientChangePassword.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }

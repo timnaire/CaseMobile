@@ -162,7 +162,7 @@ public class ClientChangePicture extends AppCompatActivity {
                             .build();
                     Case service = retrofit.create(Case.class);
 
-                    Call<CommonResponse> updatePictureResponseCall = service.updatePicture(client_id,new UpdatePicture(picuri));
+                    Call<CommonResponse> updatePictureResponseCall = service.updatePictureClient(client_id,new UpdatePicture(picuri));
                     updatePictureResponseCall.enqueue(new Callback<CommonResponse>() {
                         @Override
                         public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

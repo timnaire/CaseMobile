@@ -1,9 +1,14 @@
 package org.kidzonshock.acase.acase.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class UpdatePassword {
 
+    @SerializedName("current")
     private String current;
+    @SerializedName("newpass")
     private String newpass;
+    @SerializedName("confirm")
     private String confirm;
 
     public UpdatePassword(String current, String newpass, String confirm) {

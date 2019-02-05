@@ -128,7 +128,7 @@ public class ClientNavigation extends AppCompatActivity
         } else if (id == R.id.nav_myaccount_client) {
             toolbar.setTitle("My Account");
             fragment = new AccountFragment();
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_event_client) {
 
         } else if (id == R.id.nav_manage) {
 

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.AddCase;
+import org.kidzonshock.acase.acase.Models.CaseAdapter;
 import org.kidzonshock.acase.acase.Models.CaseModel;
 import org.kidzonshock.acase.acase.Models.Cases;
 import org.kidzonshock.acase.acase.Models.CommonResponse;

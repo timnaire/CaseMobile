@@ -1,4 +1,4 @@
-package org.kidzonshock.acase.acase.Lawyer;
+package org.kidzonshock.acase.acase.Models;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.kidzonshock.acase.acase.Models.CaseModel;
 import org.kidzonshock.acase.acase.R;
 
 import java.util.ArrayList;

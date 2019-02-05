@@ -131,7 +131,13 @@ public class Dashboard extends AppCompatActivity
             toolbar.setTitle("My Case");
             fragment = new MyCaseFragment();
 
-        } else if (id == R.id.nav_account) {
+        } else if (id == R.id.nav_clients) {
+
+            toolbar.setTitle("My Client");
+            fragment = new ClientFragment();
+
+        }
+        else if (id == R.id.nav_account) {
 
             toolbar.setTitle("My Account");
 //            Bundle info = new Bundle();

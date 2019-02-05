@@ -25,12 +25,17 @@ public class Client {
     @Expose
     private String address;
 
-    public Client(String first_name, String last_name, String email, String phone, String address) {
+    @SerializedName("profile_pic")
+    @Expose
+    private String profile_pic;
+
+    public Client(String first_name, String last_name, String email, String phone, String address, String profile_pic) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.phone = phone;
         this.address = address;
+        this.profile_pic = profile_pic;
     }
 
     public String getFirst_name() {
@@ -71,5 +76,13 @@ public class Client {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getProfile_pic() {
+        return profile_pic;
+    }
+
+    public void setProfile_pic(String profile_pic) {
+        this.profile_pic = profile_pic;
     }
 }

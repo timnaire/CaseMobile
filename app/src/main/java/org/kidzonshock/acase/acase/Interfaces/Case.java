@@ -4,6 +4,7 @@ import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
+import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.SigninBody;
 import org.kidzonshock.acase.acase.Models.SigninResponseClient;
 import org.kidzonshock.acase.acase.Models.SigninResponseLawyer;
@@ -87,6 +88,10 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @GET("lawyer/{lawyer_id}/get-case")
     Call<GetCase> getCases(@Path("lawyer_id") String lawyer_id);
+
+    @Headers("Content-Type: application/json")
+    @GET("lawyer/{lawyer_id}/list-client")
+    Call<ListClient> listClient(@Path("lawyer_id") String lawyer_id);
 
 
 }
