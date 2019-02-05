@@ -2,7 +2,7 @@ package org.kidzonshock.acase.acase.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SignupLawyer {
+public class SignupClient {
 
     @SerializedName("first_name")
     private String firstname;
@@ -12,25 +12,19 @@ public class SignupLawyer {
     private String email;
     @SerializedName("phone")
     private String phone;
-    @SerializedName("cityOrMunicipality")
-    private String cityOrMunicipality;
-    @SerializedName("office")
-    private String office;
-    @SerializedName("law_practice")
-    private String lawpractice;
+    @SerializedName("address")
+    private String address;
     @SerializedName("password")
     private String password;
     @SerializedName("confirm")
     private String confirm;
 
-    public SignupLawyer(String firstname, String lastname, String email, String phone, String cityOrMunicipality, String office, String lawpractice, String password, String confirm) {
+    public SignupClient(String firstname, String lastname, String email, String phone, String address, String password, String confirm) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phone = phone;
-        this.cityOrMunicipality = cityOrMunicipality;
-        this.office = office;
-        this.lawpractice = lawpractice;
+        this.address = address;
         this.password = password;
         this.confirm = confirm;
     }
@@ -67,28 +61,12 @@ public class SignupLawyer {
         this.phone = phone;
     }
 
-    public String getCityOrMunicipality() {
-        return cityOrMunicipality;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCityOrMunicipality(String cityOrMunicipality) {
-        this.cityOrMunicipality = cityOrMunicipality;
-    }
-
-    public String getOffice() {
-        return office;
-    }
-
-    public void setOffice(String office) {
-        this.office = office;
-    }
-
-    public String getLawpractice() {
-        return lawpractice;
-    }
-
-    public void setLawpractice(String lawpractice) {
-        this.lawpractice = lawpractice;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPassword() {

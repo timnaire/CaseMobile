@@ -1,11 +1,11 @@
 package org.kidzonshock.acase.acase.Models;
 
-public class SigninResponse {
+public class SigninResponseLawyer {
 
     private boolean error;
     private String message, lawyer, first_name, last_name, email, phone, cityOrMunicipality, office, profile_pic, aboutme;
 
-    public SigninResponse(boolean error, String message, String lawyer, String first_name, String last_name, String email, String phone, String cityOrMunicipality, String office, String profile_pic, String aboutme) {
+    public SigninResponseLawyer(boolean error, String message, String lawyer, String first_name, String last_name, String email, String phone, String cityOrMunicipality, String office, String profile_pic, String aboutme) {
         this.error = error;
         this.message = message;
         this.lawyer = lawyer;

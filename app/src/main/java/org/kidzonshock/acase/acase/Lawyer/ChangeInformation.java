@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
-import org.kidzonshock.acase.acase.Models.PreferenceData;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.UpdateLawyerInfo;
 import org.kidzonshock.acase.acase.R;
 
@@ -50,13 +50,13 @@ public class ChangeInformation extends AppCompatActivity {
         setContentView(R.layout.activity_change_information);
 
         Intent prev = getIntent();
-        lawyer_id = PreferenceData.getLoggedInLawyerid(getApplicationContext());
-        first_name = PreferenceData.getLoggedInFirstname(getApplicationContext());
-        last_name = PreferenceData.getLoggedInLastname(getApplicationContext());
-        phone = PreferenceData.getLoggedInPhone(getApplicationContext());
-        cityOrMunicipality = PreferenceData.getLoggedInCityOrMunicipality(getApplicationContext());
-        office = PreferenceData.getLoggedInOffice(getApplicationContext());
-        aboutme = PreferenceData.getLoggedInAboutme(getApplicationContext());
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getApplicationContext());
+        first_name = PreferenceDataLawyer.getLoggedInFirstname(getApplicationContext());
+        last_name = PreferenceDataLawyer.getLoggedInLastname(getApplicationContext());
+        phone = PreferenceDataLawyer.getLoggedInPhone(getApplicationContext());
+        cityOrMunicipality = PreferenceDataLawyer.getLoggedInCityOrMunicipality(getApplicationContext());
+        office = PreferenceDataLawyer.getLoggedInOffice(getApplicationContext());
+        aboutme = PreferenceDataLawyer.getLoggedInAboutme(getApplicationContext());
         law_practice = prev.getStringArrayExtra("law_practice");
 
 //        set all the id from views
@@ -198,12 +198,12 @@ public class ChangeInformation extends AppCompatActivity {
                 CommonResponse commonResponse = response.body();
                 dialog.dismiss();
                 if(!commonResponse.isError()){
-                    PreferenceData.setLoggedInFirstname(ChangeInformation.this,newFirstname);
-                    PreferenceData.setLoggedInLastname(ChangeInformation.this,newLastname);
-                    PreferenceData.setLoggedInPhone(ChangeInformation.this,newPhone);
-                    PreferenceData.setLoggedInCityOrMunicipality(ChangeInformation.this,newCity);
-                    PreferenceData.setLoggedInOffice(ChangeInformation.this,newOffice);
-                    PreferenceData.setLoggedInAboutme(ChangeInformation.this,newAboutme);
+                    PreferenceDataLawyer.setLoggedInFirstname(ChangeInformation.this,newFirstname);
+                    PreferenceDataLawyer.setLoggedInLastname(ChangeInformation.this,newLastname);
+                    PreferenceDataLawyer.setLoggedInPhone(ChangeInformation.this,newPhone);
+                    PreferenceDataLawyer.setLoggedInCityOrMunicipality(ChangeInformation.this,newCity);
+                    PreferenceDataLawyer.setLoggedInOffice(ChangeInformation.this,newOffice);
+                    PreferenceDataLawyer.setLoggedInAboutme(ChangeInformation.this,newAboutme);
                     Toast.makeText(ChangeInformation.this, commonResponse.getMessage() , Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(ChangeInformation.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();

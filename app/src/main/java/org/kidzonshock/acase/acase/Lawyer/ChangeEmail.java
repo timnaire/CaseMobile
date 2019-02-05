@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
-import org.kidzonshock.acase.acase.Models.PreferenceData;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.UpdateEmail;
 import org.kidzonshock.acase.acase.R;
 
@@ -50,7 +50,7 @@ public class ChangeEmail extends AppCompatActivity {
         getSupportActionBar().setTitle("Change Email");
 
 //        get lawyer id from SharedPrefence
-        lawyer_id = PreferenceData.getLoggedInLawyerid(getApplication());
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getApplication());
 
 //        Text input layout
         layoutCurrent = findViewById(R.id.layoutCurrent);
@@ -99,7 +99,7 @@ public class ChangeEmail extends AppCompatActivity {
                 CommonResponse commonResponse = response.body();
                 dialog.dismiss();
                 if(!commonResponse.isError()){
-                    PreferenceData.setLoggedInEmail(getApplication(),newemail);
+                    PreferenceDataLawyer.setLoggedInEmail(getApplication(),newemail);
                     Toast.makeText(ChangeEmail.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     inputCurrent.setText("");
                     inputNewEmail.setText("");

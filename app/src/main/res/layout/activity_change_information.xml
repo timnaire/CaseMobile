@@ -11,9 +11,10 @@
         android:id="@+id/layoutUpdateFirst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="5dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/inputUpdateFirst"
@@ -26,8 +27,9 @@
         android:id="@+id/layoutUpdateLast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="5dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/inputUpdateLast"
@@ -40,8 +42,9 @@
         android:id="@+id/layoutUpdatePhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="5dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/inputUpdatePhone"
@@ -54,8 +57,9 @@
         android:id="@+id/layoutUpdateCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="5dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/inputUpdateCity"
@@ -68,8 +72,9 @@
         android:id="@+id/layoutUpdateOffice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="5dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/inputUpdateOffice"
@@ -82,8 +87,9 @@
         android:id="@+id/updateAboutme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="5dp"
         android:ems="10"
         android:hint="About me"
         android:inputType="textMultiLine" />
@@ -179,6 +185,7 @@
             android:id="@+id/chkWills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="Wills, Trust and Estates" />
 
@@ -188,6 +195,9 @@
         android:id="@+id/btnSaveInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="#3dcf94"
         android:text="Save" />
 
 </LinearLayout>

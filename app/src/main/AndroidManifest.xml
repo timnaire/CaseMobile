@@ -28,10 +28,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Lawyer.Signup1"
+            android:name=".Lawyer.SignupLawyer1"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
-        <activity android:name=".Lawyer.Signup2" />
+        <activity android:name=".Lawyer.SignupLawyer2" />
         <activity
             android:name=".Lawyer.Dashboard"
             android:configChanges="orientation|keyboardHidden"
@@ -47,7 +47,11 @@
             android:label="@string/title_activity_client_navigation"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Lawyer.MyEvent" />
-        <activity android:name=".Lawyer.CaseDocument"></activity>
+        <activity android:name=".Lawyer.CaseDocument" />
+        <activity android:name=".Lawyer.LawyerSignin" />
+        <activity android:name=".Client.ClientSignin" />
+        <activity android:name=".Client.SignupClient1" />
+        <activity android:name=".Client.SignupClient2"></activity>
     </application>
 
 </manifest>

@@ -4,8 +4,10 @@ import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
-import org.kidzonshock.acase.acase.Models.SigninLawyer;
-import org.kidzonshock.acase.acase.Models.SigninResponse;
+import org.kidzonshock.acase.acase.Models.SigninBody;
+import org.kidzonshock.acase.acase.Models.SigninResponseClient;
+import org.kidzonshock.acase.acase.Models.SigninResponseLawyer;
+import org.kidzonshock.acase.acase.Models.SignupClient;
 import org.kidzonshock.acase.acase.Models.SignupLawyer;
 import org.kidzonshock.acase.acase.Models.UpdateEmail;
 import org.kidzonshock.acase.acase.Models.UpdateLawyerInfo;
@@ -29,8 +31,16 @@ public interface Case {
     Call<CommonResponse> signupLawyer(@Body SignupLawyer body);
 
     @Headers("Content-Type: application/json")
+    @POST("client/signup")
+    Call<CommonResponse> signupClient(@Body SignupClient body);
+
+    @Headers("Content-Type: application/json")
     @POST("lawyer/signin")
-    Call<SigninResponse> signinLawyer(@Body SigninLawyer body);
+    Call<SigninResponseLawyer> signinLawyer(@Body SigninBody body);
+
+    @Headers("Content-Type: application/json")
+    @POST("client/signin")
+    Call<SigninResponseClient> signinClient(@Body SigninBody body);
 
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/profile-picture")

@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.kidzonshock.acase.acase.Models.PreferenceData;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
 public class Dashboard extends AppCompatActivity
@@ -38,15 +38,15 @@ public class Dashboard extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        lawyer_id = PreferenceData.getLoggedInLawyerid(Dashboard.this);
-        first_name = PreferenceData.getLoggedInFirstname(Dashboard.this);
-        last_name = PreferenceData.getLoggedInLastname(Dashboard.this);
-        email = PreferenceData.getLoggedInEmail(Dashboard.this);
-        phone = PreferenceData.getLoggedInPhone(Dashboard.this);
-        cityOrMunicipality = PreferenceData.getLoggedInCityOrMunicipality(Dashboard.this);
-        office = PreferenceData.getLoggedInOffice(Dashboard.this);
-        aboutme = PreferenceData.getLoggedInAboutme(Dashboard.this);
-        profile_pic = PreferenceData.getLoggedInProfilePicture(Dashboard.this);
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(Dashboard.this);
+        first_name = PreferenceDataLawyer.getLoggedInFirstname(Dashboard.this);
+        last_name = PreferenceDataLawyer.getLoggedInLastname(Dashboard.this);
+        email = PreferenceDataLawyer.getLoggedInEmail(Dashboard.this);
+        phone = PreferenceDataLawyer.getLoggedInPhone(Dashboard.this);
+        cityOrMunicipality = PreferenceDataLawyer.getLoggedInCityOrMunicipality(Dashboard.this);
+        office = PreferenceDataLawyer.getLoggedInOffice(Dashboard.this);
+        aboutme = PreferenceDataLawyer.getLoggedInAboutme(Dashboard.this);
+        profile_pic = PreferenceDataLawyer.getLoggedInProfilePicture(Dashboard.this);
 
 //        getPractice();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -78,15 +78,15 @@ public class Dashboard extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        lawyer_id = PreferenceData.getLoggedInLawyerid(Dashboard.this);
-        first_name = PreferenceData.getLoggedInFirstname(Dashboard.this);
-        last_name = PreferenceData.getLoggedInLastname(Dashboard.this);
-        email = PreferenceData.getLoggedInEmail(Dashboard.this);
-        phone = PreferenceData.getLoggedInPhone(Dashboard.this);
-        cityOrMunicipality = PreferenceData.getLoggedInCityOrMunicipality(Dashboard.this);
-        office = PreferenceData.getLoggedInOffice(Dashboard.this);
-        aboutme = PreferenceData.getLoggedInAboutme(Dashboard.this);
-        profile_pic = PreferenceData.getLoggedInProfilePicture(Dashboard.this);
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(Dashboard.this);
+        first_name = PreferenceDataLawyer.getLoggedInFirstname(Dashboard.this);
+        last_name = PreferenceDataLawyer.getLoggedInLastname(Dashboard.this);
+        email = PreferenceDataLawyer.getLoggedInEmail(Dashboard.this);
+        phone = PreferenceDataLawyer.getLoggedInPhone(Dashboard.this);
+        cityOrMunicipality = PreferenceDataLawyer.getLoggedInCityOrMunicipality(Dashboard.this);
+        office = PreferenceDataLawyer.getLoggedInOffice(Dashboard.this);
+        aboutme = PreferenceDataLawyer.getLoggedInAboutme(Dashboard.this);
+        profile_pic = PreferenceDataLawyer.getLoggedInProfilePicture(Dashboard.this);
         super.onResume();
     }
 
@@ -155,8 +155,8 @@ public class Dashboard extends AppCompatActivity
         } else if (id == R.id.nav_subscription) {
 
         } else if (id == R.id.nav_signout) {
-            PreferenceData.setUserLoggedInStatus(Dashboard.this,false);
-            PreferenceData.clearLoggedInLawyer(Dashboard.this);
+            PreferenceDataLawyer.setUserLoggedInStatus(Dashboard.this,false);
+            PreferenceDataLawyer.clearLoggedInLawyer(Dashboard.this);
             this.finish();
         }
 

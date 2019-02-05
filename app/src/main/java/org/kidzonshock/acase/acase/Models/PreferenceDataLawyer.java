@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-public class PreferenceData
+public class PreferenceDataLawyer
 {
     static final String pref_lawyerid = "logged_in_lawyerid";
     static final String pref_firstame = "logged_in_firstname";

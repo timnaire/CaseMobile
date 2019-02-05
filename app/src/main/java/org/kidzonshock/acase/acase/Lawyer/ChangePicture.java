@@ -24,7 +24,7 @@ import com.kosalgeek.android.photoutil.GalleryPhoto;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
-import org.kidzonshock.acase.acase.Models.PreferenceData;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.UpdatePicture;
 import org.kidzonshock.acase.acase.R;
 
@@ -179,7 +179,7 @@ public class ChangePicture extends AppCompatActivity {
                             dialog.dismiss();
                             CommonResponse updatePictureResponse = response.body();
                             if(!updatePictureResponse.isError()){
-                                PreferenceData.setLoggedInProfilePicture(getApplicationContext(),picuri);
+                                PreferenceDataLawyer.setLoggedInProfilePicture(getApplicationContext(),picuri);
                                 Toast.makeText(getApplicationContext(), updatePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }else {
                                 Toast.makeText(ChangePicture.this, updatePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();

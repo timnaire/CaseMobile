@@ -15,7 +15,7 @@ import android.widget.ListView;
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.LawPractice;
-import org.kidzonshock.acase.acase.Models.PreferenceData;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.Setting;
 import org.kidzonshock.acase.acase.R;
 
@@ -53,8 +53,8 @@ public class AccountFragment extends Fragment {
         loading.setVisibility(View.VISIBLE);
         getEmail();
 //        law_practice = getArguments().getStringArray("law_practice");
-        lawyer_id = PreferenceData.getLoggedInLawyerid(getActivity());
-        profile_pic = PreferenceData.getLoggedInProfilePicture(getActivity());
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getActivity());
+        profile_pic = PreferenceDataLawyer.getLoggedInProfilePicture(getActivity());
 
         lv = view.findViewById(R.id.listview);
 
@@ -98,7 +98,7 @@ public class AccountFragment extends Fragment {
     }
 
     public String getEmail(){
-        return email = PreferenceData.getLoggedInEmail(getActivity());
+        return email = PreferenceDataLawyer.getLoggedInEmail(getActivity());
     }
 
     public void getPractice(){

@@ -29,7 +29,7 @@ import org.kidzonshock.acase.acase.Models.CaseModel;
 import org.kidzonshock.acase.acase.Models.Cases;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.GetCase;
-import org.kidzonshock.acase.acase.Models.PreferenceData;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
 import java.util.ArrayList;
@@ -69,7 +69,7 @@ public class MyCaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        lawyer_id = PreferenceData.getLoggedInLawyerid(getActivity());
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getActivity());
         lv = view.findViewById(R.id.list_caseview);
 
         loading = view.findViewById(R.id.linlaHeaderProgress);

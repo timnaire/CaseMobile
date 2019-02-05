@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
-import org.kidzonshock.acase.acase.Models.PreferenceData;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.UpdatePassword;
 import org.kidzonshock.acase.acase.R;
 
@@ -49,7 +49,7 @@ public class ChangePassword extends AppCompatActivity {
         getSupportActionBar().setTitle("Change Password");
 
 //      get lawyer id from SharedPreference
-        lawyer_id = PreferenceData.getLoggedInLawyerid(getApplication());
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getApplication());
 //      text input layout
         layoutCurrentPass = findViewById(R.id.layoutCurrentPass);
         layoutNewPass = findViewById(R.id.layoutNewPass);
