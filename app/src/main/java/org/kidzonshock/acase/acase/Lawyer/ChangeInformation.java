@@ -31,14 +31,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChangeInformation extends AppCompatActivity {
 
-    String lawyer_id, first_name,last_name,phone,office,cityOrMunicipality, aboutme;
+    String lawyer_id, first_name,last_name,phone,office,cityOrMunicipality, aboutme,firm;
     String[] law_practice;
 
-    CheckBox chkBankruptcy, chkBusiness,chkCommercial,chkCriminal,chkEmployment,chkFamily,chkImmigration,chkInjury,chkRealEstate,chkWills;
+    CheckBox chkBusinessLaw, chkCivilLaw,chkConstitutionalLaw,chkCriminalLaw,chkFamilyLaw,chkLaborLaw,chkTaxationLaw;
     ACProgressFlower dialog;
 
-    TextInputLayout layoutUpdateFirst, layoutUpdateLast, layoutUpdatePhone, layoutUpdateCity,layoutUpdateOffice;
-    TextInputEditText inputUpdateFirst, inputUpdateLast, inputUpdatePhone, inputUpdateCity,inputUpdateOffice;
+    TextInputLayout layoutUpdateFirst, layoutUpdateLast, layoutUpdatePhone, layoutUpdateCity,layoutUpdateOffice,layoutUpdateFirm;
+    TextInputEditText inputUpdateFirst, inputUpdateLast, inputUpdatePhone, inputUpdateCity,inputUpdateOffice,inputUpdateFirm;
     Button btnSaveInfo;
     EditText updateAboutme;
 
@@ -50,13 +50,14 @@ public class ChangeInformation extends AppCompatActivity {
         setContentView(R.layout.activity_change_information);
 
         Intent prev = getIntent();
-        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getApplicationContext());
-        first_name = PreferenceDataLawyer.getLoggedInFirstname(getApplicationContext());
-        last_name = PreferenceDataLawyer.getLoggedInLastname(getApplicationContext());
-        phone = PreferenceDataLawyer.getLoggedInPhone(getApplicationContext());
-        cityOrMunicipality = PreferenceDataLawyer.getLoggedInCityOrMunicipality(getApplicationContext());
-        office = PreferenceDataLawyer.getLoggedInOffice(getApplicationContext());
-        aboutme = PreferenceDataLawyer.getLoggedInAboutme(getApplicationContext());
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(ChangeInformation.this);
+        first_name = PreferenceDataLawyer.getLoggedInFirstname(ChangeInformation.this);
+        last_name = PreferenceDataLawyer.getLoggedInLastname(ChangeInformation.this);
+        phone = PreferenceDataLawyer.getLoggedInPhone(ChangeInformation.this);
+        cityOrMunicipality = PreferenceDataLawyer.getLoggedInCityOrMunicipality(ChangeInformation.this);
+        office = PreferenceDataLawyer.getLoggedInOffice(ChangeInformation.this);
+        aboutme = PreferenceDataLawyer.getLoggedInAboutme(ChangeInformation.this);
+        firm = PreferenceDataLawyer.getLoggedInFirm(ChangeInformation.this);
         law_practice = prev.getStringArrayExtra("law_practice");
 
 //        set all the id from views
@@ -67,6 +68,7 @@ public class ChangeInformation extends AppCompatActivity {
         layoutUpdatePhone = findViewById(R.id.layoutUpdatePhone);
         layoutUpdateCity = findViewById(R.id.layoutUpdateCity);
         layoutUpdateOffice = findViewById(R.id.layoutUpdateOffice);
+        layoutUpdateFirm = findViewById(R.id.layoutUpdateFirm);
 
         inputUpdateFirst = findViewById(R.id.inputUpdateFirst);
         inputUpdateLast = findViewById(R.id.inputUpdateLast);
@@ -74,18 +76,15 @@ public class ChangeInformation extends AppCompatActivity {
         inputUpdateCity = findViewById(R.id.inputUpdateCity);
         inputUpdateOffice = findViewById(R.id.inputUpdateOffice);
         updateAboutme = findViewById(R.id.updateAboutme);
+        inputUpdateFirm = findViewById(R.id.inputUpdateFirm);
 
-        chkBankruptcy = findViewById(R.id.chkBankruptcy);
-        chkBusiness = findViewById(R.id.chkBusiness);
-        chkCommercial = findViewById(R.id.chkCommercial);
-        chkCriminal = findViewById(R.id.chkCriminal);
-        chkEmployment = findViewById(R.id.chkEmployment);
-        chkFamily = findViewById(R.id.chkFamily);
-        chkImmigration = findViewById(R.id.chkImmigration);
-        chkInjury = findViewById(R.id.chkInjury);
-        chkRealEstate = findViewById(R.id.chkRealEstate);
-        chkWills = findViewById(R.id.chkWills);
-
+        chkBusinessLaw = findViewById(R.id.chkBusinessLaw);
+        chkCivilLaw = findViewById(R.id.chkCivilLaw);
+        chkConstitutionalLaw = findViewById(R.id.chkConstitutionalLaw);
+        chkCriminalLaw = findViewById(R.id.chkCriminalLaw);
+        chkFamilyLaw = findViewById(R.id.chkFamilyLaw);
+        chkLaborLaw = findViewById(R.id.chkLaborLaw);
+        chkTaxationLaw = findViewById(R.id.chkTaxationLaw);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Profile Information");
@@ -101,29 +100,24 @@ public class ChangeInformation extends AppCompatActivity {
         inputUpdatePhone.setText(phone);
         inputUpdateCity.setText(cityOrMunicipality);
         inputUpdateOffice.setText(office);
+        inputUpdateFirm.setText(firm);
         updateAboutme.setText(aboutme);
 
         for(int i=0; i < law_practice.length; i++){
-            if(law_practice[i].equals(chkBankruptcy.getText().toString())){
-                chkBankruptcy.setChecked(true);
-            }else if(law_practice[i].equals(chkBusiness.getText().toString())){
-                chkBusiness.setChecked(true);
-            }else if(law_practice[i].equals(chkCommercial.getText().toString())){
-                chkCommercial.setChecked(true);
-            }else if(law_practice[i].equals(chkCriminal.getText().toString())){
-                chkCriminal.setChecked(true);
-            }else if(law_practice[i].equals(chkEmployment.getText().toString())){
-                chkEmployment.setChecked(true);
-            }else if(law_practice[i].equals(chkFamily.getText().toString())){
-                chkFamily.setChecked(true);
-            }else if(law_practice[i].equals(chkImmigration.getText().toString())){
-                chkImmigration.setChecked(true);
-            }else if(law_practice[i].equals(chkInjury.getText().toString())){
-                chkInjury.setChecked(true);
-            }else if(law_practice[i].equals(chkRealEstate.getText().toString())){
-                chkRealEstate.setChecked(true);
-            }else if(law_practice[i].equals(chkWills.getText().toString())){
-                chkWills.setChecked(true);
+            if(law_practice[i].equals(chkBusinessLaw.getText().toString())){
+                chkBusinessLaw.setChecked(true);
+            }else if(law_practice[i].equals(chkCivilLaw.getText().toString())){
+                chkCivilLaw.setChecked(true);
+            }else if(law_practice[i].equals(chkConstitutionalLaw.getText().toString())){
+                chkConstitutionalLaw.setChecked(true);
+            }else if(law_practice[i].equals(chkCriminalLaw.getText().toString())){
+                chkCriminalLaw.setChecked(true);
+            }else if(law_practice[i].equals(chkFamilyLaw.getText().toString())){
+                chkFamilyLaw.setChecked(true);
+            }else if(law_practice[i].equals(chkLaborLaw.getText().toString())){
+                chkLaborLaw.setChecked(true);
+            }else if(law_practice[i].equals(chkTaxationLaw.getText().toString())){
+                chkTaxationLaw.setChecked(true);
             }
         }
 
@@ -137,40 +131,32 @@ public class ChangeInformation extends AppCompatActivity {
                 String newCity = inputUpdateCity.getText().toString();
                 String newOffice = inputUpdateOffice.getText().toString();
                 String newAboutme = updateAboutme.getText().toString();
-                if(validateForm(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme)){
+                String newFirm = inputUpdateFirm.getText().toString();
+                if(validateForm(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme,newFirm)){
                     ArrayList<String> newLaw_practice = new ArrayList<String>();
-                    if(chkBankruptcy.isChecked()){
-                        newLaw_practice.add(chkBankruptcy.getText().toString());
+                    if(chkBusinessLaw.isChecked()){
+                        newLaw_practice.add(chkBusinessLaw.getText().toString());
                     }
-                    if(chkBusiness.isChecked()){
-                        newLaw_practice.add(chkBusiness.getText().toString());
+                    if(chkCivilLaw.isChecked()){
+                        newLaw_practice.add(chkCivilLaw.getText().toString());
                     }
-                    if(chkCommercial.isChecked()){
-                        newLaw_practice.add(chkCommercial.getText().toString());
+                    if(chkConstitutionalLaw.isChecked()){
+                        newLaw_practice.add(chkConstitutionalLaw.getText().toString());
                     }
-                    if(chkCriminal.isChecked()){
-                        newLaw_practice.add(chkCriminal.getText().toString());
+                    if(chkCriminalLaw.isChecked()){
+                        newLaw_practice.add(chkCriminalLaw.getText().toString());
                     }
-                    if(chkEmployment.isChecked()){
-                        newLaw_practice.add(chkEmployment.getText().toString());
+                    if(chkFamilyLaw.isChecked()){
+                        newLaw_practice.add(chkFamilyLaw.getText().toString());
                     }
-                    if(chkFamily.isChecked()){
-                        newLaw_practice.add(chkFamily.getText().toString());
+                    if(chkLaborLaw.isChecked()){
+                        newLaw_practice.add(chkLaborLaw.getText().toString());
                     }
-                    if(chkImmigration.isChecked()){
-                        newLaw_practice.add(chkImmigration.getText().toString());
-                    }
-                    if(chkInjury.isChecked()){
-                        newLaw_practice.add(chkInjury.getText().toString());
-                    }
-                    if(chkRealEstate.isChecked()){
-                        newLaw_practice.add(chkRealEstate.getText().toString());
-                    }
-                    if(chkWills.isChecked()){
-                        newLaw_practice.add(chkWills.getText().toString());
+                    if(chkTaxationLaw.isChecked()){
+                        newLaw_practice.add(chkTaxationLaw.getText().toString());
                     }
 
-                    updateInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme, newLaw_practice);
+                    updateInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newFirm,newAboutme, newLaw_practice);
 
                 }
             }
@@ -184,14 +170,14 @@ public class ChangeInformation extends AppCompatActivity {
         return true;
     }
 
-    public void updateInfo(final String newFirstname, final String newLastname, final String newPhone, final String newCity, final String newOffice, final String newAboutme, final ArrayList<String> newLaw_practice){
+    public void updateInfo(final String newFirstname, final String newLastname, final String newPhone, final String newCity, final String newOffice,final String newFirm, final String newAboutme, final ArrayList<String> newLaw_practice){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         dialog.show();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> updateLawyerInfoCall = service.updateInfo(lawyer_id,new UpdateLawyerInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme,newLaw_practice));
+        Call<CommonResponse> updateLawyerInfoCall = service.updateInfo(lawyer_id,new UpdateLawyerInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme,newFirm,newLaw_practice));
         updateLawyerInfoCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -203,6 +189,7 @@ public class ChangeInformation extends AppCompatActivity {
                     PreferenceDataLawyer.setLoggedInPhone(ChangeInformation.this,newPhone);
                     PreferenceDataLawyer.setLoggedInCityOrMunicipality(ChangeInformation.this,newCity);
                     PreferenceDataLawyer.setLoggedInOffice(ChangeInformation.this,newOffice);
+                    PreferenceDataLawyer.setLoggedInFirm(ChangeInformation.this,newFirm);
                     PreferenceDataLawyer.setLoggedInAboutme(ChangeInformation.this,newAboutme);
                     Toast.makeText(ChangeInformation.this, commonResponse.getMessage() , Toast.LENGTH_SHORT).show();
                 } else {
@@ -219,11 +206,19 @@ public class ChangeInformation extends AppCompatActivity {
 
     }
 
-    private boolean validateForm(String first,String last, String phone, String city, String office,String aboutme) {
+    private boolean validateForm(String first,String last, String phone, String city, String office,String aboutme, String firm) {
         boolean valid = true;
 
         if(aboutme.equals(null)){
             valid = false;
+        }
+
+        if (TextUtils.isEmpty(firm)) {
+            layoutUpdateFirm.setError("Required");
+            layoutUpdateFirm.requestFocus();
+            valid = false;
+        } else {
+            layoutUpdateFirm.setError(null);
         }
 
         if (TextUtils.isEmpty(office)) {

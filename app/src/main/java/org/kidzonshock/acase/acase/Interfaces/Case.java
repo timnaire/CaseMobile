@@ -1,6 +1,7 @@
 package org.kidzonshock.acase.acase.Interfaces;
 
 import org.kidzonshock.acase.acase.Models.AddCase;
+import org.kidzonshock.acase.acase.Models.AddFCMToken;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
@@ -14,6 +15,7 @@ import org.kidzonshock.acase.acase.Models.UpdateLawyerInfo;
 import org.kidzonshock.acase.acase.Models.UpdatePassword;
 import org.kidzonshock.acase.acase.Models.UpdatePicture;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -61,6 +63,10 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/mycase")
         Call<CommonResponse> addCase(@Path("lawyer_id") String lawyer_id, @Body AddCase body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/fcm-token")
+    Call<ResponseBody> lawyer_fcm_token(@Path("lawyer_id") String lawyer_id, @Body AddFCMToken body);
 
 //    GET REQUEST
     @Headers("Content-Type: application/json")

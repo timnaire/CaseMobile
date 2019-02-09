@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,6 +59,7 @@ public class MyCaseFragment extends Fragment {
     CaseAdapter adapter;
     ArrayList<CaseModel> caselist = new ArrayList<>();
     LinearLayout loading;
+    AdapterView.AdapterContextMenuInfo info;
 
     @Nullable
     @Override
@@ -72,9 +74,11 @@ public class MyCaseFragment extends Fragment {
         lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getActivity());
         lv = view.findViewById(R.id.list_caseview);
 
+
         loading = view.findViewById(R.id.linlaHeaderProgress);
 
         getAllCase();
+        registerForContextMenu(lv);
         loading.setVisibility(View.VISIBLE);
 
         layoutCaseTitle = new TextInputLayout(getActivity());
@@ -184,6 +188,48 @@ public class MyCaseFragment extends Fragment {
             });
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_case_context,menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+        info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        menu.setHeaderTitle(caselist.get(info.position).getTitle());
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        String title,date,client_name,client_email,client_phone,client_address,case_status;
+        int id = item.getItemId();
+        switch(id){
+            case R.id.View:
+                Intent vIntent = new Intent(getActivity(),ViewCase.class);
+                title = caselist.get(info.position).getTitle();
+                date = caselist.get(info.position).getDate_created();
+                client_name = caselist.get(info.position).getClientName();
+                client_email = caselist.get(info.position).getClientEmail();
+                client_phone = caselist.get(info.position).getClientPhone();
+                client_address = caselist.get(info.position).getClientAddress();
+                case_status = caselist.get(info.position).getStatus();
+                vIntent.putExtra("title",title);
+                vIntent.putExtra("date",date);
+                vIntent.putExtra("client_name",client_name);
+                vIntent.putExtra("client_email",client_email);
+                vIntent.putExtra("client_phone",client_phone);
+                vIntent.putExtra("client_address",client_address);
+                vIntent.putExtra("case_status",case_status);
+                startActivity(vIntent);
+                Toast.makeText(getActivity(), "View", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.Edit:
+                Toast.makeText(getActivity(), "Edit", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.Delete:
+                Toast.makeText(getActivity(), "Delete", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 
     public void getAllCase(){

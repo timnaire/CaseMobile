@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
-import org.kidzonshock.acase.acase.MainActivity;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.SignupClient;
 import org.kidzonshock.acase.acase.R;
@@ -28,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignupClient2 extends AppCompatActivity {
 
-    Button btnSignupClient;
+    Button btnSignupClientNow;
     TextInputEditText inputRegPhoneClient, inputRegAddressClient, inputRegPassClient,inputRegConfirmClient;
     TextInputLayout layoutRegPhoneClient, layoutRegAddressClient, layoutRegPassClient,layoutRegConfirmClient;
     ACProgressFlower dialog;
@@ -50,7 +49,7 @@ public class SignupClient2 extends AppCompatActivity {
                 .text("Please wait")
                 .fadeColor(Color.DKGRAY).build();
 
-        btnSignupClient = findViewById(R.id.btnSignupClient);
+        btnSignupClientNow = findViewById(R.id.btnSignupClientNow);
         inputRegPhoneClient = findViewById(R.id.inputRegPhoneClient);
         inputRegAddressClient = findViewById(R.id.inputRegAddressClient);
         inputRegPassClient = findViewById(R.id.inputRegPassClient);
@@ -66,7 +65,7 @@ public class SignupClient2 extends AppCompatActivity {
         lastname = prev.getStringExtra("lastname");
         email = prev.getStringExtra("email");
 
-        btnSignupClient.setOnClickListener(new View.OnClickListener() {
+        btnSignupClientNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 phone = inputRegPhoneClient.getText().toString();

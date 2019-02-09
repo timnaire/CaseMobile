@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "712857136348-842nto41utradepcvvg8k7djq33a1ue9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.kidzonshock.acase.acase",
+            "certificate_hash": "da1653436c5fa221b88a4217724486bbe1fd6765"
+          }
+        },
+        {
           "client_id": "712857136348-qp5ghpngk01ikif1pavjjn8cnu83oc3l.apps.googleusercontent.com",
           "client_type": 3
         }

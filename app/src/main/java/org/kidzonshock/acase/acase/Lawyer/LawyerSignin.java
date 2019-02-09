@@ -2,17 +2,25 @@ package org.kidzonshock.acase.acase.Lawyer;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.AddFCMToken;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.SigninBody;
 import org.kidzonshock.acase.acase.Models.SigninResponseLawyer;
@@ -20,6 +28,7 @@ import org.kidzonshock.acase.acase.R;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,12 +42,13 @@ public class LawyerSignin extends AppCompatActivity {
 
     Button btnSigninLawyer, btnSignupLawyer;
 
-    String email,password;
+    String email,password,token;
 
     Intent intentLogin;
     ACProgressFlower dialog;
 
     private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
+    private final String TAG = "LawyerSignin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +80,23 @@ public class LawyerSignin extends AppCompatActivity {
                 email = inputEmailLawyer.getText().toString();
                 password = inputPasswordLawyer.getText().toString();
                 if(validateForm(email,password)){
+                    // Get token
+                    // [START retrieve_current_token]
+                    FirebaseInstanceId.getInstance().getInstanceId()
+                            .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                    if (!task.isSuccessful()) {
+                                        Log.w(TAG, "getInstanceId failed", task.getException());
+                                        return;
+                                    }
+
+                                    // Get new Instance ID token
+                                    token = task.getResult().getToken();
+                                    PreferenceDataLawyer.setLoggedInFcmToken(LawyerSignin.this,token);
+                                }
+                            });
+                    // [END retrieve_current_token]
                     sendLoginRequest(email,password);
                 }
             }
@@ -83,6 +110,7 @@ public class LawyerSignin extends AppCompatActivity {
                 startActivity(signup);
             }
         });
+
 
         intentLogin = new Intent(LawyerSignin.this, Dashboard.class);
         if(PreferenceDataLawyer.getUserLoggedInStatus(LawyerSignin.this)){
@@ -122,6 +150,7 @@ public class LawyerSignin extends AppCompatActivity {
                     PreferenceDataLawyer.setLoggedInAboutme(LawyerSignin.this, signinResponseLawyer.getAboutme());
                     PreferenceDataLawyer.setLoggedInProfilePicture(LawyerSignin.this, signinResponseLawyer.getProfile_pic());
                     PreferenceDataLawyer.setUserLoggedInStatus(LawyerSignin.this,true);
+                    saveFCMToken(signinResponseLawyer.getLawyer());
                     Toast.makeText(LawyerSignin.this, signinResponseLawyer.getMessage(), Toast.LENGTH_SHORT).show();
                     startActivity(intentLogin);
                 } else {
@@ -135,6 +164,28 @@ public class LawyerSignin extends AppCompatActivity {
                 Toast.makeText(LawyerSignin.this, "Please check your internet connection" , Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void saveFCMToken(String lawyer_id){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Case.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            Case service = retrofit.create(Case.class);
+            Call<ResponseBody> responseBodyCall = service.lawyer_fcm_token(lawyer_id,new AddFCMToken(token));
+            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Toast.makeText(LawyerSignin.this, "FCM token saved!", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
     }
 
     private boolean validateForm(String email, String password){

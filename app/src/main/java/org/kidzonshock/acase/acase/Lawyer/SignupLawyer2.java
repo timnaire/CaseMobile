@@ -15,7 +15,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
-import org.kidzonshock.acase.acase.MainActivity;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.SignupLawyer;
 import org.kidzonshock.acase.acase.R;
@@ -34,7 +33,7 @@ public class SignupLawyer2 extends AppCompatActivity {
     TextInputLayout layoutRegOfficeLawyer, layoutRegPassLawyer, layoutRegConfirmLawyer;
     TextInputEditText inputRegOfficeLawyer, inputRegPassLawyer, inputRegConfirmLawyer;
     Spinner spinnerLawpractice, spinnerRegProvince;
-    String firstname, lastname, email, phone, office, cityOrMunicipality, selectedLawpractice, password, confirm;
+    String firstname, lastname, email, phone,sex,rollno, office, cityOrMunicipality, selectedLawpractice, password, confirm;
     ACProgressFlower dialog;
     Context context;
 
@@ -73,6 +72,8 @@ public class SignupLawyer2 extends AppCompatActivity {
         lastname = prev.getStringExtra("lastname");
         email = prev.getStringExtra("email");
         phone = prev.getStringExtra("phone");
+        sex = prev.getStringExtra("sex");
+        rollno = prev.getStringExtra("rollno");
 
         btnRegSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +88,7 @@ public class SignupLawyer2 extends AppCompatActivity {
                 
                 if(password.equals(confirm)){
                     if(validateFormAgain(office,password,confirm)){
-                        sendPostRequest(firstname,lastname,email,phone,cityOrMunicipality,office,selectedLawpractice,password,confirm);
+                        sendPostRequest(firstname,lastname,email,phone,rollno,sex,cityOrMunicipality,office,selectedLawpractice,password,confirm);
                     }    
                 } else {
                     Toast.makeText(SignupLawyer2.this, "Confirmation password does not match, please try again.", Toast.LENGTH_SHORT).show();
@@ -104,7 +105,7 @@ public class SignupLawyer2 extends AppCompatActivity {
         return true;
     }
 
-    private void sendPostRequest(String firstname, String lastname, String email, String phone, String cityOrMunicipality, String office, String lawpractice, String password, String confirm) {
+    private void sendPostRequest(String firstname, String lastname, String email, String phone,String rollno, String sex, String cityOrMunicipality, String office, String lawpractice, String password, String confirm) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
@@ -114,7 +115,7 @@ public class SignupLawyer2 extends AppCompatActivity {
         dialog.show();
         Case service = retrofit.create(Case.class);
 
-        Call<CommonResponse> commonResponseCall = service.signupLawyer(new SignupLawyer(firstname,lastname,email,phone, cityOrMunicipality,office,lawpractice,password,confirm));
+        Call<CommonResponse> commonResponseCall = service.signupLawyer(new SignupLawyer(firstname,lastname,email,phone, rollno, sex, cityOrMunicipality,office,lawpractice,password,confirm));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

@@ -3,16 +3,24 @@ package org.kidzonshock.acase.acase.Client;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
 import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.AddFCMToken;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.SigninBody;
@@ -21,6 +29,7 @@ import org.kidzonshock.acase.acase.R;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,12 +43,13 @@ public class ClientSignin extends AppCompatActivity {
 
     Button btnSigninClient, btnSignupClient;
 
-    String email,password;
+    String email,password, token;
 
     Intent intentLogin;
     ACProgressFlower dialog;
 
     private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
+    private final String TAG = "ClientSignin";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +71,7 @@ public class ClientSignin extends AppCompatActivity {
         layoutEmailClient = findViewById(R.id.layoutEmailClient);
         layoutPasswordClient = findViewById(R.id.layoutPasswordClient);
         btnSigninClient = findViewById(R.id.btnSigninClient);
+        btnSignupClient = findViewById(R.id.btnSignupClient);
 
         btnSigninClient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +80,23 @@ public class ClientSignin extends AppCompatActivity {
                 email = inputEmailClient.getText().toString();
                 password = inputPasswordClient.getText().toString();
                 if(validateForm(email,password)){
+                    // Get token
+                    // [START retrieve_current_token]
+                    FirebaseInstanceId.getInstance().getInstanceId()
+                            .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                    if (!task.isSuccessful()) {
+                                        Log.w(TAG, "getInstanceId failed", task.getException());
+                                        return;
+                                    }
+
+                                    // Get new Instance ID token
+                                    token = task.getResult().getToken();
+                                    PreferenceDataLawyer.setLoggedInFcmToken(ClientSignin.this,token);
+                                }
+                            });
+                    // [END retrieve_current_token]
                     sendLoginRequest(email,password);
                 }
             }
@@ -116,6 +144,7 @@ public class ClientSignin extends AppCompatActivity {
                 PreferenceDataClient.setLoggedInAddress(ClientSignin.this, signinResponseClient.getAdress());
                 PreferenceDataLawyer.setLoggedInProfilePicture(ClientSignin.this, signinResponseClient.getProfile_pic());
                 PreferenceDataLawyer.setUserLoggedInStatus(ClientSignin.this,true);
+                saveFCMToken(PreferenceDataClient.getLoggedInClientid(ClientSignin.this));
                 Toast.makeText(ClientSignin.this, signinResponseClient.getMessage(), Toast.LENGTH_SHORT).show();
                 startActivity(intentLogin);
             }
@@ -126,6 +155,29 @@ public class ClientSignin extends AppCompatActivity {
                 Toast.makeText(ClientSignin.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void saveFCMToken(String client_id){
+        if(PreferenceDataClient.getLoggedInFcmToken(ClientSignin.this).equals("")){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Case.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            Case service = retrofit.create(Case.class);
+            Call<ResponseBody> responseBodyCall = service.lawyer_fcm_token(client_id,new AddFCMToken(token));
+            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Toast.makeText(ClientSignin.this, "FCM token saved!", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     private boolean validateForm(String email, String password){

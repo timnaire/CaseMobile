@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Case</string>
 
-    <string-array name="RegChoice">
-        <item>--Select--</item>
-        <item>Client</item>
-        <item>Lawyer</item>
+    <string-array name="sex">
+        <item>Select Gender</item>
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 
     <string-array name="cityOrMunicipality">
@@ -64,15 +64,13 @@
 
     <string-array name="law_practice">
         <item>Select area of Practice</item>
-        <item>Bankruptcy</item>
-        <item>Business</item>
-        <item>Commercial Law</item>
-        <item>Criminal Defense</item>
-        <item>Employment</item>
-        <item>Family</item>
-        <item>Immigration</item>
-        <item>Real Estate</item>
-        <item>Wills, Trust, and Estates</item>
+        <item>Business Law</item>
+        <item>Civil Law</item>
+        <item>Constitutional Law</item>
+        <item>Criminal Law</item>
+        <item>Family Law</item>
+        <item>Labor Law</item>
+        <item>Taxation Law</item>
     </string-array>
     <string name="title_activity_dashboard">Dashboard</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

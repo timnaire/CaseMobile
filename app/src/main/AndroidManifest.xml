@@ -17,6 +17,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- [START firebase_service] -->
+        <service android:name="org.kidzonshock.acase.acase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- [END firebase_service] -->
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -51,7 +60,9 @@
         <activity android:name=".Lawyer.LawyerSignin" />
         <activity android:name=".Client.ClientSignin" />
         <activity android:name=".Client.SignupClient1" />
-        <activity android:name=".Client.SignupClient2"></activity>
+        <activity android:name=".Client.SignupClient2" />
+        <activity android:name=".Lawyer.EditCase" />
+        <activity android:name=".Lawyer.ViewCase"></activity>
     </application>
 
 </manifest>

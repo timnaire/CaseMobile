@@ -18,16 +18,19 @@ public class UpdateLawyerInfo {
     String office;
     @SerializedName("aboutme")
     String aboutme;
+    @SerializedName("firm")
+    String firm;
     @SerializedName("law_practice")
     ArrayList<String> law_practice;
 
-    public UpdateLawyerInfo(String first_name, String last_name, String phone, String cityOrMunicipality, String office, String aboutme, ArrayList<String> law_practice) {
+    public UpdateLawyerInfo(String first_name, String last_name, String phone, String cityOrMunicipality, String office, String aboutme, String firm, ArrayList<String> law_practice) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.phone = phone;
         this.cityOrMunicipality = cityOrMunicipality;
         this.office = office;
         this.aboutme = aboutme;
+        this.firm = firm;
         this.law_practice = law_practice;
     }
 
@@ -77,6 +80,14 @@ public class UpdateLawyerInfo {
 
     public void setAboutme(String aboutme) {
         this.aboutme = aboutme;
+    }
+
+    public String getFirm() {
+        return firm;
+    }
+
+    public void setFirm(String firm) {
+        this.firm = firm;
     }
 
     public ArrayList<String> getLaw_practice() {

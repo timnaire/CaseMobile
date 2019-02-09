@@ -6,14 +6,15 @@ import android.preference.PreferenceManager;
 
 public class PreferenceDataClient
 {
-    static final String pref_clientid = "logged_in_clientid";
-    static final String pref_firstame = "logged_in_firstname";
-    static final String pref_lastname = "logged_in_lastname";
-    static final String pref_email = "logged_in_email";
-    static final String pref_phone = "logged_in_phone";
-    static final String pref_address = "logged_in_address";
+    static final String pref_clientid = "client_clientid";
+    static final String pref_firstame = "client_firstname";
+    static final String pref_lastname = "client_lastname";
+    static final String pref_email = "client_email";
+    static final String pref_phone = "client_phone";
+    static final String pref_address = "client_address";
     static final String pref_profilepic = "logged_in_profilepic";
-    static final String pref_status = "logged_in_status";
+    static final String pref_FCM_TOKEN = "client_FCM_TOKEN";
+    static final String pref_status = "client_status";
 
     public static SharedPreferences getSharedPreferences(Context ctx)
     {
@@ -70,6 +71,13 @@ public class PreferenceDataClient
         editor.putString(pref_profilepic, profilepic);
         editor.commit();
     }
+    public static void setLoggedInFcmToken(Context ctx, String token)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(pref_FCM_TOKEN);
+        editor.putString(pref_FCM_TOKEN, token);
+        editor.commit();
+    }
 
     //    getting shared preferences
     public static String getLoggedInClientid(Context ctx)
@@ -99,6 +107,10 @@ public class PreferenceDataClient
     public static String getLoggedInProfilePicture(Context ctx)
     {
         return getSharedPreferences(ctx).getString(pref_profilepic, "");
+    }
+    public static String getLoggedInFcmToken(Context ctx)
+    {
+        return getSharedPreferences(ctx).getString(pref_FCM_TOKEN, "");
     }
 
 

@@ -9,15 +9,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import org.kidzonshock.acase.acase.R;
 
 public class SignupLawyer1 extends AppCompatActivity {
 
     Button btnRegisterNext;
-    TextInputEditText inputRegFirstnameLawyer, inputRegLastnameLawyer, inputRegEmailLawyer, inputRegPhoneLawyer;
-    TextInputLayout layoutRegFirstnameLawyer, layoutRegLastnameLawyer, layoutRegEmailLawyer, layoutRegPhoneLawyer;
-    String firstname, lastname, email, phone;
+    TextInputEditText inputRegFirstnameLawyer, inputRegLastnameLawyer, inputRegEmailLawyer, inputRegPhoneLawyer, inputRegRollnoLawyer;
+    TextInputLayout layoutRegFirstnameLawyer, layoutRegLastnameLawyer, layoutRegEmailLawyer, layoutRegPhoneLawyer, layoutRegRollnoLawyer;
+    String firstname, lastname, email, phone, sex, rollno;
+    Spinner spinnerSex;
 
     private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
 
@@ -31,31 +33,39 @@ public class SignupLawyer1 extends AppCompatActivity {
         getSupportActionBar().setTitle("Lawyer Sign-Up - Step 1");
 
         btnRegisterNext = findViewById(R.id.btnRegisterNext);
+        spinnerSex = findViewById(R.id.spinnerSex);
+
         inputRegFirstnameLawyer = findViewById(R.id.inputRegFirstnameLawyer);
         inputRegLastnameLawyer = findViewById(R.id.inputRegLastnameLawyer);
         inputRegEmailLawyer = findViewById(R.id.inputRegEmailLawyer);
         inputRegPhoneLawyer = findViewById(R.id.inputRegPhoneLawyer);
+        inputRegRollnoLawyer = findViewById(R.id.inputRegRollnoLawyer);
 
         layoutRegFirstnameLawyer = findViewById(R.id.layoutRegFirstnameLawyer);
         layoutRegLastnameLawyer = findViewById(R.id.layoutRegLastnameLawyer);
         layoutRegEmailLawyer = findViewById(R.id.layoutRegEmailLawyer);
         layoutRegPhoneLawyer = findViewById(R.id.layoutRegPhoneLawyer);
+        layoutRegRollnoLawyer = findViewById(R.id.layoutRegRollnoLawyer);
 
         btnRegisterNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.startAnimation(btnClick);
+                sex = spinnerSex.getSelectedItem().toString();
                 firstname = inputRegFirstnameLawyer.getText().toString();
                 lastname = inputRegLastnameLawyer.getText().toString();
                 email = inputRegEmailLawyer.getText().toString();
                 phone = inputRegPhoneLawyer.getText().toString();
+                rollno = inputRegRollnoLawyer.getText().toString();
 
-                if(validateForm(firstname,lastname,email,phone)){
+                if(validateForm(firstname,lastname,email,phone,rollno)){
                     Intent reg2 = new Intent(SignupLawyer1.this, SignupLawyer2.class);
                     reg2.putExtra("firstname", firstname);
                     reg2.putExtra("lastname", lastname);
                     reg2.putExtra("email", email);
                     reg2.putExtra("phone", phone);
+                    reg2.putExtra("rollno",rollno);
+                    reg2.putExtra("sex", sex);
                     startActivity(reg2);
                 }
             }
@@ -69,8 +79,16 @@ public class SignupLawyer1 extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateForm(String firstname,String lastname,String email, String phone) {
+    private boolean validateForm(String firstname,String lastname,String email, String phone, String rollno) {
         boolean valid = true;
+
+        if (TextUtils.isEmpty(rollno)) {
+            layoutRegRollnoLawyer.setError("Required");
+            layoutRegRollnoLawyer.requestFocus();
+            valid = false;
+        } else {
+            layoutRegRollnoLawyer.setError(null);
+        }
 
         if (TextUtils.isEmpty(phone)) {
             layoutRegPhoneLawyer.setError("Required");
