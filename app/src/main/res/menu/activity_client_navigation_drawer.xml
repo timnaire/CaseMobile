@@ -20,14 +20,14 @@
             android:id="@+id/nav_share"
             android:icon="@drawable/usersicon"
             android:title="Lawyer" />
+        <item
+            android:id="@+id/nav_myaccount_client"
+            android:icon="@drawable/accounticon"
+            android:title="Account" />
     </group>
 
     <item android:title="Other">
         <menu>
-            <item
-                android:id="@+id/nav_myaccount_client"
-                android:icon="@drawable/accounticon"
-                android:title="Account" />
             <item
                 android:id="@+id/nav_signout_client"
                 android:icon="@drawable/signouticon"

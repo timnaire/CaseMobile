@@ -7,6 +7,12 @@
         <item>Female</item>
     </string-array>
 
+    <string-array name="event_type">
+        <item>Choose Event</item>
+        <item>Meeting</item>
+        <item>Pre-Appointment</item>
+    </string-array>
+
     <string-array name="cityOrMunicipality">
         <item>Select City or Municipality</item>
         <item>Alcantara</item>

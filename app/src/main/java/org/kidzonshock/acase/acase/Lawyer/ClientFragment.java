@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.Client;
 import org.kidzonshock.acase.acase.Models.ClientAdapter;
 import org.kidzonshock.acase.acase.Models.ClientModel;
 import org.kidzonshock.acase.acase.Models.LawyerListCase;
@@ -34,6 +36,7 @@ public class ClientFragment extends Fragment {
     ArrayList<ClientModel> list;
     ClientAdapter adapter;
     LinearLayout loading;
+    private final String TAG = "ClientFrag";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,14 +70,15 @@ public class ClientFragment extends Fragment {
                 loading.setVisibility(View.GONE);
 
                 if(!listClient.isError()){
-                    ArrayList<LawyerListCase> lawyerListCases = response.body().getLawyerListCases();
+                    ArrayList<Client> list_clients = response.body().getList_clients();
                     String profile_pic,name,email,phone,address;
-                    for(int i=0; i < lawyerListCases.size(); i++){
-                        profile_pic = lawyerListCases.get(i).getClient().getProfile_pic();
-                        name = lawyerListCases.get(i).getClient().getFirst_name()+" "+lawyerListCases.get(i).getClient().getLast_name();
-                        email = lawyerListCases.get(i).getClient().getEmail();
-                        phone = lawyerListCases.get(i).getClient().getPhone();
-                        address = lawyerListCases.get(i).getClient().getAddress();
+                    for(int i=0; i < list_clients.size(); i++){
+                        profile_pic = list_clients.get(i).getProfile_pic();
+                        name = list_clients.get(i).getFirst_name()+" "+list_clients.get(i).getLast_name();
+                        email = list_clients.get(i).getEmail();
+                        phone = list_clients.get(i).getPhone();
+                        address = list_clients.get(i).getAddress();
+                        Log.d(TAG,name);
                         list.add(new ClientModel(name,email,phone,address,profile_pic));
                     }
 

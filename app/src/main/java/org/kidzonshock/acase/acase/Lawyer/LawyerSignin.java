@@ -177,7 +177,7 @@ public class LawyerSignin extends AppCompatActivity {
             responseBodyCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Toast.makeText(LawyerSignin.this, "FCM token saved!", Toast.LENGTH_SHORT).show();
+                    Log.v(TAG,"FCM token saved");
                 }
 
                 @Override

@@ -184,6 +184,8 @@ public class MyCaseFragment extends Fragment {
                     description = inputCaseDescription.getText().toString();
                     if(validateForm(title,clientid,description)){
                         addCase(title,clientid,description);
+//                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                        ft.detach(MyCaseFragment.this).attach(MyCaseFragment.this).commit();
                     }
                 }
             });
@@ -294,8 +296,7 @@ public class MyCaseFragment extends Fragment {
                 if(!commonResponse.isError()){
                     Toast.makeText(getActivity(), commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     add.dismiss();
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.detach(MyCaseFragment.this).attach(MyCaseFragment.this).commit();
+
                 } else{
                     Toast.makeText(getActivity(), commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }

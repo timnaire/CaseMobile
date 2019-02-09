@@ -93,7 +93,7 @@ public class ClientSignin extends AppCompatActivity {
 
                                     // Get new Instance ID token
                                     token = task.getResult().getToken();
-                                    PreferenceDataLawyer.setLoggedInFcmToken(ClientSignin.this,token);
+                                    PreferenceDataClient.setLoggedInFcmToken(ClientSignin.this,token);
                                 }
                             });
                     // [END retrieve_current_token]
@@ -173,7 +173,7 @@ public class ClientSignin extends AppCompatActivity {
             responseBodyCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Toast.makeText(ClientSignin.this, "FCM token saved!", Toast.LENGTH_SHORT).show();
+                    Log.v(TAG, "FCM token saved");
                 }
 
                 @Override

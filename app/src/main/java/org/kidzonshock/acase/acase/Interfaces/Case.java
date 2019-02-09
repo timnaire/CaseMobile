@@ -87,7 +87,7 @@ public interface Case {
     Call<ResponseBody> lawyer_fcm_token(@Path("lawyer_id") String lawyer_id, @Body AddFCMToken body);
 
     @Headers("Content-Type: application/json")
-    @POST("lawyer/{client_id}/fcm-token")
+    @POST("client/{client_id}/fcm-token")
     Call<ResponseBody> client_fcm_token(@Path("client_id") String client_id, @Body AddFCMToken body);
 
 //    GET REQUEST
