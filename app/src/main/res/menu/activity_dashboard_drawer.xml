@@ -24,14 +24,14 @@
             android:id="@+id/nav_subscription"
             android:icon="@drawable/subscriptionicon"
             android:title="Subscription" />
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/accounticon"
+            android:title="Account" />
     </group>
 
     <item android:title="Others">
         <menu>
-            <item
-                android:id="@+id/nav_account"
-                android:icon="@drawable/accounticon"
-                android:title="Account" />
             <item
                 android:id="@+id/nav_signout"
                 android:icon="@drawable/signouticon"

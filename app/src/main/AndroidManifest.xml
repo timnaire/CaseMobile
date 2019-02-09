@@ -21,7 +21,7 @@
         <!-- [START firebase_service] -->
         <service android:name="org.kidzonshock.acase.acase.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
             </intent-filter>
         </service>
         <!-- [END firebase_service] -->
@@ -32,44 +32,49 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Lawyer.SignupLawyer1"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        <activity android:name=".Lawyer.SignupLawyer2" />
+            android:screenOrientation="portrait" >
+
+        </activity>
+        <activity android:name=".Lawyer.SignupLawyer2" ></activity>
         <activity
             android:name=".Lawyer.Dashboard"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Lawyer.ChangePicture" />
-        <activity android:name=".Lawyer.ChangeInformation" />
-        <activity android:name=".Lawyer.ChangeEmail" />
-        <activity android:name=".Lawyer.ChangePassword" />
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity android:name=".Lawyer.ChangePicture" ></activity>
+        <activity android:name=".Lawyer.ChangeInformation" ></activity>
+        <activity android:name=".Lawyer.ChangeEmail" ></activity>
+        <activity android:name=".Lawyer.ChangePassword" ></activity>
         <activity
             android:name=".Client.ClientNavigation"
             android:label="@string/title_activity_client_navigation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Lawyer.MyEvent" />
-        <activity android:name=".Lawyer.CaseDocument" />
-        <activity android:name=".Lawyer.LawyerSignin" />
-        <activity android:name=".Client.ClientSignin" />
-        <activity android:name=".Client.SignupClient1" />
-        <activity android:name=".Client.SignupClient2" />
-<<<<<<< HEAD
-        <activity android:name=".Lawyer.EditCase" />
+            android:theme="@style/AppTheme.NoActionBar" >
+
+        </activity>
+        <activity android:name=".Lawyer.MyEvent" ></activity>
+        <activity android:name=".Lawyer.CaseDocument" ></activity>
+        <activity android:name=".Lawyer.LawyerSignin" ></activity>
+        <activity android:name=".Client.ClientSignin" ></activity>
+        <activity android:name=".Client.SignupClient1" ></activity>
+        <activity android:name=".Client.SignupClient2" ></activity>
+
+        <activity android:name=".Lawyer.EditCase" ></activity>
         <activity android:name=".Lawyer.ViewCase"></activity>
-=======
-        <activity android:name=".Client.ClientChangePicture" />
-        <activity android:name=".Client.ClientChangeEmail" />
-        <activity android:name=".Client.ClientChangeInformation" />
+
+        <activity android:name=".Client.ClientChangePicture" ></activity>
+        <activity android:name=".Client.ClientChangeEmail" ></activity>
+        <activity android:name=".Client.ClientChangeInformation" ></activity>
         <activity android:name=".Client.ClientChangePassword"></activity>
->>>>>>> 8cfc75d15815cbbe9f51535eb0b1c3b77691a740
+
     </application>
 
 </manifest>

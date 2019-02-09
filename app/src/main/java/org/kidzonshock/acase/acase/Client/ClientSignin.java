@@ -137,19 +137,6 @@ public class ClientSignin extends AppCompatActivity {
             public void onResponse(Call<SigninResponseClient> call, Response<SigninResponseClient> response) {
                 SigninResponseClient signinResponseClient = response.body();
                 dialog.dismiss();
-<<<<<<< HEAD
-                PreferenceDataClient.setLoggedInClientid(ClientSignin.this, signinResponseClient.getClient());
-                PreferenceDataClient.setLoggedInFirstname(ClientSignin.this, signinResponseClient.getFirst_name());
-                PreferenceDataClient.setLoggedInLastname(ClientSignin.this, signinResponseClient.getLast_name());
-                PreferenceDataClient.setLoggedInEmail(ClientSignin.this, signinResponseClient.getEmail());
-                PreferenceDataClient.setLoggedInPhone(ClientSignin.this, signinResponseClient.getPhone());
-                PreferenceDataClient.setLoggedInAddress(ClientSignin.this, signinResponseClient.getAdress());
-                PreferenceDataLawyer.setLoggedInProfilePicture(ClientSignin.this, signinResponseClient.getProfile_pic());
-                PreferenceDataLawyer.setUserLoggedInStatus(ClientSignin.this,true);
-                saveFCMToken(PreferenceDataClient.getLoggedInClientid(ClientSignin.this));
-                Toast.makeText(ClientSignin.this, signinResponseClient.getMessage(), Toast.LENGTH_SHORT).show();
-                startActivity(intentLogin);
-=======
                 if(!signinResponseClient.isError()){
                     PreferenceDataClient.setLoggedInClientid(ClientSignin.this, signinResponseClient.getClient());
                     PreferenceDataClient.setLoggedInFirstname(ClientSignin.this, signinResponseClient.getFirst_name());
@@ -159,12 +146,12 @@ public class ClientSignin extends AppCompatActivity {
                     PreferenceDataClient.setLoggedInAddress(ClientSignin.this, signinResponseClient.getAdress());
                     PreferenceDataLawyer.setLoggedInProfilePicture(ClientSignin.this, signinResponseClient.getProfile_pic());
                     PreferenceDataLawyer.setUserLoggedInStatus(ClientSignin.this,true);
+                    saveFCMToken(signinResponseClient.getClient());
                     Toast.makeText(ClientSignin.this, signinResponseClient.getMessage(), Toast.LENGTH_SHORT).show();
                     startActivity(intentLogin);
                 } else {
                     Toast.makeText(ClientSignin.this, signinResponseClient.getMessage(), Toast.LENGTH_SHORT).show();
                 }
->>>>>>> 8cfc75d15815cbbe9f51535eb0b1c3b77691a740
             }
 
             @Override
@@ -176,14 +163,13 @@ public class ClientSignin extends AppCompatActivity {
     }
 
     public void saveFCMToken(String client_id){
-        if(PreferenceDataClient.getLoggedInFcmToken(ClientSignin.this).equals("")){
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Case.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
             Case service = retrofit.create(Case.class);
-            Call<ResponseBody> responseBodyCall = service.lawyer_fcm_token(client_id,new AddFCMToken(token));
+            Call<ResponseBody> responseBodyCall = service.client_fcm_token(client_id,new AddFCMToken(token));
             responseBodyCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -195,7 +181,6 @@ public class ClientSignin extends AppCompatActivity {
 
                 }
             });
-        }
     }
 
     private boolean validateForm(String email, String password){

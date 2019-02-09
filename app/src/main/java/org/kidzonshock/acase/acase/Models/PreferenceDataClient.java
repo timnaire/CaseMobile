@@ -13,12 +13,9 @@ public class PreferenceDataClient
     static final String pref_phone = "client_phone";
     static final String pref_address = "client_address";
     static final String pref_profilepic = "logged_in_profilepic";
-<<<<<<< HEAD
+
     static final String pref_FCM_TOKEN = "client_FCM_TOKEN";
     static final String pref_status = "client_status";
-=======
-    static final String pref_status_client = "logged_in_status_client";
->>>>>>> 8cfc75d15815cbbe9f51535eb0b1c3b77691a740
 
     public static SharedPreferences getSharedPreferences(Context ctx)
     {
@@ -122,14 +119,14 @@ public class PreferenceDataClient
     public static void setUserLoggedInStatus(Context ctx, boolean status)
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.remove(pref_status_client);
-        editor.putBoolean(pref_status_client, status);
+        editor.remove(pref_status);
+        editor.putBoolean(pref_status, status);
         editor.commit();
     }
 
     public static boolean getUserLoggedInStatus(Context ctx)
     {
-        return getSharedPreferences(ctx).getBoolean(pref_status_client, false);
+        return getSharedPreferences(ctx).getBoolean(pref_status, false);
     }
 
     //    clearing preferences
@@ -143,7 +140,7 @@ public class PreferenceDataClient
         editor.remove(pref_phone);
         editor.remove(pref_address);
         editor.remove(pref_profilepic);
-        editor.remove(pref_status_client);
+        editor.remove(pref_status);
         editor.commit();
     }
 }
