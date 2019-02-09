@@ -17,6 +17,7 @@ import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.LawPractice;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.Setting;
+import org.kidzonshock.acase.acase.Models.SettingAdapter;
 import org.kidzonshock.acase.acase.R;
 
 import java.util.ArrayList;

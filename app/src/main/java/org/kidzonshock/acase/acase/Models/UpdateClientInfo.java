@@ -1,41 +1,23 @@
 package org.kidzonshock.acase.acase.Models;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Client {
+public class UpdateClientInfo {
 
     @SerializedName("first_name")
-    @Expose
-    private String first_name;
-
+    String first_name;
     @SerializedName("last_name")
-    @Expose
-    private String last_name;
-
-    @SerializedName("email")
-    @Expose
-    private String email;
-
+    String last_name;
     @SerializedName("phone")
-    @Expose
-    private String phone;
-
+    String phone;
     @SerializedName("address")
-    @Expose
-    private String address;
+    String address;
 
-    @SerializedName("profile_pic")
-    @Expose
-    private String profile_pic;
-
-    public Client(String first_name, String last_name, String email, String phone, String address, String profile_pic) {
+    public UpdateClientInfo(String first_name, String last_name, String phone, String address) {
         this.first_name = first_name;
         this.last_name = last_name;
-        this.email = email;
         this.phone = phone;
         this.address = address;
-        this.profile_pic = profile_pic;
     }
 
     public String getFirst_name() {
@@ -54,14 +36,6 @@ public class Client {
         this.last_name = last_name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -76,13 +50,5 @@ public class Client {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getProfile_pic() {
-        return profile_pic;
-    }
-
-    public void setProfile_pic(String profile_pic) {
-        this.profile_pic = profile_pic;
     }
 }

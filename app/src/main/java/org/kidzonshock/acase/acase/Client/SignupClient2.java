@@ -27,7 +27,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignupClient2 extends AppCompatActivity {
 
+<<<<<<< HEAD
     Button btnSignupClientNow;
+=======
+    Button btnRegClient;
+>>>>>>> 8cfc75d15815cbbe9f51535eb0b1c3b77691a740
     TextInputEditText inputRegPhoneClient, inputRegAddressClient, inputRegPassClient,inputRegConfirmClient;
     TextInputLayout layoutRegPhoneClient, layoutRegAddressClient, layoutRegPassClient,layoutRegConfirmClient;
     ACProgressFlower dialog;
@@ -49,7 +53,11 @@ public class SignupClient2 extends AppCompatActivity {
                 .text("Please wait")
                 .fadeColor(Color.DKGRAY).build();
 
+<<<<<<< HEAD
         btnSignupClientNow = findViewById(R.id.btnSignupClientNow);
+=======
+        btnRegClient = findViewById(R.id.btnRegClient);
+>>>>>>> 8cfc75d15815cbbe9f51535eb0b1c3b77691a740
         inputRegPhoneClient = findViewById(R.id.inputRegPhoneClient);
         inputRegAddressClient = findViewById(R.id.inputRegAddressClient);
         inputRegPassClient = findViewById(R.id.inputRegPassClient);
@@ -65,7 +73,11 @@ public class SignupClient2 extends AppCompatActivity {
         lastname = prev.getStringExtra("lastname");
         email = prev.getStringExtra("email");
 
+<<<<<<< HEAD
         btnSignupClientNow.setOnClickListener(new View.OnClickListener() {
+=======
+        btnRegClient.setOnClickListener(new View.OnClickListener() {
+>>>>>>> 8cfc75d15815cbbe9f51535eb0b1c3b77691a740
             @Override
             public void onClick(View v) {
                 phone = inputRegPhoneClient.getText().toString();

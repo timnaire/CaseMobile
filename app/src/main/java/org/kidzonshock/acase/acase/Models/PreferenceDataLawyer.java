@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 public class PreferenceDataLawyer
 {
+<<<<<<< HEAD
     static final String pref_lawyerid = "lawyer_lawyerid";
     static final String pref_firstame = "lawyer_firstname";
     static final String pref_lastname = "lawyer_lastname";
@@ -18,6 +19,18 @@ public class PreferenceDataLawyer
     static final String pref_firm = "lawyer_firm";
     static final String pref_FCM_TOKEN = "lawyer_FCM_TOKEN";
     static final String pref_status = "lawyer_status";
+=======
+    static final String pref_lawyerid = "logged_in_lawyerid";
+    static final String pref_firstame = "logged_in_firstname";
+    static final String pref_lastname = "logged_in_lastname";
+    static final String pref_email = "logged_in_email";
+    static final String pref_phone = "logged_in_phone";
+    static final String pref_cityOrMunicipality = "logged_in_cityOrMunicipality";
+    static final String pref_office = "logged_in_office";
+    static final String pref_aboutme = "logged_in_aboutme";
+    static final String pref_profilepic = "logged_in_profilepic";
+    static final String pref_status_lawyer = "logged_in_status_lawyer";
+>>>>>>> 8cfc75d15815cbbe9f51535eb0b1c3b77691a740
 
     public static SharedPreferences getSharedPreferences(Context ctx)
     {
@@ -156,14 +169,14 @@ public class PreferenceDataLawyer
     public static void setUserLoggedInStatus(Context ctx, boolean status)
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.remove(pref_status);
-        editor.putBoolean(pref_status, status);
+        editor.remove(pref_status_lawyer);
+        editor.putBoolean(pref_status_lawyer, status);
         editor.commit();
     }
 
     public static boolean getUserLoggedInStatus(Context ctx)
     {
-        return getSharedPreferences(ctx).getBoolean(pref_status, false);
+        return getSharedPreferences(ctx).getBoolean(pref_status_lawyer, false);
     }
 
 //    clearing preferences
@@ -179,8 +192,12 @@ public class PreferenceDataLawyer
         editor.remove(pref_office);
         editor.remove(pref_aboutme);
         editor.remove(pref_profilepic);
+<<<<<<< HEAD
         editor.remove(pref_status);
         editor.remove(pref_firm);
+=======
+        editor.remove(pref_status_lawyer);
+>>>>>>> 8cfc75d15815cbbe9f51535eb0b1c3b77691a740
         editor.commit();
     }
 }
