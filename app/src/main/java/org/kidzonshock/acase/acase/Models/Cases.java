@@ -5,9 +5,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class Cases {
 
+    @SerializedName("case_id")
+    @Expose
+    private String case_id;
+
     @SerializedName("case_title")
     @Expose
     private String case_title;
+
+    @SerializedName("client_id")
+    @Expose
+    private String client_id;
 
     @SerializedName("created")
     @Expose
@@ -29,12 +37,28 @@ public class Cases {
     @Expose
     private String case_status;
 
+    public String getCase_id() {
+        return case_id;
+    }
+
+    public void setCase_id(String case_id) {
+        this.case_id = case_id;
+    }
+
     public String getCase_title() {
         return case_title;
     }
 
     public void setCase_title(String case_title) {
         this.case_title = case_title;
+    }
+
+    public String getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(String client_id) {
+        this.client_id = client_id;
     }
 
     public String getCreated() {

@@ -3,6 +3,8 @@ package org.kidzonshock.acase.acase.Interfaces;
 import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.AddFCMToken;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.DeleteCase;
+import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.ListClient;
@@ -82,6 +84,14 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/mycase")
         Call<CommonResponse> addCase(@Path("lawyer_id") String lawyer_id, @Body AddCase body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/mycase")
+    Call<CommonResponse> editCase(@Path("lawyer_id") String lawyer_id, @Body EditCase body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/delete-case")
+    Call<CommonResponse> deleteCase(@Path("lawyer_id") String lawyer_id, @Body DeleteCase body);
 
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/fcm-token")

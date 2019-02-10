@@ -150,7 +150,7 @@ public class Dashboard extends AppCompatActivity
             toolbar.setTitle("My Account");
 //            Bundle info = new Bundle();
 //            info.putStringArray("law_practice",law_practice);
-            fragment = new AccountFragment();
+            fragment = new EventFragment();
 //            fragment.setArguments(info);
 
         } else if (id == R.id.nav_subscription) {

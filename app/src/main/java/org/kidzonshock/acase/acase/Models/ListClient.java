@@ -17,9 +17,9 @@ public class ListClient {
 
     @SerializedName("clients")
     @Expose
-    private ArrayList<Client> list_clients = null;
+    private ArrayList<LawyerListCase> list_clients = null;
 
-    public ListClient(boolean error, String message, ArrayList<Client> list_clients) {
+    public ListClient(boolean error, String message, ArrayList<LawyerListCase> list_clients) {
         this.error = error;
         this.message = message;
         this.list_clients = list_clients;
@@ -41,11 +41,11 @@ public class ListClient {
         this.message = message;
     }
 
-    public ArrayList<Client> getList_clients() {
+    public ArrayList<LawyerListCase> getList_clients() {
         return list_clients;
     }
 
-    public void setList_clients(ArrayList<Client> list_clients) {
+    public void setList_clients(ArrayList<LawyerListCase> list_clients) {
         this.list_clients = list_clients;
     }
 }

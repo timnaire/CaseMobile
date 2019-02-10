@@ -1,11 +1,11 @@
 package org.kidzonshock.acase.acase.Lawyer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.R;
 
@@ -41,7 +41,8 @@ public class CaseDocument extends AppCompatActivity {
         if(id == R.id.search){
 
         } else if(id == R.id.add){
-            Toast.makeText(getApplicationContext(), "Add a new file !", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CaseDocument.this,FileUpload.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

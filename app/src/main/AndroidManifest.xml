@@ -26,10 +26,11 @@
         </service>
         <!-- [END firebase_service] -->
 
-        <!--my owned service-->
+
+        <!-- my owned service -->
         <service
-            android:name="org.kidzonshock.acase.acase.Service.MyService"
-            android:exported="false"></service>
+            android:name=".Service.MyService"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
@@ -44,14 +45,14 @@
         <activity
             android:name=".Lawyer.SignupLawyer1"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".Lawyer.SignupLawyer2" />
         <activity
             android:name=".Lawyer.Dashboard"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Lawyer.ChangePicture" />
         <activity android:name=".Lawyer.ChangeInformation" />
         <activity android:name=".Lawyer.ChangeEmail" />
@@ -59,7 +60,7 @@
         <activity
             android:name=".Client.ClientNavigation"
             android:label="@string/title_activity_client_navigation"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Lawyer.CaseDocument" />
         <activity android:name=".Lawyer.LawyerSignin" />
         <activity android:name=".Client.ClientSignin" />
@@ -71,7 +72,8 @@
         <activity android:name=".Client.ClientChangeEmail" />
         <activity android:name=".Client.ClientChangeInformation" />
         <activity android:name=".Client.ClientChangePassword" />
-        <activity android:name=".Lawyer.CreateEvent"></activity>
+        <activity android:name=".Lawyer.CreateEvent" />
+        <activity android:name=".Lawyer.FileUpload"></activity>
     </application>
 
 </manifest>

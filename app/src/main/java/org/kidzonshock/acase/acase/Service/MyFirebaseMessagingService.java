@@ -39,12 +39,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // [END receive_message]
 
     private void preAppointNotification(String messageBody, String client_id, String relation_id) {
-        Intent intent = new Intent(this, MyService.class);
-        intent.putExtra("client_id",client_id);
-        intent.putExtra("relation_id",relation_id);
-        intent.setAction(MyService.Accept);
-        intent.setAction(MyService.Reject);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0 , intent,PendingIntent.FLAG_ONE_SHOT);
+        Intent acceptIntent = new Intent(this, MyService.class);
+        Intent rejectIntent = new Intent(this, MyService.class);
+        //accept
+        acceptIntent.putExtra("client_id",client_id);
+        acceptIntent.putExtra("relation_id",relation_id);
+        //reject
+        rejectIntent.putExtra("client_id",client_id);
+        rejectIntent.putExtra("relation_id",relation_id);
+
+        acceptIntent.setAction(MyService.Accept);
+        rejectIntent.setAction(MyService.Reject);
+        PendingIntent acceptPendingIntent = PendingIntent.getService(this, 0 , acceptIntent,PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent rejectPendingIntent = PendingIntent.getService(this, 0 , rejectIntent,PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = "MyChannel";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -52,11 +59,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setSmallIcon(R.drawable.ic_launcher_foreground)
                         .setContentTitle("Pre-Appointment")
                         .setContentText(messageBody)
-                        .setAutoCancel(true)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setWhen(0)
-                        .addAction(R.drawable.outline_check_black_18dp,"Accept",pendingIntent)
-                        .addAction(R.drawable.outline_close_black_18dp,"Reject",pendingIntent)
+                        .addAction(R.drawable.outline_check_black_18dp,"Accept",acceptPendingIntent)
+                        .addAction(R.drawable.outline_close_black_18dp,"Reject",rejectPendingIntent)
+                        .setAutoCancel(true)
+                        .setOngoing(false)
                         .setSound(defaultSoundUri);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
