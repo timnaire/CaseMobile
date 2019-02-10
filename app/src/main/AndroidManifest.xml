@@ -19,12 +19,17 @@
         android:theme="@style/AppTheme">
 
         <!-- [START firebase_service] -->
-        <service android:name=".MyFirebaseMessagingService">
+        <service android:name=".Service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <!-- [END firebase_service] -->
+
+        <!--my owned service-->
+        <service
+            android:name="org.kidzonshock.acase.acase.Service.MyService"
+            android:exported="false"></service>
 
         <activity
             android:name=".MainActivity"

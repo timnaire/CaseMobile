@@ -1,0 +1,73 @@
+package org.kidzonshock.acase.acase.Service;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+import org.kidzonshock.acase.acase.R;
+
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+    private static final String TAG = "MyFirebaseMsgService";
+    private final int NOTIFICATION_ID = 345;
+    // [START receive_message]
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        Log.d(TAG,"relationID" + remoteMessage.getData().get("relation_id"));
+
+        // Check if message contains a notification payload.
+        if (remoteMessage.getData() != null) {
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            String msgBody = remoteMessage.getNotification().getBody();
+            String client_id = remoteMessage.getData().get("client_id");
+            String relation_id = remoteMessage.getData().get("relation_id");
+            preAppointNotification(msgBody,client_id,relation_id);
+        }
+
+    }
+    // [END receive_message]
+
+    private void preAppointNotification(String messageBody, String client_id, String relation_id) {
+        Intent intent = new Intent(this, MyService.class);
+        intent.putExtra("client_id",client_id);
+        intent.putExtra("relation_id",relation_id);
+        intent.setAction(MyService.Accept);
+        intent.setAction(MyService.Reject);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0 , intent,PendingIntent.FLAG_ONE_SHOT);
+
+        String channelId = "MyChannel";
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setContentTitle("Pre-Appointment")
+                        .setContentText(messageBody)
+                        .setAutoCancel(true)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setWhen(0)
+                        .addAction(R.drawable.outline_check_black_18dp,"Accept",pendingIntent)
+                        .addAction(R.drawable.outline_close_black_18dp,"Reject",pendingIntent)
+                        .setSound(defaultSoundUri);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+    }
+}

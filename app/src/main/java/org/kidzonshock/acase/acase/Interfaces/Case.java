@@ -6,6 +6,7 @@ import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.ListClient;
+import org.kidzonshock.acase.acase.Models.PreAppointResponse;
 import org.kidzonshock.acase.acase.Models.SigninBody;
 import org.kidzonshock.acase.acase.Models.SigninResponseClient;
 import org.kidzonshock.acase.acase.Models.SigninResponseLawyer;
@@ -89,6 +90,10 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("client/{client_id}/fcm-token")
     Call<ResponseBody> client_fcm_token(@Path("client_id") String client_id, @Body AddFCMToken body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{client_id}/pre-appoint-response")
+    Call<ResponseBody> appointResponse(@Path("client_id") String client_id, @Body PreAppointResponse body);
 
 //    GET REQUEST
     @Headers("Content-Type: application/json")

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Case</string>
+    <string name="accept"></string>
+    <string name="reject"></string>
 
     <string-array name="sex">
         <item>Select Gender</item>
