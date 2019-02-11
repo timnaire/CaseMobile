@@ -17,6 +17,7 @@ public class PreferenceDataLawyer {
     static final String pref_profilepic = "lawyer_profilepic";
     static final String pref_firm = "lawyer_firm";
     static final String pref_FCM_TOKEN = "lawyer_FCM_TOKEN";
+    static final String pref_sex = "lawyer_sex";
     static final String pref_status = "lawyer_status";
 
 
@@ -103,6 +104,13 @@ public class PreferenceDataLawyer {
         editor.putString(pref_firm, firm);
         editor.commit();
     }
+    public static void setLoggedInSex(Context ctx, String sex)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(pref_sex);
+        editor.putString(pref_sex, sex);
+        editor.commit();
+    }
 
 //    getting shared preferences
     public static String getLoggedInLawyerid(Context ctx)
@@ -151,6 +159,10 @@ public class PreferenceDataLawyer {
     {
         return getSharedPreferences(ctx).getString(pref_firm, "");
     }
+    public static String getLoggedInSex(Context ctx)
+    {
+        return getSharedPreferences(ctx).getString(pref_sex, "");
+    }
 
 
 //  status
@@ -182,6 +194,7 @@ public class PreferenceDataLawyer {
         editor.remove(pref_profilepic);
         editor.remove(pref_status);
         editor.remove(pref_firm);
+        editor.remove(pref_sex);
 
         editor.commit();
     }

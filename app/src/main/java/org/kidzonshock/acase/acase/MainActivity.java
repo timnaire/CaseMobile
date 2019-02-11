@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+
+
         btnClientSignin = findViewById(R.id.btnClientSignin);
         btnLawyerSignin = findViewById(R.id.btnLawyerSignin);
 
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(client);
             }
         });
-
 
     }
 

@@ -12,7 +12,7 @@ public class PreferenceDataClient
     static final String pref_email = "client_email";
     static final String pref_phone = "client_phone";
     static final String pref_address = "client_address";
-    static final String pref_profilepic = "logged_in_profilepic";
+    static final String pref_profilepic = "client_in_profilepic";
 
     static final String pref_FCM_TOKEN = "client_FCM_TOKEN";
     static final String pref_status = "client_status";
@@ -58,11 +58,11 @@ public class PreferenceDataClient
         editor.commit();
     }
 
-    public static void setLoggedInAddress(Context ctx, String aboutme)
+    public static void setLoggedInAddress(Context ctx, String address)
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.remove(pref_address);
-        editor.putString(pref_address, aboutme);
+        editor.putString(pref_address, address);
         editor.commit();
     }
     public static void setLoggedInProfilePicture(Context ctx, String profilepic)

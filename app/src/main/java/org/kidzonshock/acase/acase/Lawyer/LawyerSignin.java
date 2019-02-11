@@ -149,6 +149,8 @@ public class LawyerSignin extends AppCompatActivity {
                     PreferenceDataLawyer.setLoggedInOffice(LawyerSignin.this, signinResponseLawyer.getOffice());
                     PreferenceDataLawyer.setLoggedInAboutme(LawyerSignin.this, signinResponseLawyer.getAboutme());
                     PreferenceDataLawyer.setLoggedInProfilePicture(LawyerSignin.this, signinResponseLawyer.getProfile_pic());
+                    PreferenceDataLawyer.setLoggedInFirm(LawyerSignin.this, signinResponseLawyer.getFirm());
+                    PreferenceDataLawyer.setLoggedInSex(LawyerSignin.this, signinResponseLawyer.getSex());
                     PreferenceDataLawyer.setUserLoggedInStatus(LawyerSignin.this,true);
                     saveFCMToken(signinResponseLawyer.getLawyer());
                     Toast.makeText(LawyerSignin.this, signinResponseLawyer.getMessage(), Toast.LENGTH_SHORT).show();

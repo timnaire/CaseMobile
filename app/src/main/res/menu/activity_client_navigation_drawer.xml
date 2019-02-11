@@ -13,11 +13,11 @@
             android:icon="@drawable/calendar"
             android:title="Event" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_payment"
             android:icon="@drawable/credit_card_payment"
             android:title="Payment" />
         <item
-            android:id="@+id/nav_share"
+            android:id="@+id/nav_mylawyer"
             android:icon="@drawable/usersicon"
             android:title="Lawyer" />
         <item

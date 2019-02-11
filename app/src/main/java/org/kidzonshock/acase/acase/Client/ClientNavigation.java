@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.kidzonshock.acase.acase.Lawyer.EventFragment;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
 import org.kidzonshock.acase.acase.R;
 
@@ -124,16 +125,20 @@ public class ClientNavigation extends AppCompatActivity
         Fragment fragment = null;
         if (id == R.id.nav_mycase_client) {
             toolbar.setTitle("My Case");
+            fragment = new CaseFragment();
             // Handle the camera action
-        } else if (id == R.id.nav_myaccount_client) {
-            toolbar.setTitle("My Account");
-            fragment = new AccountFragment();
         } else if (id == R.id.nav_event_client) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
+            toolbar.setTitle("My Event");
+            fragment = new EventFragment();
+        } else if (id == R.id.nav_payment) {
+            toolbar.setTitle("Payment");
+//            fragment = new EventFragment();
+        } else if (id == R.id.nav_mylawyer) {
+            toolbar.setTitle("My Lawyer");
+            fragment = new LawyerFragment();
+        } else if (id == R.id.nav_myaccount_client) {
+            toolbar.setTitle("My Event");
+            fragment = new AccountFragment();
         } else if (id == R.id.nav_signout_client) {
             PreferenceDataClient.setUserLoggedInStatus(ClientNavigation.this,false);
             PreferenceDataClient.clearLoggedInClient(ClientNavigation.this);

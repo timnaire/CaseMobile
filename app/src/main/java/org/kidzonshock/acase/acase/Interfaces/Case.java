@@ -8,6 +8,7 @@ import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.ListClient;
+import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PreAppointResponse;
 import org.kidzonshock.acase.acase.Models.SigninBody;
 import org.kidzonshock.acase.acase.Models.SigninResponseClient;
@@ -115,8 +116,19 @@ public interface Case {
     Call<GetCase> getCases(@Path("lawyer_id") String lawyer_id);
 
     @Headers("Content-Type: application/json")
+    @GET("client/{client_id}/get-case")
+    Call<GetCase> getCasesClient(@Path("client_id") String client_id);
+
+    @Headers("Content-Type: application/json")
     @GET("lawyer/{lawyer_id}/list-client")
     Call<ListClient> listClient(@Path("lawyer_id") String lawyer_id);
 
+    @Headers("Content-Type: application/json")
+    @GET("lawyer/{lawyer_id}/pre-appoint-notification")
+    Call<CommonResponse> notify(@Path("lawyer_id") String lawyer_id);
+
+    @Headers("Content-Type: application/json")
+    @GET("client/{client_id}/list-lawyer")
+    Call<ListLawyer> listLawyer(@Path("client_id") String client_id);
 
 }

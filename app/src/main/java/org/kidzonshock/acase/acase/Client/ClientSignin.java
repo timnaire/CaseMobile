@@ -143,9 +143,9 @@ public class ClientSignin extends AppCompatActivity {
                     PreferenceDataClient.setLoggedInLastname(ClientSignin.this, signinResponseClient.getLast_name());
                     PreferenceDataClient.setLoggedInEmail(ClientSignin.this, signinResponseClient.getEmail());
                     PreferenceDataClient.setLoggedInPhone(ClientSignin.this, signinResponseClient.getPhone());
-                    PreferenceDataClient.setLoggedInAddress(ClientSignin.this, signinResponseClient.getAdress());
-                    PreferenceDataLawyer.setLoggedInProfilePicture(ClientSignin.this, signinResponseClient.getProfile_pic());
-                    PreferenceDataLawyer.setUserLoggedInStatus(ClientSignin.this,true);
+                    PreferenceDataClient.setLoggedInAddress(ClientSignin.this, signinResponseClient.getAddress());
+                    PreferenceDataClient.setLoggedInProfilePicture(ClientSignin.this, signinResponseClient.getProfile_pic());
+                    PreferenceDataClient.setUserLoggedInStatus(ClientSignin.this,true);
                     saveFCMToken(signinResponseClient.getClient());
                     Toast.makeText(ClientSignin.this, signinResponseClient.getMessage(), Toast.LENGTH_SHORT).show();
                     startActivity(intentLogin);

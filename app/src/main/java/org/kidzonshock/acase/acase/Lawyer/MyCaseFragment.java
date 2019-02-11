@@ -58,10 +58,7 @@ public class MyCaseFragment extends Fragment {
     TextInputEditText addinputCaseTitle;
     TextInputLayout editlayoutCaseTitle;
     TextInputEditText editinputCaseTitle;
-    //    client id
-//    TextInputLayout layoutCaseClientid;
-//    TextInputEditText inputCaseClientid;
-    //    description
+
     TextInputLayout addlayoutCaseDescription;
     TextInputEditText addinputCaseDescription;
     TextInputLayout editlayoutCaseDescription;
@@ -76,7 +73,6 @@ public class MyCaseFragment extends Fragment {
     LinearLayout loading;
     AdapterView.AdapterContextMenuInfo info;
     HashMap<String ,String> hmClient;
-    ViewGroup parent;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

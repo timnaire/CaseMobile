@@ -6,10 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import org.kidzonshock.acase.acase.R;
 
 public class CaseDocument extends AppCompatActivity {
+
+    ListView lv;
+    AdapterView.AdapterContextMenuInfo info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +24,8 @@ public class CaseDocument extends AppCompatActivity {
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Documents");
+
+        lv = findViewById(R.id.list_file);
 
     }
 

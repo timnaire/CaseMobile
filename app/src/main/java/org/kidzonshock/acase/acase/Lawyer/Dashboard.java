@@ -11,23 +11,33 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Toolbar toolbar;
-    private String first_name,last_name,email,profile_pic;
+    private String first_name,last_name,email,profile_pic,lawyer_id;
     final String TAG = "Dashboard";
 
     @Override
@@ -41,6 +51,7 @@ public class Dashboard extends AppCompatActivity
         last_name = PreferenceDataLawyer.getLoggedInLastname(Dashboard.this);
         email = PreferenceDataLawyer.getLoggedInEmail(Dashboard.this);
         profile_pic = PreferenceDataLawyer.getLoggedInProfilePicture(Dashboard.this);
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(Dashboard.this);
 
 //        getPractice();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -68,6 +79,32 @@ public class Dashboard extends AppCompatActivity
         tvEmail.setText(email);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Case service = retrofit.create(Case.class);
+
+        Call<CommonResponse> commonResponseCall = service.notify(lawyer_id);
+        commonResponseCall.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(!resp.isError()){
+                    Toast.makeText(Dashboard.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(Dashboard.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                Log.d(TAG,"Error: "+t.getMessage());
+            }
+        });
+
     }
 
     @Override
@@ -154,6 +191,8 @@ public class Dashboard extends AppCompatActivity
 //            fragment.setArguments(info);
 
         } else if (id == R.id.nav_subscription) {
+
+            toolbar.setTitle("Subscription");
 
         } else if (id == R.id.nav_signout) {
             PreferenceDataLawyer.setUserLoggedInStatus(Dashboard.this,false);
