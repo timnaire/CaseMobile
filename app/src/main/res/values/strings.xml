@@ -4,19 +4,26 @@
     <string name="reject"></string>
 
     <string-array name="sex">
-        <item>Select Gender</item>
         <item>Male</item>
         <item>Female</item>
     </string-array>
 
+    <string-array name="file_type">
+        <item>Public Document</item>
+        <item>Research</item>
+    </string-array>
+
+    <string-array name="file_privacy">
+        <item>Public</item>
+        <item>Private</item>
+    </string-array>
+
     <string-array name="event_type">
-        <item>Choose Event</item>
         <item>Meeting</item>
-        <item>Pre-Appointment</item>
+        <item>Appointment</item>
     </string-array>
 
     <string-array name="cityOrMunicipality">
-        <item>Select City or Municipality</item>
         <item>Alcantara</item>
         <item>Alcoy</item>
         <item>Alegria</item>
@@ -71,7 +78,6 @@
     </string-array>
 
     <string-array name="law_practice">
-        <item>Select area of Practice</item>
         <item>Business Law</item>
         <item>Civil Law</item>
         <item>Constitutional Law</item>
@@ -161,4 +167,8 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_client_navigation">ClientNavigation</string>
+    <string name="title_activity_case_documents">CaseDocuments</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

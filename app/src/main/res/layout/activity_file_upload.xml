@@ -15,15 +15,27 @@
         android:layout_marginTop="80dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="20dp"
-        android:text="Select File" />
+        android:background="#3dcf94"
+        android:text="Select File"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/filenotify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="No file selected" />
+        android:text="No file selected"
+        android:textSize="15dp" />
+
+    <Spinner
+        android:id="@+id/file_privacy"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="50dp"
+        android:entries="@array/file_privacy" />
 
     <Button
         android:id="@+id/btnUpload"
@@ -31,5 +43,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:text="Upload" />
+        android:background="#3dcf94"
+        android:text="Upload"
+        android:textColor="#ffffff" />
+
 </LinearLayout>

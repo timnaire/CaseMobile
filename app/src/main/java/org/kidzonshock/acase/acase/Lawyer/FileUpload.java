@@ -3,9 +3,12 @@ package org.kidzonshock.acase.acase.Lawyer;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,19 +28,30 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.AddFile;
+import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
+import java.io.File;
 import java.security.SecureRandom;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FileUpload extends AppCompatActivity {
 
     Button btnSelectFile, btnUpload;
     TextView notification;
-    Uri pdfURi;
-    String filename;
+    Uri fileselected;
+    String case_id,lawyer_id,filename,file_t,file_p;
+    Spinner file_privacy;
 
 
     final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -60,9 +75,15 @@ public class FileUpload extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
 
+        Intent prev = getIntent();
+        case_id = prev.getStringExtra("case_id");
+
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(FileUpload.this);
+
         btnSelectFile = findViewById(R.id.btnSelectFile);
         btnUpload = findViewById(R.id.btnUpload);
         notification = findViewById(R.id.filenotify);
+        file_privacy = findViewById(R.id.file_privacy);
 
         dialog = new ACProgressFlower.Builder(FileUpload.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
@@ -84,8 +105,10 @@ public class FileUpload extends AppCompatActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pdfURi!=null)
-                uploadFile(pdfURi);
+                file_p = file_privacy.getSelectedItem().toString();
+                dialog.show();
+                if(fileselected!=null)
+                uploadFile(case_id,fileselected,file_p);
                 else
                     Toast.makeText(FileUpload.this, "Please select a file!", Toast.LENGTH_SHORT).show();
             }
@@ -93,7 +116,7 @@ public class FileUpload extends AppCompatActivity {
 
     }
 
-    private void uploadFile(Uri pdfURi) {
+    private void uploadFile(final String case_id, Uri pdfURi, final String file_p) {
         StorageReference storageReference = storage.getReference();
         filepath = storageReference.child("CaseDocuments").child(randomString(16)+"/"+filename);
         uploadTask = filepath.putFile(pdfURi);
@@ -114,8 +137,36 @@ public class FileUpload extends AppCompatActivity {
                     Log.d(TAG,downloadUri.toString());
                     final String file = downloadUri.toString();
 
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(Case.BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+
+                    Case service = retrofit.create(Case.class);
+                    Call<CommonResponse> commonResponseCall = service.addFile(lawyer_id,new AddFile(case_id,file,file_p));
+                    commonResponseCall.enqueue(new Callback<CommonResponse>() {
+                        @Override
+                        public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                            CommonResponse resp = response.body();
+                            dialog.dismiss();
+                            notification.setText("No file selected");
+                            fileselected = null;
+                            if(!resp.isError()){
+                                Toast.makeText(FileUpload.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(FileUpload.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CommonResponse> call, Throwable t) {
+                            dialog.dismiss();
+                            Toast.makeText(FileUpload.this, "Unable to upload file, please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 } else {
+                    dialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Something went wrong while uploading your profile.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -132,22 +183,62 @@ public class FileUpload extends AppCompatActivity {
     }
 
     private void selectFile() {
-        Intent intent = new Intent();
-        intent.setType("application/pdf");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,100);
+        String[] mimeTypes =
+                {"image/jpeg","image/png","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx, img
+                        "application/vnd.ms-powerpoint","application/vnd.openxmlformats-officedocument.presentationml.presentation", // .ppt & .pptx
+                        "application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xls & .xlsx
+                        "text/plain",
+                        "application/pdf"};
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
+            if (mimeTypes.length > 0) {
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+            }
+        } else {
+            String mimeTypesStr = "";
+            for (String mimeType : mimeTypes) {
+                mimeTypesStr += mimeType + "|";
+            }
+            intent.setType(mimeTypesStr.substring(0,mimeTypesStr.length() - 1));
+        }
+        startActivityForResult(Intent.createChooser(intent,"ChooseFile"),100);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == 100 && resultCode == RESULT_OK && data!=null){
-            pdfURi = data.getData();
-            String[] bits = pdfURi.toString().split("/");
-            filename = bits[bits.length-1];
+            fileselected = data.getData();
+            String uriString = fileselected.toString();
+//            String[] bits = pdfURi.toString().split("/");
+//            filename = bits[bits.length-1];
+            File myFile = new File(uriString);
+            String path = myFile.getAbsolutePath();
+            String displayName = null;
+
+            if (uriString.startsWith("content://")) {
+                Cursor cursor = null;
+                try {
+                    cursor = this.getContentResolver().query(fileselected, null, null, null, null);
+                    if (cursor != null && cursor.moveToFirst()) {
+                        displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    }
+                } finally {
+                    cursor.close();
+                }
+            } else if (uriString.startsWith("file://")) {
+                displayName = myFile.getName();
+            }
+            filename = displayName;
+            notification.setText("File selected is "+displayName);
         } else {
             Toast.makeText(FileUpload.this, "Please select a file", Toast.LENGTH_SHORT).show();
         }
+
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

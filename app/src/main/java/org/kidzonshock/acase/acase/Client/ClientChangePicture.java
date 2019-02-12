@@ -107,7 +107,7 @@ public class ClientChangePicture extends AppCompatActivity {
             public void onClick(View v) {
                 if(imagePath != null){
                     dialog.show();
-                    filepath = storageReference.child(randomString(16)+"/"+photoName);
+                    filepath = storageReference.child("ProfilePicture/"+randomString(16)+"/"+photoName);
                     uploadFile(imagePath);
                 } else {
                     Toast.makeText(getApplicationContext(), "Please select a photo!", Toast.LENGTH_SHORT).show();

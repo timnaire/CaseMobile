@@ -199,7 +199,8 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:background="#3dcf94"
-                android:text="Save" />
+                android:text="Save"
+                android:textColor="#ffffff" />
         </LinearLayout>
     </ScrollView>
 

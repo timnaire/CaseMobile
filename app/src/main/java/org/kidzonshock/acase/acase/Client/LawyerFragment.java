@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.ClientListCase;
+import org.kidzonshock.acase.acase.Models.LawyerAdapter;
 import org.kidzonshock.acase.acase.Models.LawyerModel;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;

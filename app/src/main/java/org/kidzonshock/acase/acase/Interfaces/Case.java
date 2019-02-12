@@ -2,10 +2,13 @@ package org.kidzonshock.acase.acase.Interfaces;
 
 import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.AddFCMToken;
+import org.kidzonshock.acase.acase.Models.AddFile;
+import org.kidzonshock.acase.acase.Models.GetDocument;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.DeleteCase;
 import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.GetCase;
+import org.kidzonshock.acase.acase.Models.GetDocumentResponse;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
@@ -105,6 +108,14 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("lawyer/{client_id}/pre-appoint-response")
     Call<ResponseBody> appointResponse(@Path("client_id") String client_id, @Body PreAppointResponse body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/add-file")
+    Call<CommonResponse> addFile(@Path("lawyer_id") String lawyer_id, @Body AddFile body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/list-all-file")
+    Call<GetDocumentResponse> allDocument(@Path("lawyer_id") String lawyer_id, @Body GetDocument body);
 
 //    GET REQUEST
     @Headers("Content-Type: application/json")

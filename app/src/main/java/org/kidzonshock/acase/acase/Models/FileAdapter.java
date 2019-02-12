@@ -1,4 +1,4 @@
-package org.kidzonshock.acase.acase.Client;
+package org.kidzonshock.acase.acase.Models;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,18 +12,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.kidzonshock.acase.acase.Models.LawyerModel;
 import org.kidzonshock.acase.acase.R;
 
 import java.util.ArrayList;
 
-public class LawyerAdapter extends BaseAdapter {
+public class FileAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<LawyerModel> list;
+    ArrayList<FileModel> list;
     LayoutInflater inflater;
 
-    public LawyerAdapter(Context context, ArrayList<LawyerModel> list) {
+    public FileAdapter(Context context, ArrayList<FileModel> list) {
         this.context = context;
         this.list = list;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,26 +45,23 @@ public class LawyerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View view = convertView;
 
-        view = (view == null) ? inflater.inflate(R.layout.layout_item_client,null) : view;
+        view = (view == null) ? inflater.inflate(R.layout.layout_item_file,null) : view;
 
-        ImageView iv = view.findViewById(R.id.client_picture);
-        TextView lawyer_name = view.findViewById(R.id.client_name);
-        TextView lawyer_email = view.findViewById(R.id.client_email);
-        LawyerModel l = list.get(position);
+        ImageView iv = view.findViewById(R.id.fileImg);
+        TextView filename = view.findViewById(R.id.fileName);
+        FileModel f = list.get(position);
 
         RequestOptions options = new RequestOptions()
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
-                .placeholder(R.drawable.accounticon)
+                .placeholder(R.mipmap.ic_launcher_round)
                 .error(R.mipmap.ic_launcher_round);
 
-        Glide.with(context).load(l.getProfile_pic()).apply(options).into(iv);
-        lawyer_name.setText(l.getName());
-        lawyer_email.setText(l.getEmail());
+        Glide.with(context).load(f.getImg()).apply(options).into(iv);
+        filename.setText(f.getFilename());
         return view;
     }
 }

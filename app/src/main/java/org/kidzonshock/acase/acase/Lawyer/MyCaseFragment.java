@@ -204,7 +204,8 @@ public class MyCaseFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position == parent.getItemIdAtPosition(position)){
                     CaseModel caseitem = (CaseModel) parent.getItemAtPosition(position);
-                    Intent intent = new Intent(getActivity(), CaseDocument.class);
+                    Intent intent = new Intent(getActivity(), CaseDocuments.class);
+                    intent.putExtra("case_id", caseitem.getCase_id());
                     intent.putExtra("title", caseitem.getTitle());
                     intent.putExtra("clientName", caseitem.getClientName());
                     intent.putExtra("date", caseitem.getDate_created());

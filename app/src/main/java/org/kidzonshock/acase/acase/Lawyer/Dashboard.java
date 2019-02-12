@@ -53,6 +53,13 @@ public class Dashboard extends AppCompatActivity
         profile_pic = PreferenceDataLawyer.getLoggedInProfilePicture(Dashboard.this);
         lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(Dashboard.this);
 
+        Fragment fragment = new DashboardFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+
+        ft.replace(R.id.screen_area, fragment);
+        ft.commit();
+
 //        getPractice();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -79,6 +86,7 @@ public class Dashboard extends AppCompatActivity
         tvEmail.setText(email);
 
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
@@ -184,7 +192,7 @@ public class Dashboard extends AppCompatActivity
 
         } else if (id == R.id.nav_events) {
 
-            toolbar.setTitle("My Account");
+            toolbar.setTitle("My Events");
 //            Bundle info = new Bundle();
 //            info.putStringArray("law_practice",law_practice);
             fragment = new EventFragment();

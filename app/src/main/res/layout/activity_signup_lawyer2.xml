@@ -91,6 +91,7 @@
         android:layout_marginRight="30dp"
         android:background="#3dcf94"
         android:text="Sign Up"
+        android:textColor="#ffffff"
         tools:layout_editor_absoluteX="107dp"
         tools:layout_editor_absoluteY="423dp" />
 </LinearLayout>

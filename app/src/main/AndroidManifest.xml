@@ -73,7 +73,10 @@
         <activity android:name=".Client.ClientChangeInformation" />
         <activity android:name=".Client.ClientChangePassword" />
         <activity android:name=".Lawyer.CreateEvent" />
-        <activity android:name=".Lawyer.FileUpload"></activity>
+        <activity android:name=".Lawyer.FileUpload" />
+        <activity
+            android:name=".Lawyer.CaseDocuments"
+            android:label="@string/title_activity_case_documents"></activity>
     </application>
 
 </manifest>
