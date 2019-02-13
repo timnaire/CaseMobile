@@ -379,6 +379,7 @@ public class MyCaseFragment extends Fragment {
                         deleteCase(cid);
                     }
                 });
+                ab.show();
                 break;
         }
         return super.onContextItemSelected(item);
