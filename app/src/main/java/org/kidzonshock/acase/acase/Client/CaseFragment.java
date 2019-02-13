@@ -61,6 +61,7 @@ public class CaseFragment extends Fragment {
                 if(position == parent.getItemIdAtPosition(position)){
                     CaseModel caseitem = (CaseModel) parent.getItemAtPosition(position);
                     Intent intent = new Intent(getActivity(), CaseDocuments.class);
+                    intent.putExtra("case_id", caseitem.getCase_id());
                     intent.putExtra("title", caseitem.getTitle());
                     intent.putExtra("clientName", caseitem.getClientName());
                     intent.putExtra("date", caseitem.getDate_created());
@@ -125,5 +126,6 @@ public class CaseFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to get cases, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
+        getCaseCall.cancel();
     }
 }

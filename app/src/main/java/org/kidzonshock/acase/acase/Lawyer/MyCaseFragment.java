@@ -40,13 +40,8 @@ import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -269,6 +264,7 @@ public class MyCaseFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to list clients, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
+        listClientCall.cancel();
     }
 
     @Override
@@ -417,6 +413,7 @@ public class MyCaseFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to delete case, please try again.", Toast.LENGTH_SHORT).show();
             }
         });
+        commonResponseCall.cancel();
     }
 
     private void editCase(String case_id,String title, String description,String status) {
@@ -444,6 +441,7 @@ public class MyCaseFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to edit case, please try again.", Toast.LENGTH_SHORT).show();
             }
         });
+        commonResponseCall.cancel();
     }
 
     public void getAllCase(){
@@ -492,6 +490,7 @@ public class MyCaseFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to get cases, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
+        getCaseCall.cancel();
     }
 
 
@@ -521,6 +520,7 @@ public class MyCaseFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to add new case, please try again.", Toast.LENGTH_SHORT).show();
             }
         });
+        commonResponseCall.cancel();
     }
 
     private boolean validateEditForm(String title, String description){

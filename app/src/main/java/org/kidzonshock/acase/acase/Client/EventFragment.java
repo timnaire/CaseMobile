@@ -1,4 +1,4 @@
-package org.kidzonshock.acase.acase.Lawyer;
+package org.kidzonshock.acase.acase.Client;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.kidzonshock.acase.acase.Lawyer.CreateEvent;
 import org.kidzonshock.acase.acase.R;
 
 public class EventFragment extends Fragment {
@@ -20,13 +21,12 @@ public class EventFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_event,null);
-}
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override

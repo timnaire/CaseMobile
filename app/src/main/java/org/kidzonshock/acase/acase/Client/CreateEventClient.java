@@ -1,4 +1,4 @@
-package org.kidzonshock.acase.acase.Lawyer;
+package org.kidzonshock.acase.acase.Client;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -20,12 +20,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
-import org.kidzonshock.acase.acase.Models.CommonResponse;
-import org.kidzonshock.acase.acase.Models.CreateEventModel;
+import org.kidzonshock.acase.acase.Models.ClientListCase;
 import org.kidzonshock.acase.acase.Models.DatePickerFragment;
-import org.kidzonshock.acase.acase.Models.LawyerListCase;
-import org.kidzonshock.acase.acase.Models.ListClient;
-import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
+import org.kidzonshock.acase.acase.Models.ListLawyer;
+import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
 import org.kidzonshock.acase.acase.Models.TimePickerFragment;
 import org.kidzonshock.acase.acase.R;
 
@@ -42,38 +40,38 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CreateEvent extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , TimePickerDialog.OnTimeSetListener {
+public class CreateEventClient extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , TimePickerDialog.OnTimeSetListener {
 
     Button btnEventDate,btnEventTime, btnCreateEvent;
     TextInputLayout layoutEventTitle,layoutEventLocation, layoutEventDate, layoutEventTime;
     TextInputEditText inputEventTitle, inputEventLocation, inputEventDate, inputEventTime;
     EditText eventDetails;
-    Spinner spinnerClient,spinnerEventType;
-    ArrayList<String> spinnerClientArray;
+    Spinner spinnerLawyer,spinnerEventType;
+    ArrayList<String> spinnerLawyerArray;
 
     String lawyer_id,client_id;
     HashMap<String ,String> hmClient;
     ACProgressFlower dialog;
     LinearLayout loading;
 
-    private final String TAG = "CreateEventModel";
+    private final String TAG = "CreateEventClient";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_event);
+        setContentView(R.layout.activity_create_event_client);
 
-        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(CreateEvent.this);
+        client_id = PreferenceDataClient.getLoggedInClientid(CreateEventClient.this);
         loading = findViewById(R.id.linlaHeaderProgress);
         hmClient = new HashMap<String,String>();
-        getClients();
+        getLawyer();
         loading.setVisibility(View.VISIBLE);
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Event");
 
-        dialog = new ACProgressFlower.Builder(CreateEvent.this)
+        dialog = new ACProgressFlower.Builder(CreateEventClient.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)
                 .text("Please wait")
@@ -90,14 +88,14 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
         eventDetails = findViewById(R.id.eventDetails);
 
-        spinnerClientArray = new ArrayList<String>();
-        spinnerClientArray.add("Select Client");
+        spinnerLawyerArray = new ArrayList<String>();
+        spinnerLawyerArray.add("Select Client");
         spinnerEventType = findViewById(R.id.spinnerEventType);
-        spinnerClient = findViewById(R.id.spinnerClient);
+        spinnerLawyer = findViewById(R.id.spinnerClient);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, spinnerClientArray);
+                android.R.layout.simple_spinner_item, spinnerLawyerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerClient.setAdapter(adapter);
+        spinnerLawyer.setAdapter(adapter);
 
 
         btnEventDate.setOnClickListener(new View.OnClickListener() {
@@ -119,55 +117,31 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         btnCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String client_name,title,location,details,date,time,type;
+                String lawyer_name,title,location,details,date,time,type;
                 title = inputEventTitle.getText().toString();
                 location = inputEventLocation.getText().toString();
                 details = eventDetails.getText().toString();
                 date = inputEventDate.getText().toString();
                 time = inputEventTime.getText().toString();
                 type = spinnerEventType.getSelectedItem().toString();
-                client_name = spinnerClient.getSelectedItem().toString();
+                lawyer_name = spinnerLawyer.getSelectedItem().toString();
                 for(String key: hmClient.keySet()) {
-                    if(hmClient.get(key).equals(client_name)) {
-                        client_id = key;
+                    if(hmClient.get(key).equals(lawyer_name)) {
+                        lawyer_id = key;
                     }
                 }
                 if(validateForm(title,location,date,time)){
                     dialog.show();
                     createEvent(client_id,title,location,details,date,time,type);
                 }
-                Toast.makeText(CreateEvent.this, "Client:"+client_name+" ,"+client_id, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateEventClient.this, "Client:"+lawyer_name+" ,"+lawyer_id, Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
     private void createEvent(String client_id, String title, String location, String details, String date, String time, String type) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Case.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.createEventLawyer(lawyer_id,new CreateEventModel(client_id,title,location,details,date,time,type));
-        commonResponseCall.enqueue(new Callback<CommonResponse>() {
-            @Override
-            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
-                CommonResponse resp = response.body();
-                dialog.dismiss();
-                if(!resp.isError()){
-                    Toast.makeText(CreateEvent.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(CreateEvent.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CommonResponse> call, Throwable t) {
-                dialog.dismiss();
-                Toast.makeText(CreateEvent.this, "Error in creating EVENT", Toast.LENGTH_SHORT).show();
-            }
-        });
-        commonResponseCall.cancel();
+        /* TODO */
     }
 
     @Override
@@ -203,38 +177,38 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         inputEventTime.setText(hourOfDay + ":" + minute + " "+format);
     }
 
-    private void getClients() {
+    private void getLawyer() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        final Case service = retrofit.create(Case.class);
-        Call<ListClient> listClientCall = service.listClient(lawyer_id);
-        listClientCall.enqueue(new Callback<ListClient>() {
+        Case service = retrofit.create(Case.class);
+        Call<ListLawyer> listLawyerCall = service.listLawyer(client_id);
+        listLawyerCall.enqueue(new Callback<ListLawyer>() {
             @Override
-            public void onResponse(Call<ListClient> call, Response<ListClient> response) {
-                ListClient listClient = response.body();
+            public void onResponse(Call<ListLawyer> call, Response<ListLawyer> response) {
+                ListLawyer listLawyer = response.body();
                 loading.setVisibility(View.GONE);
-                if(!listClient.isError()){
-                    ArrayList<LawyerListCase> list_clients = response.body().getList_clients();
-                    String client_id,name;
-                    for(int i=0; i < list_clients.size(); i++){
-                        client_id = list_clients.get(i).getClient_id();
-                        name = list_clients.get(i).getClient().getFirst_name()+" "+list_clients.get(i).getClient().getLast_name();
-                        spinnerClientArray.add(name);
-                        hmClient.put(client_id,name);
+                if(!listLawyer.isError()){
+                    ArrayList<ClientListCase> list_lawyers = response.body().getList_lawyers();
+                    String lawyer_id,name;
+                    for(int i=0; i < list_lawyers.size(); i++){
+                        lawyer_id = list_lawyers.get(i).getLawyer_id();
+                        name = list_lawyers.get(i).getLawyer().getFirst_name()+" "+list_lawyers.get(i).getLawyer().getLast_name();
+                        spinnerLawyerArray.add(name);
+                        hmClient.put(lawyer_id,name);
                     }
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(CreateEvent.this, listClient.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateEventClient.this, listLawyer.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
-            public void onFailure(Call<ListClient> call, Throwable t) {
-                Toast.makeText(CreateEvent.this, "Unable to list clients, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<ListLawyer> call, Throwable t) {
+                Toast.makeText(CreateEventClient.this, "Unable to list lawyers, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
-        listClientCall.cancel();
+        listLawyerCall.cancel();
     }
 
     private boolean validateForm(String title, String location, String date, String time){

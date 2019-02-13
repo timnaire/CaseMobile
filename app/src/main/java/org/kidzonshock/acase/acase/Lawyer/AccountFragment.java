@@ -128,6 +128,7 @@ public class AccountFragment extends Fragment {
                 loading.setVisibility(View.VISIBLE);
             }
         });
+        commonResponseCall.cancel();
     }
 
 }
