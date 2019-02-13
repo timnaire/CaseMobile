@@ -10,12 +10,16 @@ public class AddFile {
     @SerializedName("case_file")
     private String case_file;
 
+    @SerializedName("file_name")
+    private String file_name;
+
     @SerializedName("file_privacy")
     private String file_privacy;
 
-    public AddFile(String case_id, String case_file, String file_privacy) {
+    public AddFile(String case_id, String case_file, String file_name, String file_privacy) {
         this.case_id = case_id;
         this.case_file = case_file;
+        this.file_name = file_name;
         this.file_privacy = file_privacy;
     }
 
@@ -33,6 +37,14 @@ public class AddFile {
 
     public void setCase_file(String case_file) {
         this.case_file = case_file;
+    }
+
+    public String getFile_name() {
+        return file_name;
+    }
+
+    public void setFile_name(String file_name) {
+        this.file_name = file_name;
     }
 
     public String getFile_privacy() {

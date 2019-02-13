@@ -40,8 +40,13 @@ import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,8 +69,8 @@ public class MyCaseFragment extends Fragment {
     TextInputLayout editlayoutCaseDescription;
     TextInputEditText editinputCaseDescription;
 
-    ArrayList<String> spinnerArray;
-    Spinner spinner;
+    ArrayList<String> spinnerArray,statusSpinnerArray;
+    Spinner spinner,statusSpinner;
 
     ListView lv;
     CaseAdapter adapter;
@@ -103,6 +108,14 @@ public class MyCaseFragment extends Fragment {
         editinputCaseTitle = new TextInputEditText(getActivity());
         editlayoutCaseDescription = new TextInputLayout(getActivity());
         editinputCaseDescription = new TextInputEditText(getActivity());
+
+        statusSpinnerArray = new ArrayList<>();
+        statusSpinnerArray.add("Case Open");
+        statusSpinnerArray.add("Case Closed");
+
+        statusSpinner = new Spinner(getActivity());
+        ArrayAdapter<String> statusSpinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, statusSpinnerArray);
+        statusSpinner.setAdapter(statusSpinnerArrayAdapter);
 
         spinnerArray = new ArrayList<String>();
         spinnerArray.add("Select Client");
@@ -148,6 +161,8 @@ public class MyCaseFragment extends Fragment {
         editlayoutCaseTitle.setPadding(getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),0);
         editlayout.addView(editlayoutCaseTitle);
 
+        editlayout.addView(statusSpinner);
+
 //       edit  description
         editinputCaseDescription.setInputType(InputType.TYPE_CLASS_TEXT);
         editlayoutCaseDescription.setHint("Case Description");
@@ -182,7 +197,7 @@ public class MyCaseFragment extends Fragment {
         EditCase.setCancelable(false);
 
         EditCase.setPositiveButton(
-                "Add",
+                "Save",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
@@ -305,7 +320,7 @@ public class MyCaseFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        String client_id,title,date,description,client_name,client_email,client_phone,client_address,case_status;
+        final String case_id,title,date,description,client_name,client_email,client_phone,client_address,case_status;
         int id = item.getItemId();
         switch(id){
             case R.id.View:
@@ -325,36 +340,58 @@ public class MyCaseFragment extends Fragment {
                 vIntent.putExtra("client_address",client_address);
                 vIntent.putExtra("case_status",case_status);
                 startActivity(vIntent);
-                Toast.makeText(getActivity(), "View", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Edit:
                 title = caselist.get(info.position).getTitle();
                 description = caselist.get(info.position).getCase_description();
+                case_status = caselist.get(info.position).getStatus();
                 editinputCaseTitle.setText(title);
                 editinputCaseDescription.setText(description);
+                statusSpinner.setSelection(getIndex(statusSpinner, case_status));
                 edit.show();
                 edit.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String title, clientid, description;
+                        String title, status, description, case_id;
+                        case_id = caselist.get(info.position).getCase_id();
                         title = editinputCaseTitle.getText().toString();
                         description = editinputCaseDescription.getText().toString();
+                        status = statusSpinner.getSelectedItem().toString();
                         if(validateEditForm(title,description)){
-                            editCase(title,description);
+                            editCase(case_id,title,description,status);
+                            adapter.notifyDataSetChanged();
 //                        FragmentTransaction ft = getFragmentManager().beginTransaction();
 //                        ft.detach(MyCaseFragment.this).attach(MyCaseFragment.this).commit();
                         }
                     }
                 });
-                Toast.makeText(getActivity(), "Edit", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.Delete:
-                caselist.remove(info.position);
-                adapter.notifyDataSetChanged();
-                deleteCase(caselist.get(info.position).getCase_id());
+                AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+                ab.setTitle("Detele");
+                ab.setMessage("Are you sure you want to delete " + caselist.get(info.position).getTitle());
+                ab.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String cid = caselist.get(info.position).getCase_id();
+                        caselist.remove(info.position);
+                        adapter.notifyDataSetChanged();
+                        deleteCase(cid);
+                    }
+                });
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    //private method of your class
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+        return 0;
     }
 
     private void deleteCase(String case_id) {
@@ -382,20 +419,20 @@ public class MyCaseFragment extends Fragment {
         });
     }
 
-    private void editCase(String title, String description) {
+    private void editCase(String case_id,String title, String description,String status) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.editCase(lawyer_id,new EditCase(title,description));
+        Call<CommonResponse> commonResponseCall = service.editCase(lawyer_id,new EditCase(case_id,title,description, status));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 CommonResponse commonResponse = response.body();
                 if(!commonResponse.isError()){
                     Toast.makeText(getActivity(), commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    add.dismiss();
+                    edit.dismiss();
 
                 } else{
                     Toast.makeText(getActivity(), commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -404,7 +441,7 @@ public class MyCaseFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {
-                Toast.makeText(getActivity(), "Unable to add new case, please try again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Unable to edit case, please try again.", Toast.LENGTH_SHORT).show();
             }
         });
     }

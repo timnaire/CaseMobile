@@ -34,7 +34,10 @@ public class CaseDocuments extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        Bundle bundle = new Bundle();
+        bundle.putString("case_id",case_id);
         Fragment fragment = new AllFragment();
+        fragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -85,6 +88,11 @@ public class CaseDocuments extends AppCompatActivity {
             return true;
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public boolean onSupportNavigateUp() {

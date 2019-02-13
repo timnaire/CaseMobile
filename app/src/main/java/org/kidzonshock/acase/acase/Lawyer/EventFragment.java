@@ -31,9 +31,8 @@ public class EventFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_mycase, menu);
-
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

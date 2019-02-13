@@ -50,7 +50,7 @@ public class FileUpload extends AppCompatActivity {
     Button btnSelectFile, btnUpload;
     TextView notification;
     Uri fileselected;
-    String case_id,lawyer_id,filename,file_t,file_p;
+    String case_id,lawyer_id,filename,file_p;
     Spinner file_privacy;
 
 
@@ -106,17 +106,17 @@ public class FileUpload extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 file_p = file_privacy.getSelectedItem().toString();
-                dialog.show();
-                if(fileselected!=null)
-                uploadFile(case_id,fileselected,file_p);
-                else
+                if(fileselected!=null) {
+                    dialog.show();
+                    uploadFile(case_id, filename, fileselected, file_p);
+                }else
                     Toast.makeText(FileUpload.this, "Please select a file!", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void uploadFile(final String case_id, Uri pdfURi, final String file_p) {
+    private void uploadFile(final String case_id, final String filename, Uri pdfURi, final String file_p) {
         StorageReference storageReference = storage.getReference();
         filepath = storageReference.child("CaseDocuments").child(randomString(16)+"/"+filename);
         uploadTask = filepath.putFile(pdfURi);
@@ -143,7 +143,7 @@ public class FileUpload extends AppCompatActivity {
                             .build();
 
                     Case service = retrofit.create(Case.class);
-                    Call<CommonResponse> commonResponseCall = service.addFile(lawyer_id,new AddFile(case_id,file,file_p));
+                    Call<CommonResponse> commonResponseCall = service.addFile(lawyer_id,new AddFile(case_id,file,filename,file_p));
                     commonResponseCall.enqueue(new Callback<CommonResponse>() {
                         @Override
                         public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

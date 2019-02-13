@@ -90,7 +90,7 @@ public interface Case {
         Call<CommonResponse> addCase(@Path("lawyer_id") String lawyer_id, @Body AddCase body);
 
     @Headers("Content-Type: application/json")
-    @POST("lawyer/{lawyer_id}/mycase")
+    @POST("lawyer/{lawyer_id}/edit-case")
     Call<CommonResponse> editCase(@Path("lawyer_id") String lawyer_id, @Body EditCase body);
 
     @Headers("Content-Type: application/json")
@@ -116,6 +116,14 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/list-all-file")
     Call<GetDocumentResponse> allDocument(@Path("lawyer_id") String lawyer_id, @Body GetDocument body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/list-research")
+    Call<GetDocumentResponse> researchDocument(@Path("lawyer_id") String lawyer_id, @Body GetDocument body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/list-public-documents")
+    Call<GetDocumentResponse> publicDocument(@Path("lawyer_id") String lawyer_id, @Body GetDocument body);
 
 //    GET REQUEST
     @Headers("Content-Type: application/json")

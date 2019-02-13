@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
-import org.kidzonshock.acase.acase.Lawyer.CaseDocument;
+import org.kidzonshock.acase.acase.Lawyer.CaseDocuments;
 import org.kidzonshock.acase.acase.Models.CaseAdapter;
 import org.kidzonshock.acase.acase.Models.CaseModel;
 import org.kidzonshock.acase.acase.Models.Cases;
@@ -60,7 +60,7 @@ public class CaseFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position == parent.getItemIdAtPosition(position)){
                     CaseModel caseitem = (CaseModel) parent.getItemAtPosition(position);
-                    Intent intent = new Intent(getActivity(), CaseDocument.class);
+                    Intent intent = new Intent(getActivity(), CaseDocuments.class);
                     intent.putExtra("title", caseitem.getTitle());
                     intent.putExtra("clientName", caseitem.getClientName());
                     intent.putExtra("date", caseitem.getDate_created());

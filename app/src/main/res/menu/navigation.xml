@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/navigation_all"
-        android:icon="@drawable/baseline_folder_black_18dp"
+        android:icon="@drawable/icons8_folder_48"
         android:title="All" />
 
     <item
         android:id="@+id/navigation_research"
-        android:icon="@drawable/baseline_folder_black_18dp"
+        android:icon="@drawable/icons8_folder_48"
         android:title="Research" />
 
     <item
         android:id="@+id/navigation_publicdoc"
-        android:icon="@drawable/baseline_folder_black_18dp"
+        android:icon="@drawable/icons8_folder_48"
         android:title="Public Documents" />
 
 </menu>

@@ -7,7 +7,11 @@ public class Document {
 
     @SerializedName("case_file")
     @Expose
-    private String filename;
+    private String caseFile;
+
+    @SerializedName("file_name")
+    @Expose
+    private String fileName;
 
     @SerializedName("file_type")
     @Expose
@@ -17,18 +21,27 @@ public class Document {
     @Expose
     private String filePrivacy;
 
-    public Document(String filename, String fileType, String filePrivacy) {
-        this.filename = filename;
+    public Document(String caseFile, String fileName, String fileType, String filePrivacy) {
+        this.caseFile = caseFile;
+        this.fileName = fileName;
         this.fileType = fileType;
         this.filePrivacy = filePrivacy;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getCaseFile() {
+        return caseFile;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setCaseFile(String caseFile) {
+        this.caseFile = caseFile;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getFileType() {

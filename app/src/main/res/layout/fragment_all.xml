@@ -22,10 +22,11 @@
 
     <GridView
         android:id="@+id/allDocument"
-        android:numColumns="auto_fit"
-        android:gravity="center"
-        android:columnWidth="70dp"
-        android:stretchMode="columnWidth"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:columnWidth="75dp"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth" />
+
 </LinearLayout>

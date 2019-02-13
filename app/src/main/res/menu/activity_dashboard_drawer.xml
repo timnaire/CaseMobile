@@ -6,27 +6,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_dashboard"
-            android:icon="@drawable/dashboardicon"
-            android:title="Dashboard" />
+            android:icon="@drawable/icons8_home_48"
+            android:title="Home" />
         <item
             android:id="@+id/nav_mycase"
-            android:icon="@drawable/fileicon"
+            android:icon="@drawable/icons8_briefcase_48"
             android:title="Case" />
         <item
             android:id="@+id/nav_clients"
-            android:icon="@drawable/usersicon"
+            android:icon="@drawable/icons8_crowd_48"
             android:title="Client" />
         <item
             android:id="@+id/nav_events"
-            android:icon="@drawable/calendar"
+            android:icon="@drawable/icons8_calendar_48"
             android:title="Event" />
         <item
             android:id="@+id/nav_subscription"
-            android:icon="@drawable/subscriptionicon"
+            android:icon="@drawable/icons8_credit_card_48"
             android:title="Subscription" />
         <item
             android:id="@+id/nav_account"
-            android:icon="@drawable/accounticon"
+            android:icon="@drawable/icons8_account_48"
             android:title="Account" />
     </group>
 
@@ -34,7 +34,7 @@
         <menu>
             <item
                 android:id="@+id/nav_signout"
-                android:icon="@drawable/signouticon"
+                android:icon="@drawable/icons8_sign_out_48"
                 android:title="Sign Out" />
         </menu>
     </item>
