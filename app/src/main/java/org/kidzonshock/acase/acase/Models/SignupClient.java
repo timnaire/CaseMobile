@@ -10,6 +10,8 @@ public class SignupClient {
     private String lastname;
     @SerializedName("email")
     private String email;
+    @SerializedName("sex")
+    private String sex;
     @SerializedName("phone")
     private String phone;
     @SerializedName("address")
@@ -19,10 +21,11 @@ public class SignupClient {
     @SerializedName("confirm")
     private String confirm;
 
-    public SignupClient(String firstname, String lastname, String email, String phone, String address, String password, String confirm) {
+    public SignupClient(String firstname, String lastname, String email, String sex, String phone, String address, String password, String confirm) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.sex = sex;
         this.phone = phone;
         this.address = address;
         this.password = password;
@@ -51,6 +54,14 @@ public class SignupClient {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public String getPhone() {

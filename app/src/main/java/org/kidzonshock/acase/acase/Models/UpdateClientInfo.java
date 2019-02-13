@@ -12,12 +12,15 @@ public class UpdateClientInfo {
     String phone;
     @SerializedName("address")
     String address;
+    @SerializedName("sex")
+    String sex;
 
-    public UpdateClientInfo(String first_name, String last_name, String phone, String address) {
+    public UpdateClientInfo(String first_name, String last_name, String phone, String address, String sex) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.phone = phone;
         this.address = address;
+        this.sex = sex;
     }
 
     public String getFirst_name() {
@@ -50,5 +53,13 @@ public class UpdateClientInfo {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }

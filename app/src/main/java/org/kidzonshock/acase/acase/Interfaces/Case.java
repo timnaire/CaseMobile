@@ -3,11 +3,12 @@ package org.kidzonshock.acase.acase.Interfaces;
 import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.AddFCMToken;
 import org.kidzonshock.acase.acase.Models.AddFile;
-import org.kidzonshock.acase.acase.Models.GetDocument;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.CreateEventModel;
 import org.kidzonshock.acase.acase.Models.DeleteCase;
 import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.GetCase;
+import org.kidzonshock.acase.acase.Models.GetDocument;
 import org.kidzonshock.acase.acase.Models.GetDocumentResponse;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.ListClient;
@@ -124,6 +125,14 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/list-public-documents")
     Call<GetDocumentResponse> publicDocument(@Path("lawyer_id") String lawyer_id, @Body GetDocument body);
+
+    @Headers("Content-Type: application/json")
+    @POST("client/{client_id}/list-public-documents")
+    Call<GetDocumentResponse> publicDocumentClient(@Path("lawyer_id") String client_id, @Body GetDocument body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/add-event")
+    Call<CommonResponse> createEventLawyer(@Path("lawyer_id") String lawyer_id, @Body CreateEventModel body);
 
 //    GET REQUEST
     @Headers("Content-Type: application/json")

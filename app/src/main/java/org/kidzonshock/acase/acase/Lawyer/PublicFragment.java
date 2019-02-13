@@ -97,5 +97,6 @@ public class PublicFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to list documents...", Toast.LENGTH_SHORT).show();
             }
         });
+        getDocumentCall.cancel();
     }
 }

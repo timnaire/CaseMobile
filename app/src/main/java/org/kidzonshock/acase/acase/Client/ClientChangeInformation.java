@@ -8,11 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.UpdateClientInfo;
 import org.kidzonshock.acase.acase.R;
 
@@ -26,12 +28,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ClientChangeInformation extends AppCompatActivity {
 
-    String client_id, first_name,last_name,phone,address;
+    String client_id, first_name,last_name,sex,phone,address;
 
     ACProgressFlower dialog;
 
     TextInputLayout layoutUpdateFirstClient, layoutUpdateLastClient, layoutUpdatePhoneClient, layoutUpdateAddressClient;
     TextInputEditText inputUpdateFirstClient, inputUpdateLastClient, inputUpdatePhoneClient, inputUpdateAddressClient;
+    Spinner clientSex;
     Button btnSaveInfoClient;
 
     @Override
@@ -54,6 +57,7 @@ public class ClientChangeInformation extends AppCompatActivity {
         last_name = PreferenceDataClient.getLoggedInLastname(ClientChangeInformation.this);
         phone = PreferenceDataClient.getLoggedInPhone(ClientChangeInformation.this);
         address = PreferenceDataClient.getLoggedInAddress(ClientChangeInformation.this);
+        sex = PreferenceDataLawyer.getLoggedInSex(ClientChangeInformation.this);
 
 //        set all the id from views
         btnSaveInfoClient = findViewById(R.id.btnSaveInfoClient);
@@ -72,6 +76,7 @@ public class ClientChangeInformation extends AppCompatActivity {
         inputUpdateLastClient.setText(last_name);
         inputUpdatePhoneClient.setText(phone);
         inputUpdateAddressClient.setText(address);
+        clientSex.setSelection(getIndex(clientSex, sex));
 
         btnSaveInfoClient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +85,9 @@ public class ClientChangeInformation extends AppCompatActivity {
                 String newLastname = inputUpdateLastClient.getText().toString();
                 String newPhone = inputUpdatePhoneClient.getText().toString();
                 String newAddress = inputUpdateAddressClient.getText().toString();
+                String newSex = clientSex.getSelectedItem().toString();
                 if(validateForm(newFirstname,newLastname,newPhone,newAddress)){
-                    updateInfo(newFirstname,newLastname,newPhone,newAddress);
+                    updateInfo(newFirstname,newLastname,newPhone,newAddress,newSex);
                 }
             }
         });
@@ -93,14 +99,24 @@ public class ClientChangeInformation extends AppCompatActivity {
         return true;
     }
 
-    public void updateInfo(final String newFirstname, final String newLastname, final String newPhone, final String newAddress){
+    //private method of your class
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public void updateInfo(final String newFirstname, final String newLastname, final String newPhone, final String newAddress, final String newSex){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         dialog.show();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> updateLawyerInfoCall = service.updateInfoClient(client_id,new UpdateClientInfo(newFirstname,newLastname,newPhone,newAddress));
+        Call<CommonResponse> updateLawyerInfoCall = service.updateInfoClient(client_id,new UpdateClientInfo(newFirstname,newLastname,newPhone,newAddress,newSex));
         updateLawyerInfoCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -111,6 +127,7 @@ public class ClientChangeInformation extends AppCompatActivity {
                     PreferenceDataClient.setLoggedInLastname(ClientChangeInformation.this,newLastname);
                     PreferenceDataClient.setLoggedInPhone(ClientChangeInformation.this,newPhone);
                     PreferenceDataClient.setLoggedInAddress(ClientChangeInformation.this,newAddress);
+                    PreferenceDataClient.setLoggedInSex(ClientChangeInformation.this,newSex);
                     Toast.makeText(ClientChangeInformation.this, commonResponse.getMessage() , Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(ClientChangeInformation.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();

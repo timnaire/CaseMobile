@@ -32,7 +32,7 @@ public class SignupClient2 extends AppCompatActivity {
     TextInputEditText inputRegPhoneClient, inputRegAddressClient, inputRegPassClient,inputRegConfirmClient;
     TextInputLayout layoutRegPhoneClient, layoutRegAddressClient, layoutRegPassClient,layoutRegConfirmClient;
     ACProgressFlower dialog;
-    String firstname,lastname,email,phone,address,password,confirm;
+    String firstname,lastname,email,sex,phone,address,password,confirm;
     Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class SignupClient2 extends AppCompatActivity {
         firstname = prev.getStringExtra("firstname");
         lastname = prev.getStringExtra("lastname");
         email = prev.getStringExtra("email");
+        sex = prev.getStringExtra("sex");
 
         btnSignupClientNow.setOnClickListener(new View.OnClickListener() {
 
@@ -78,7 +79,7 @@ public class SignupClient2 extends AppCompatActivity {
                 confirm = inputRegConfirmClient.getText().toString();
                 if(password.equals(confirm)){
                     if(validateForm(phone,address,password,confirm)){
-                        sendPostRequest(firstname,lastname,email,phone,address,password,confirm);
+                        sendPostRequest(firstname,lastname,email,sex,phone,address,password,confirm);
                     }
                 }else{
                     Toast.makeText(SignupClient2.this, "Confirmation password does not match, please try again.", Toast.LENGTH_SHORT).show();
@@ -93,7 +94,7 @@ public class SignupClient2 extends AppCompatActivity {
         return true;
     }
 
-    public void sendPostRequest(String firstname, String lastname, String email, String phone, String address, String password, String confirm){
+    public void sendPostRequest(String firstname, String lastname, String email, String sex, String phone, String address, String password, String confirm){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -101,7 +102,7 @@ public class SignupClient2 extends AppCompatActivity {
 
         dialog.show();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.signupClient(new SignupClient(firstname,lastname,email,phone,address,password,confirm));
+        Call<CommonResponse> commonResponseCall = service.signupClient(new SignupClient(firstname,lastname,email,sex,phone,address,password,confirm));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +75,7 @@ public class AllFragment extends Fragment {
             public void onResponse(Call<GetDocumentResponse> call, Response<GetDocumentResponse> response) {
                 GetDocumentResponse documents = response.body();
                 loading.setVisibility(View.GONE);
-                if(!documents.isError()){
+                if(isAdded() && !documents.isError()){
                     ArrayList<Document> list_files = response.body().getFile();
                     String dlUrl,fileName, fileType, filePrivacy;
                     for(int i=0; i < list_files.size(); i++){
@@ -101,5 +100,6 @@ public class AllFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to list documents...", Toast.LENGTH_SHORT).show();
             }
         });
+        getDocumentCall.cancel();
     }
 }

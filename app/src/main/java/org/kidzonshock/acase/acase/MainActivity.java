@@ -8,7 +8,10 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 
 import org.kidzonshock.acase.acase.Client.ClientSignin;
+import org.kidzonshock.acase.acase.Lawyer.Dashboard;
 import org.kidzonshock.acase.acase.Lawyer.LawyerSignin;
+import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(client);
             }
         });
+
+        Intent intentLogin = new Intent(MainActivity.this, Dashboard.class);
+        if(PreferenceDataLawyer.getUserLoggedInStatus(MainActivity.this)){
+            startActivity(intentLogin);
+        }
+        if(PreferenceDataClient.getUserLoggedInStatus(MainActivity.this)){
+            startActivity(intentLogin);
+        }
 
     }
 

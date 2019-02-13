@@ -30,6 +30,8 @@ public class ClientNavigation extends AppCompatActivity
     Toolbar toolbar;
     private String client_id,first_name,last_name,email,profile_pic;
 
+    private final String TAG = "ClientNavigation";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,14 @@ public class ClientNavigation extends AppCompatActivity
         last_name = PreferenceDataClient.getLoggedInLastname(ClientNavigation.this);
         email = PreferenceDataClient.getLoggedInEmail(ClientNavigation.this);
         profile_pic = PreferenceDataClient.getLoggedInProfilePicture(ClientNavigation.this);
+
+        Fragment fragment = new CaseFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+
+        ft.replace(R.id.screen_area_client, fragment);
+        ft.commit();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -137,7 +147,7 @@ public class ClientNavigation extends AppCompatActivity
             toolbar.setTitle("My Lawyer");
             fragment = new LawyerFragment();
         } else if (id == R.id.nav_myaccount_client) {
-            toolbar.setTitle("My Event");
+            toolbar.setTitle("My Account");
             fragment = new AccountFragment();
         } else if (id == R.id.nav_signout_client) {
             PreferenceDataClient.setUserLoggedInStatus(ClientNavigation.this,false);

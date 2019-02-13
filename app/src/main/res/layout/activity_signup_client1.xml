@@ -65,6 +65,15 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <Spinner
+        android:id="@+id/clientSex"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
+        android:entries="@array/sex" />
+
     <Button
         android:id="@+id/btnRegisterNextClient"
         android:layout_width="match_parent"

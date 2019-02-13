@@ -3,15 +3,16 @@ package org.kidzonshock.acase.acase.Models;
 public class SigninResponseClient {
 
     private boolean error;
-    private String message, client, first_name, last_name, email, phone, address, profile_pic;
+    private String message, client, first_name, last_name, email,sex, phone, address, profile_pic;
 
-    public SigninResponseClient(boolean error, String message, String client, String first_name, String last_name, String email, String phone, String address, String profile_pic) {
+    public SigninResponseClient(boolean error, String message, String client, String first_name, String last_name, String email, String sex, String phone, String address, String profile_pic) {
         this.error = error;
         this.message = message;
         this.client = client;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
+        this.sex = sex;
         this.phone = phone;
         this.address = address;
         this.profile_pic = profile_pic;
@@ -63,6 +64,14 @@ public class SigninResponseClient {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public String getPhone() {

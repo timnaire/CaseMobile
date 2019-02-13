@@ -22,7 +22,6 @@ import com.google.firebase.iid.InstanceIdResult;
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.AddFCMToken;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
-import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.SigninBody;
 import org.kidzonshock.acase.acase.Models.SigninResponseClient;
 import org.kidzonshock.acase.acase.R;
@@ -142,6 +141,7 @@ public class ClientSignin extends AppCompatActivity {
                     PreferenceDataClient.setLoggedInFirstname(ClientSignin.this, signinResponseClient.getFirst_name());
                     PreferenceDataClient.setLoggedInLastname(ClientSignin.this, signinResponseClient.getLast_name());
                     PreferenceDataClient.setLoggedInEmail(ClientSignin.this, signinResponseClient.getEmail());
+                    PreferenceDataClient.setLoggedInSex(ClientSignin.this, signinResponseClient.getSex());
                     PreferenceDataClient.setLoggedInPhone(ClientSignin.this, signinResponseClient.getPhone());
                     PreferenceDataClient.setLoggedInAddress(ClientSignin.this, signinResponseClient.getAddress());
                     PreferenceDataClient.setLoggedInProfilePicture(ClientSignin.this, signinResponseClient.getProfile_pic());
