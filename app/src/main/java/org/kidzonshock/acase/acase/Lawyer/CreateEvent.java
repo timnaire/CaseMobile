@@ -88,6 +88,11 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         layoutEventDate = findViewById(R.id.layoutEventDate);
         layoutEventTime = findViewById(R.id.layoutEventTime);
 
+        inputEventTitle = findViewById(R.id.inputEventTitle);
+        inputEventLocation = findViewById(R.id.inputEventLocation);
+        inputEventDate = findViewById(R.id.inputEventDate);
+        inputEventTime = findViewById(R.id.inputEventTime);
+
         eventDetails = findViewById(R.id.eventDetails);
 
         spinnerClientArray = new ArrayList<String>();
@@ -136,7 +141,6 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                     dialog.show();
                     createEvent(client_id,title,location,details,date,time,type);
                 }
-                Toast.makeText(CreateEvent.this, "Client:"+client_name+" ,"+client_id, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -167,7 +171,6 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 Toast.makeText(CreateEvent.this, "Error in creating EVENT", Toast.LENGTH_SHORT).show();
             }
         });
-        commonResponseCall.cancel();
     }
 
     @Override
@@ -200,7 +203,8 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         } else {
             format = "AM";
         }
-        inputEventTime.setText(hourOfDay + ":" + minute + " "+format);
+        String time = hourOfDay + ":" + String.format("%02d",minute) + " "+format;
+        inputEventTime.setText(time);
     }
 
     private void getClients() {
@@ -234,7 +238,6 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 Toast.makeText(CreateEvent.this, "Unable to list clients, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
-        listClientCall.cancel();
     }
 
     private boolean validateForm(String title, String location, String date, String time){

@@ -86,6 +86,11 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
         layoutEventDate = findViewById(R.id.layoutEventDate);
         layoutEventTime = findViewById(R.id.layoutEventTime);
 
+        inputEventTitle = findViewById(R.id.inputEventTitle);
+        inputEventLocation = findViewById(R.id.inputEventLocation);
+        inputEventDate = findViewById(R.id.inputEventDate);
+        inputEventTime = findViewById(R.id.inputEventTime);
+
         eventDetails = findViewById(R.id.eventDetails);
 
         spinnerLawyerArray = new ArrayList<String>();
@@ -208,7 +213,6 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 Toast.makeText(CreateEventClient.this, "Unable to list lawyers, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
-        listLawyerCall.cancel();
     }
 
     private boolean validateForm(String title, String location, String date, String time){

@@ -118,6 +118,5 @@ public class CaseDocument extends AppCompatActivity {
                 Toast.makeText(CaseDocument.this, "Unable to list documents...", Toast.LENGTH_SHORT).show();
             }
         });
-        getDocumentCall.cancel();
     }
 }

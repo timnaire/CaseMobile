@@ -69,7 +69,7 @@ public class AllFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<GetDocumentResponse> getDocumentCall = service.allDocument(lawyer_id,new GetDocument(case_id));
+        final Call<GetDocumentResponse> getDocumentCall = service.allDocument(lawyer_id,new GetDocument(case_id));
         getDocumentCall.enqueue(new Callback<GetDocumentResponse>() {
             @Override
             public void onResponse(Call<GetDocumentResponse> call, Response<GetDocumentResponse> response) {
@@ -90,9 +90,8 @@ public class AllFragment extends Fragment {
                     grid.setAdapter(adapter);
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), documents.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Found 0 file(s)", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
@@ -100,6 +99,5 @@ public class AllFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to list documents...", Toast.LENGTH_SHORT).show();
             }
         });
-        getDocumentCall.cancel();
     }
 }

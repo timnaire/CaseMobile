@@ -87,7 +87,7 @@ public class PublicFragment extends Fragment {
                     grid.setAdapter(adapter);
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), documents.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Found 0 file(s)", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -97,6 +97,5 @@ public class PublicFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to list documents...", Toast.LENGTH_SHORT).show();
             }
         });
-        getDocumentCall.cancel();
     }
 }

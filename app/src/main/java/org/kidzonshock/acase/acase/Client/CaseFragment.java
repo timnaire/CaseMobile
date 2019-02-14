@@ -126,6 +126,5 @@ public class CaseFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to get cases, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
-        getCaseCall.cancel();
     }
 }

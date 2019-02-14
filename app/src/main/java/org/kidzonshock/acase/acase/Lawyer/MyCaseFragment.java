@@ -264,7 +264,6 @@ public class MyCaseFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to list clients, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
-        listClientCall.cancel();
     }
 
     @Override
@@ -397,7 +396,7 @@ public class MyCaseFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.deleteCase(lawyer_id,new DeleteCase(case_id));
+        final Call<CommonResponse> commonResponseCall = service.deleteCase(lawyer_id,new DeleteCase(case_id));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -411,10 +410,12 @@ public class MyCaseFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {
+                if(call.isCanceled()){
+                    commonResponseCall.cancel();
+                }
                 Toast.makeText(getActivity(), "Unable to delete case, please try again.", Toast.LENGTH_SHORT).show();
             }
         });
-        commonResponseCall.cancel();
     }
 
     private void editCase(String case_id,String title, String description,String status) {
@@ -423,7 +424,7 @@ public class MyCaseFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.editCase(lawyer_id,new EditCase(case_id,title,description, status));
+        final Call<CommonResponse> commonResponseCall = service.editCase(lawyer_id,new EditCase(case_id,title,description, status));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -439,10 +440,12 @@ public class MyCaseFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {
+                if(call.isCanceled()){
+                    commonResponseCall.cancel();
+                }
                 Toast.makeText(getActivity(), "Unable to edit case, please try again.", Toast.LENGTH_SHORT).show();
             }
         });
-        commonResponseCall.cancel();
     }
 
     public void getAllCase(){
@@ -451,7 +454,7 @@ public class MyCaseFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<GetCase> getCaseCall = service.getCases(lawyer_id);
+        final Call<GetCase> getCaseCall = service.getCases(lawyer_id);
         getCaseCall.enqueue(new Callback<GetCase>() {
             @Override
             public void onResponse(Call<GetCase> call, Response<GetCase> response) {
@@ -482,16 +485,18 @@ public class MyCaseFragment extends Fragment {
                     Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Found 0 case(s)", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<GetCase> call, Throwable t) {
+                if(call.isCanceled()){
+                    getCaseCall.cancel();
+                }
                 Toast.makeText(getActivity(), "Unable to get cases, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
-        getCaseCall.cancel();
     }
 
 
@@ -502,7 +507,7 @@ public class MyCaseFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.addCase(lawyer_id,new AddCase(title,clientid,description));
+        final Call<CommonResponse> commonResponseCall = service.addCase(lawyer_id,new AddCase(title,clientid,description));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -518,10 +523,12 @@ public class MyCaseFragment extends Fragment {
 
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {
+                if(call.isCanceled()){
+                    commonResponseCall.cancel();
+                }
                 Toast.makeText(getActivity(), "Unable to add new case, please try again.", Toast.LENGTH_SHORT).show();
             }
         });
-        commonResponseCall.cancel();
     }
 
     private boolean validateEditForm(String title, String description){

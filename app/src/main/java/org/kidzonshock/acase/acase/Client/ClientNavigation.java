@@ -38,6 +38,7 @@ public class ClientNavigation extends AppCompatActivity
         setContentView(R.layout.activity_client_navigation);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Case");
 
         client_id = PreferenceDataClient.getLoggedInClientid(ClientNavigation.this);
         first_name = PreferenceDataClient.getLoggedInFirstname(ClientNavigation.this);

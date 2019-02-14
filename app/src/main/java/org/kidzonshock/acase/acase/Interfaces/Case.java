@@ -7,6 +7,7 @@ import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.CreateEventModel;
 import org.kidzonshock.acase.acase.Models.DeleteCase;
 import org.kidzonshock.acase.acase.Models.EditCase;
+import org.kidzonshock.acase.acase.Models.EventResponse;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetDocument;
 import org.kidzonshock.acase.acase.Models.GetDocumentResponse;
@@ -38,6 +39,7 @@ public interface Case {
     String BASE_URL = "http://case-legal-aid.appspot.com/";
 
 //    POST REQUEST
+//    account mgt module
     @Headers("Content-Type: application/json")
     @POST("lawyer/signup")
     Call<CommonResponse> signupLawyer(@Body SignupLawyer body);
@@ -86,6 +88,7 @@ public interface Case {
     @POST("client/{client_id}/account-setting/change-password")
     Call<CommonResponse> updatePasswordClient(@Path("client_id") String client_id, @Body UpdatePassword body );
 
+//    case module
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/mycase")
         Call<CommonResponse> addCase(@Path("lawyer_id") String lawyer_id, @Body AddCase body);
@@ -98,6 +101,7 @@ public interface Case {
     @POST("lawyer/{lawyer_id}/delete-case")
     Call<CommonResponse> deleteCase(@Path("lawyer_id") String lawyer_id, @Body DeleteCase body);
 
+//    notificaiton module
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/fcm-token")
     Call<ResponseBody> lawyer_fcm_token(@Path("lawyer_id") String lawyer_id, @Body AddFCMToken body);
@@ -110,6 +114,7 @@ public interface Case {
     @POST("lawyer/{client_id}/pre-appoint-response")
     Call<ResponseBody> appointResponse(@Path("client_id") String client_id, @Body PreAppointResponse body);
 
+//    document module
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/add-file")
     Call<CommonResponse> addFile(@Path("lawyer_id") String lawyer_id, @Body AddFile body);
@@ -130,6 +135,7 @@ public interface Case {
     @POST("client/{client_id}/list-public-documents")
     Call<GetDocumentResponse> publicDocumentClient(@Path("lawyer_id") String client_id, @Body GetDocument body);
 
+//    events module
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/add-event")
     Call<CommonResponse> createEventLawyer(@Path("lawyer_id") String lawyer_id, @Body CreateEventModel body);
@@ -158,5 +164,13 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @GET("client/{client_id}/list-lawyer")
     Call<ListLawyer> listLawyer(@Path("client_id") String client_id);
+
+    @Headers("Content-Type: application/json")
+    @GET("lawyer/{lawyer_id}/get-event")
+    Call<EventResponse> getEventLawyer(@Path("lawyer_id") String lawyer_id);
+
+    @Headers("Content-Type: application/json")
+    @GET("client/{client_id}/get-event")
+    Call<EventResponse> getEventClient(@Path("client_id") String client_id);
 
 }

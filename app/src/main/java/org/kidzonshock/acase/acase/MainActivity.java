@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 
+import org.kidzonshock.acase.acase.Client.ClientNavigation;
 import org.kidzonshock.acase.acase.Client.ClientSignin;
 import org.kidzonshock.acase.acase.Lawyer.Dashboard;
 import org.kidzonshock.acase.acase.Lawyer.LawyerSignin;
@@ -49,11 +50,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intentLogin = new Intent(MainActivity.this, Dashboard.class);
+        Intent intentLogin;
         if(PreferenceDataLawyer.getUserLoggedInStatus(MainActivity.this)){
+            intentLogin = new Intent(MainActivity.this, Dashboard.class);
             startActivity(intentLogin);
         }
         if(PreferenceDataClient.getUserLoggedInStatus(MainActivity.this)){
+            intentLogin = new Intent(MainActivity.this, ClientNavigation.class);
             startActivity(intentLogin);
         }
 
