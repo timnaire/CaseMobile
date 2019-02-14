@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.ClientListCase;
+import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.CreateEventModel;
 import org.kidzonshock.acase.acase.Models.DatePickerFragment;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
@@ -94,7 +96,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
         eventDetails = findViewById(R.id.eventDetails);
 
         spinnerLawyerArray = new ArrayList<String>();
-        spinnerLawyerArray.add("Select Client");
+        spinnerLawyerArray.add("Select Lawyer");
         spinnerEventType = findViewById(R.id.spinnerEventType);
         spinnerLawyer = findViewById(R.id.spinnerClient);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -139,14 +141,52 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                     dialog.show();
                     createEvent(client_id,title,location,details,date,time,type);
                 }
-                Toast.makeText(CreateEventClient.this, "Client:"+lawyer_name+" ,"+lawyer_id, Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
     private void createEvent(String client_id, String title, String location, String details, String date, String time, String type) {
-        /* TODO */
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> commonResponseCall = service.createEventClient(client_id,new CreateEventModel(lawyer_id,title,location,details,date,time,type));
+        commonResponseCall.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                dialog.dismiss();
+                if(!resp.isError()){
+                    inputEventTime.setText("");
+                    inputEventDate.setText("");
+                    eventDetails.setText("");
+                    inputEventLocation.setText("");
+                    inputEventTitle.setText("");
+                    spinnerLawyer.setSelection(getIndex(spinnerLawyer,"Select Lawyer"));
+                    spinnerEventType.setSelection(getIndex(spinnerEventType,"Meeting"));
+                    Toast.makeText(CreateEventClient.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreateEventClient.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                dialog.dismiss();
+                Toast.makeText(CreateEventClient.this, "Error in creating EVENT", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -179,7 +219,8 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
         } else {
             format = "AM";
         }
-        inputEventTime.setText(hourOfDay + ":" + minute + " "+format);
+        String time = hourOfDay + ":" + String.format("%02d",minute) + " "+format;
+        inputEventTime.setText(time);
     }
 
     private void getLawyer() {

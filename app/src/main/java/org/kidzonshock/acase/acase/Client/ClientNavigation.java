@@ -20,7 +20,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.kidzonshock.acase.acase.Lawyer.EventFragment;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
 import org.kidzonshock.acase.acase.R;
 
@@ -39,6 +38,10 @@ public class ClientNavigation extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Case");
+
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Case");
 
         client_id = PreferenceDataClient.getLoggedInClientid(ClientNavigation.this);
         first_name = PreferenceDataClient.getLoggedInFirstname(ClientNavigation.this);
@@ -77,8 +80,6 @@ public class ClientNavigation extends AppCompatActivity
         tvName.setText(first_name + " " + last_name);
         TextView tvEmail = headerLayout.findViewById(R.id.nav_client_email);
         tvEmail.setText(email);
-        TextView tvId = headerLayout.findViewById(R.id.nav_client_id);
-        tvId.setText("ID: "+client_id);
 
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -140,13 +141,13 @@ public class ClientNavigation extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_event_client) {
             toolbar.setTitle("My Event");
-            fragment = new EventFragment();
+            fragment = new org.kidzonshock.acase.acase.Client.EventFragment();
         } else if (id == R.id.nav_payment) {
             toolbar.setTitle("Payment");
 //            fragment = new EventFragment();
         } else if (id == R.id.nav_mylawyer) {
             toolbar.setTitle("My Lawyer");
-            fragment = new LawyerFragment();
+            fragment = new EventFragment();
         } else if (id == R.id.nav_myaccount_client) {
             toolbar.setTitle("My Account");
             fragment = new AccountFragment();

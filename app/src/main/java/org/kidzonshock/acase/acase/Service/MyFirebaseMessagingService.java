@@ -27,7 +27,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG,"relationID" + remoteMessage.getData().get("relation_id"));
 
         // Check if message contains a notification payload.
-        if (remoteMessage.getData() != null) {
+        if (remoteMessage.getData() != null && remoteMessage.getNotification().getTitle().equals("Pre-Appointment")) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             String msgBody = remoteMessage.getNotification().getBody();
             String client_id = remoteMessage.getData().get("client_id");

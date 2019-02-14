@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Events {
 
+    @SerializedName("event_id")
+    @Expose
+    private String event_id;
+
     @SerializedName("client")
     @Expose
     private Client client;
@@ -32,7 +36,8 @@ public class Events {
     @Expose
     private String eventType;
 
-    public Events(Client client, Lawyer lawyer, String eventTitle, String eventLocation, String eventDetails, String eventDate, String eventTime, String eventType) {
+    public Events(String event_id,Client client, Lawyer lawyer, String eventTitle, String eventLocation, String eventDetails, String eventDate, String eventTime, String eventType) {
+        this.event_id = event_id;
         this.client = client;
         this.lawyer = lawyer;
         this.eventTitle = eventTitle;
@@ -41,6 +46,14 @@ public class Events {
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.eventType = eventType;
+    }
+
+    public String getEvent_id() {
+        return event_id;
+    }
+
+    public void setEvent_id(String event_id) {
+        this.event_id = event_id;
     }
 
     public Client getClient() {

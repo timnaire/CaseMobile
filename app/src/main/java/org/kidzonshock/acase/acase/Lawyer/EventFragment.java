@@ -60,7 +60,6 @@ public class EventFragment extends Fragment {
         lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getActivity());
         lv = view.findViewById(R.id.list_of_events);
         loading = view.findViewById(R.id.linlaHeaderProgress);
-
         getEvents();
         registerForContextMenu(lv);
         loading.setVisibility(View.VISIBLE);
@@ -80,10 +79,10 @@ public class EventFragment extends Fragment {
                 EventResponse resp = response.body();
                 loading.setVisibility(View.GONE);
                 if(isAdded() && !resp.isError()){
-                    String eventTitle,eventWith,eventDate,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice;
+                    String event_id,eventTitle,eventWith,eventDate,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice;
                     ArrayList<Events> list_events = response.body().getEvents();
                     for(int i=0; i < list_events.size(); i++){
-
+                        event_id = list_events.get(i).getEvent_id();
                         eventTitle = list_events.get(i).getEventTitle();
                         eventDate = list_events.get(i).getEventDate();
                         clientName = list_events.get(i).getClient().getFirst_name() +" "+ list_events.get(i).getClient().getLast_name();
@@ -97,7 +96,7 @@ public class EventFragment extends Fragment {
                         lawyerOffice = list_events.get(i).getLawyer().getOffice();
 
                         eventWith = clientName;
-                        list.add(new EventModel(eventWith,eventTitle,eventDate,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
+                        list.add(new EventModel(event_id,eventWith,eventTitle,eventDate,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
                     }
                     adapter = new EventAdapter(getActivity(),list);
                     lv.setAdapter(adapter);
@@ -126,12 +125,12 @@ public class EventFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
-            case R.id.View:
+            case R.id.view_event_lawyer:
                 Toast.makeText(getActivity(), "View", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.Edit:
+            case R.id.edit_event_lawyer:
                 break;
-            case R.id.Delete:
+            case R.id.remove_event_lawyer:
                 break;
         }
 

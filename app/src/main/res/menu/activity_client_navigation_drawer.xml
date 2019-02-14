@@ -9,6 +9,10 @@
             android:icon="@drawable/icons8_briefcase_48"
             android:title="Case" />
         <item
+            android:id="@+id/nav_mylawyer"
+            android:icon="@drawable/icons8_crowd_48"
+            android:title="Lawyer" />
+        <item
             android:id="@+id/nav_event_client"
             android:icon="@drawable/icons8_calendar_48"
             android:title="Event" />
@@ -16,10 +20,6 @@
             android:id="@+id/nav_payment"
             android:icon="@drawable/icons8_credit_card_48"
             android:title="Payment" />
-        <item
-            android:id="@+id/nav_mylawyer"
-            android:icon="@drawable/icons8_crowd_48"
-            android:title="Lawyer" />
         <item
             android:id="@+id/nav_myaccount_client"
             android:icon="@drawable/icons8_account_48"

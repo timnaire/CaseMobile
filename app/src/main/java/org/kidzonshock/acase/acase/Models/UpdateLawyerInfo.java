@@ -7,23 +7,25 @@ import java.util.ArrayList;
 public class UpdateLawyerInfo {
 
     @SerializedName("first_name")
-    String first_name;
+    private String first_name;
     @SerializedName("last_name")
-    String last_name;
+    private String last_name;
     @SerializedName("phone")
-    String phone;
+    private String phone;
     @SerializedName("cityOrMunicipality")
-    String cityOrMunicipality;
+    private String cityOrMunicipality;
     @SerializedName("office")
-    String office;
+    private String office;
     @SerializedName("aboutme")
-    String aboutme;
+    private String aboutme;
     @SerializedName("firm")
-    String firm;
+    private String firm;
+    @SerializedName("sex")
+    private String sex;
     @SerializedName("law_practice")
-    ArrayList<String> law_practice;
+    private ArrayList<String> law_practice;
 
-    public UpdateLawyerInfo(String first_name, String last_name, String phone, String cityOrMunicipality, String office, String aboutme, String firm, ArrayList<String> law_practice) {
+    public UpdateLawyerInfo(String first_name, String last_name, String phone, String cityOrMunicipality, String office, String aboutme, String firm,String sex, ArrayList<String> law_practice) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.phone = phone;
@@ -31,6 +33,7 @@ public class UpdateLawyerInfo {
         this.office = office;
         this.aboutme = aboutme;
         this.firm = firm;
+        this.sex = sex;
         this.law_practice = law_practice;
     }
 
@@ -80,6 +83,14 @@ public class UpdateLawyerInfo {
 
     public void setAboutme(String aboutme) {
         this.aboutme = aboutme;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public String getFirm() {

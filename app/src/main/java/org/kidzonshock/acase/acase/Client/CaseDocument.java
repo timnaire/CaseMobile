@@ -12,8 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
-import org.kidzonshock.acase.acase.Lawyer.CaseDocuments;
-import org.kidzonshock.acase.acase.Lawyer.FileUpload;
 import org.kidzonshock.acase.acase.Models.Document;
 import org.kidzonshock.acase.acase.Models.FileAdapter;
 import org.kidzonshock.acase.acase.Models.FileModel;
@@ -63,6 +61,12 @@ public class CaseDocument extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_mycase, menu);
@@ -75,7 +79,7 @@ public class CaseDocument extends AppCompatActivity {
         if(id == R.id.search){
 
         } else if(id == R.id.add){
-            Intent intent = new Intent(CaseDocument.this,FileUpload.class);
+            Intent intent = new Intent(CaseDocument.this,FileUploadClient.class);
             intent.putExtra("case_id", case_id);
             startActivity(intent);
         }

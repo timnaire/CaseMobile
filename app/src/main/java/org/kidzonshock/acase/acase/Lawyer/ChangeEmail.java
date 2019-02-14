@@ -1,6 +1,5 @@
 package org.kidzonshock.acase.acase.Lawyer;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -63,8 +62,7 @@ public class ChangeEmail extends AppCompatActivity {
 
         btnChangeEmail = findViewById(R.id.btnChangeEmail);
 
-        Intent prev = getIntent();
-        String email = prev.getStringExtra("email");
+        String email = PreferenceDataLawyer.getLoggedInEmail(ChangeEmail.this);
 
         inputCurrent.setText(email);
 

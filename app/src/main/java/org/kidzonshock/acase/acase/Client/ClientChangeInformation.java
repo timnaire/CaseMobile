@@ -57,8 +57,8 @@ public class ClientChangeInformation extends AppCompatActivity {
         last_name = PreferenceDataClient.getLoggedInLastname(ClientChangeInformation.this);
         phone = PreferenceDataClient.getLoggedInPhone(ClientChangeInformation.this);
         address = PreferenceDataClient.getLoggedInAddress(ClientChangeInformation.this);
-        sex = PreferenceDataLawyer.getLoggedInSex(ClientChangeInformation.this);
-
+        sex = PreferenceDataClient.getLoggedInSex(ClientChangeInformation.this);
+        Toast.makeText(this, "Client sex:"+sex, Toast.LENGTH_SHORT).show();
 //        set all the id from views
         btnSaveInfoClient = findViewById(R.id.btnSaveInfoClient);
 
@@ -66,7 +66,7 @@ public class ClientChangeInformation extends AppCompatActivity {
         layoutUpdateLastClient = findViewById(R.id.layoutUpdateLastClient);
         layoutUpdatePhoneClient = findViewById(R.id.layoutUpdatePhoneClient);
         layoutUpdateAddressClient = findViewById(R.id.layoutUpdateAddressClient);
-
+        clientSex = findViewById(R.id.spinnerClientSex);
         inputUpdateFirstClient = findViewById(R.id.inputUpdateFirstClient);
         inputUpdateLastClient = findViewById(R.id.inputUpdateLastClient);
         inputUpdatePhoneClient = findViewById(R.id.inputUpdatePhoneClient);

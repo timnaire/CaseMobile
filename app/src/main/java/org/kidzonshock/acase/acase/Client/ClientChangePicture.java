@@ -24,6 +24,7 @@ import com.kosalgeek.android.photoutil.GalleryPhoto;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.UpdatePicture;
 import org.kidzonshock.acase.acase.R;
@@ -82,9 +83,8 @@ public class ClientChangePicture extends AppCompatActivity {
                 .fadeColor(Color.DKGRAY).build();
 
         // get intent extra
-        Intent prev = getIntent();
-        client_id = prev.getStringExtra("client_id");
-        profile_pic = prev.getStringExtra("profile_pic");
+        client_id = PreferenceDataClient.getLoggedInClientid(ClientChangePicture.this);
+        profile_pic = PreferenceDataClient.getLoggedInProfilePicture(ClientChangePicture.this);
 
         options = new RequestOptions()
                 .circleCrop()
@@ -169,7 +169,7 @@ public class ClientChangePicture extends AppCompatActivity {
                             dialog.dismiss();
                             CommonResponse updatePictureResponse = response.body();
                             if(!updatePictureResponse.isError()){
-                                PreferenceDataLawyer.setLoggedInProfilePicture(getApplicationContext(),picuri);
+                                PreferenceDataClient.setLoggedInProfilePicture(getApplicationContext(),picuri);
                                 Toast.makeText(getApplicationContext(), updatePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();
                             }else {
                                 Toast.makeText(ClientChangePicture.this, updatePictureResponse.getMessage(), Toast.LENGTH_SHORT).show();

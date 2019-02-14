@@ -2,6 +2,8 @@ package org.kidzonshock.acase.acase.Models;
 
 public class EventModel {
 
+    private String event_id;
+
     private String eventWith;
     private String eventTitle;
     private String eventDate;
@@ -18,7 +20,8 @@ public class EventModel {
     private String lawyerPhone;
     private String lawyerOffice;
 
-    public EventModel(String eventWith,String eventTitle, String eventDate, String clientName, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
+    public EventModel(String event_id,String eventWith,String eventTitle, String eventDate, String clientName, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
+        this.event_id = event_id;
         this.eventWith = eventWith;
         this.eventTitle = eventTitle;
         this.eventDate = eventDate;
@@ -30,6 +33,14 @@ public class EventModel {
         this.lawyyerEmail = lawyyerEmail;
         this.lawyerPhone = lawyerPhone;
         this.lawyerOffice = lawyerOffice;
+    }
+
+    public String getEvent_id() {
+        return event_id;
+    }
+
+    public void setEvent_id(String event_id) {
+        this.event_id = event_id;
     }
 
     public String getEventWith() {

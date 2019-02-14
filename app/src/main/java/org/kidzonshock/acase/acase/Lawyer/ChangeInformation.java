@@ -31,14 +31,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChangeInformation extends AppCompatActivity {
 
-    String lawyer_id, first_name,last_name,phone,office,cityOrMunicipality, aboutme,firm;
+    String lawyer_id, first_name,last_name,phone,office,cityOrMunicipality, aboutme,firm,sex;
     String[] law_practice;
 
     CheckBox chkBusinessLaw, chkCivilLaw,chkConstitutionalLaw,chkCriminalLaw,chkFamilyLaw,chkLaborLaw,chkTaxationLaw;
     ACProgressFlower dialog;
 
-    TextInputLayout layoutUpdateFirst, layoutUpdateLast, layoutUpdatePhone, layoutUpdateCity,layoutUpdateOffice,layoutUpdateFirm;
-    TextInputEditText inputUpdateFirst, inputUpdateLast, inputUpdatePhone, inputUpdateCity,inputUpdateOffice,inputUpdateFirm;
+    TextInputLayout layoutUpdateFirst, layoutUpdateLast, layoutUpdatePhone, layoutUpdateCity,layoutUpdateOffice,layoutUpdateFirm, layoutUpdateSex;
+    TextInputEditText inputUpdateFirst, inputUpdateLast, inputUpdatePhone, inputUpdateCity,inputUpdateOffice,inputUpdateFirm, inputUpdateSex;
     Button btnSaveInfo;
     EditText updateAboutme;
 
@@ -58,6 +58,7 @@ public class ChangeInformation extends AppCompatActivity {
         office = PreferenceDataLawyer.getLoggedInOffice(ChangeInformation.this);
         aboutme = PreferenceDataLawyer.getLoggedInAboutme(ChangeInformation.this);
         firm = PreferenceDataLawyer.getLoggedInFirm(ChangeInformation.this);
+        sex = PreferenceDataLawyer.getLoggedInSex(ChangeInformation.this);
         law_practice = prev.getStringArrayExtra("law_practice");
 
 //        set all the id from views
@@ -69,6 +70,7 @@ public class ChangeInformation extends AppCompatActivity {
         layoutUpdateCity = findViewById(R.id.layoutUpdateCity);
         layoutUpdateOffice = findViewById(R.id.layoutUpdateOffice);
         layoutUpdateFirm = findViewById(R.id.layoutUpdateFirm);
+        layoutUpdateSex = findViewById(R.id.layoutUpdateSex);
 
         inputUpdateFirst = findViewById(R.id.inputUpdateFirst);
         inputUpdateLast = findViewById(R.id.inputUpdateLast);
@@ -77,6 +79,7 @@ public class ChangeInformation extends AppCompatActivity {
         inputUpdateOffice = findViewById(R.id.inputUpdateOffice);
         updateAboutme = findViewById(R.id.updateAboutme);
         inputUpdateFirm = findViewById(R.id.inputUpdateFirm);
+        inputUpdateSex = findViewById(R.id.inputUpdateSex);
 
         chkBusinessLaw = findViewById(R.id.chkBusinessLaw);
         chkCivilLaw = findViewById(R.id.chkCivilLaw);
@@ -101,6 +104,7 @@ public class ChangeInformation extends AppCompatActivity {
         inputUpdateCity.setText(cityOrMunicipality);
         inputUpdateOffice.setText(office);
         inputUpdateFirm.setText(firm);
+        inputUpdateSex.setText(sex);
         updateAboutme.setText(aboutme);
 
         for(int i=0; i < law_practice.length; i++){
@@ -132,7 +136,8 @@ public class ChangeInformation extends AppCompatActivity {
                 String newOffice = inputUpdateOffice.getText().toString();
                 String newAboutme = updateAboutme.getText().toString();
                 String newFirm = inputUpdateFirm.getText().toString();
-                if(validateForm(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme,newFirm)){
+                String newSex = inputUpdateSex.getText().toString();
+                if(validateForm(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme,newFirm,newSex)){
                     ArrayList<String> newLaw_practice = new ArrayList<String>();
                     if(chkBusinessLaw.isChecked()){
                         newLaw_practice.add(chkBusinessLaw.getText().toString());
@@ -156,7 +161,7 @@ public class ChangeInformation extends AppCompatActivity {
                         newLaw_practice.add(chkTaxationLaw.getText().toString());
                     }
 
-                    updateInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newFirm,newAboutme, newLaw_practice);
+                    updateInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newFirm,newSex,newAboutme, newLaw_practice);
 
                 }
             }
@@ -170,14 +175,14 @@ public class ChangeInformation extends AppCompatActivity {
         return true;
     }
 
-    public void updateInfo(final String newFirstname, final String newLastname, final String newPhone, final String newCity, final String newOffice,final String newFirm, final String newAboutme, final ArrayList<String> newLaw_practice){
+    public void updateInfo(final String newFirstname, final String newLastname, final String newPhone, final String newCity, final String newOffice,final String newFirm, final String newSex, final String newAboutme, final ArrayList<String> newLaw_practice){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         dialog.show();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> updateLawyerInfoCall = service.updateInfo(lawyer_id,new UpdateLawyerInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme,newFirm,newLaw_practice));
+        Call<CommonResponse> updateLawyerInfoCall = service.updateInfo(lawyer_id,new UpdateLawyerInfo(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme,newFirm,newSex,newLaw_practice));
         updateLawyerInfoCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -206,11 +211,19 @@ public class ChangeInformation extends AppCompatActivity {
 
     }
 
-    private boolean validateForm(String first,String last, String phone, String city, String office,String aboutme, String firm) {
+    private boolean validateForm(String first,String last, String phone, String city, String office,String aboutme, String firm, String sex) {
         boolean valid = true;
 
         if(aboutme.equals(null)){
             valid = false;
+        }
+
+        if (TextUtils.isEmpty(sex)) {
+            layoutUpdateSex.setError("Required");
+            layoutUpdateSex.requestFocus();
+            valid = false;
+        } else {
+            layoutUpdateSex.setError(null);
         }
 
         if (TextUtils.isEmpty(firm)) {

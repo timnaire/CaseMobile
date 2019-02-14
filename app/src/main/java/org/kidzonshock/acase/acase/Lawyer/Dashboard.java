@@ -88,30 +88,30 @@ public class Dashboard extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Case.BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        Case service = retrofit.create(Case.class);
-//
-//        Call<CommonResponse> commonResponseCall = service.notify(lawyer_id);
-//        commonResponseCall.enqueue(new Callback<CommonResponse>() {
-//            @Override
-//            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
-//                CommonResponse resp = response.body();
-//                if(!resp.isError()){
-//                    Toast.makeText(Dashboard.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(Dashboard.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CommonResponse> call, Throwable t) {
-//                Log.d(TAG,"Error: "+t.getMessage());
-//            }
-//        });
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Case service = retrofit.create(Case.class);
+
+        Call<CommonResponse> commonResponseCall = service.notify(lawyer_id);
+        commonResponseCall.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(!resp.isError()){
+                    Toast.makeText(Dashboard.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(Dashboard.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                Log.d(TAG,"Error: "+t.getMessage());
+            }
+        });
 
     }
 

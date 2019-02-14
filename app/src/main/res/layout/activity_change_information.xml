@@ -98,20 +98,41 @@
                     android:hint="Office" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layoutUpdateFirm"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="5dp">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/inputUpdateFirm"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/layoutUpdateFirm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Firm" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/inputUpdateFirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Firm" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/layoutUpdateSex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/inputUpdateSex"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Sex" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/updateAboutme"

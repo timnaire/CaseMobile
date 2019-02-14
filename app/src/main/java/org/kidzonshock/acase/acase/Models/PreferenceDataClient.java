@@ -121,6 +121,10 @@ public class PreferenceDataClient
     {
         return getSharedPreferences(ctx).getString(pref_client_FCM_TOKEN, "");
     }
+    public static String getLoggedInSex(Context ctx)
+    {
+        return getSharedPreferences(ctx).getString(pref_client_sex, "");
+    }
 
 
     //  status

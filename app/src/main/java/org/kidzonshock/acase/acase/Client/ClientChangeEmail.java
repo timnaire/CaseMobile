@@ -62,8 +62,7 @@ public class ClientChangeEmail extends AppCompatActivity {
 
         btnChangeEmailClient = findViewById(R.id.btnChangeEmailClient);
 
-        Intent prev = getIntent();
-        String email = prev.getStringExtra("email");
+        String email = PreferenceDataClient.getLoggedInEmail(ClientChangeEmail.this);
 
         inputCurrentClient.setText(email);
 

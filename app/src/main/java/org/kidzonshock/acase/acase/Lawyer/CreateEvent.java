@@ -146,6 +146,15 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
 
     }
 
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+        return 0;
+    }
+
     private void createEvent(String client_id, String title, String location, String details, String date, String time, String type) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
@@ -159,6 +168,13 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 CommonResponse resp = response.body();
                 dialog.dismiss();
                 if(!resp.isError()){
+                    inputEventTime.setText("");
+                    inputEventDate.setText("");
+                    eventDetails.setText("");
+                    inputEventLocation.setText("");
+                    inputEventTitle.setText("");
+                    spinnerClient.setSelection(getIndex(spinnerClient,"Select Client"));
+                    spinnerEventType.setSelection(getIndex(spinnerEventType,"Meeting"));
                     Toast.makeText(CreateEvent.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(CreateEvent.this, resp.getMessage(), Toast.LENGTH_SHORT).show();

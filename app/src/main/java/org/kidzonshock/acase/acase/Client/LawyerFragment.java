@@ -74,8 +74,6 @@ public class LawyerFragment extends Fragment {
         switch(id){
             case R.id.view_user:
                 break;
-            case R.id.edit_user:
-                break;
             case R.id.remove_user:
                 break;
         }

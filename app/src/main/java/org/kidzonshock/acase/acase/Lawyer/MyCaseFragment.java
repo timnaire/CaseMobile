@@ -256,7 +256,7 @@ public class MyCaseFragment extends Fragment {
                     }
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), listClient.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "No clients found");
                 }
             }
             @Override

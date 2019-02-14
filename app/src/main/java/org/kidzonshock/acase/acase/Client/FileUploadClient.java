@@ -1,4 +1,4 @@
-package org.kidzonshock.acase.acase.Lawyer;
+package org.kidzonshock.acase.acase.Client;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +30,7 @@ import com.google.firebase.storage.UploadTask;
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.AddFile;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
-import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
+import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
 import org.kidzonshock.acase.acase.R;
 
 import java.io.File;
@@ -45,13 +44,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FileUpload extends AppCompatActivity {
+public class FileUploadClient extends AppCompatActivity {
 
     Button btnSelectFile, btnUpload;
     TextView notification;
     Uri fileselected;
-    String case_id,lawyer_id,filename,file_p;
-    Spinner file_privacy;
+    String case_id,client_id,filename,file_p;
 
 
     final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -62,12 +60,12 @@ public class FileUpload extends AppCompatActivity {
     StorageReference filepath;
 
     ACProgressFlower dialog;
-    private final String TAG = "FileUpload";
+    private final String TAG = "FileUploadClient";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_file_upload);
+        setContentView(R.layout.activity_file_upload_client);
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,14 +76,13 @@ public class FileUpload extends AppCompatActivity {
         Intent prev = getIntent();
         case_id = prev.getStringExtra("case_id");
 
-        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(FileUpload.this);
+        client_id = PreferenceDataClient.getLoggedInClientid(FileUploadClient.this);
 
         btnSelectFile = findViewById(R.id.btnSelectFile);
         btnUpload = findViewById(R.id.btnUpload);
         notification = findViewById(R.id.filenotify);
-        file_privacy = findViewById(R.id.file_privacy);
 
-        dialog = new ACProgressFlower.Builder(FileUpload.this)
+        dialog = new ACProgressFlower.Builder(FileUploadClient.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)
                 .text("Please wait")
@@ -94,10 +91,10 @@ public class FileUpload extends AppCompatActivity {
         btnSelectFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ContextCompat.checkSelfPermission(FileUpload.this,Manifest.permission.READ_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+                if(ContextCompat.checkSelfPermission(FileUploadClient.this,Manifest.permission.READ_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
                     selectFile();
                 } else {
-                    ActivityCompat.requestPermissions(FileUpload.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
+                    ActivityCompat.requestPermissions(FileUploadClient.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
                 }
             }
         });
@@ -105,12 +102,12 @@ public class FileUpload extends AppCompatActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                file_p = file_privacy.getSelectedItem().toString();
                 if(fileselected!=null) {
                     dialog.show();
-                    uploadFile(case_id, filename, fileselected, file_p);
+                    file_p = "Public";
+                    uploadFile(case_id, filename, fileselected,file_p);
                 }else
-                    Toast.makeText(FileUpload.this, "Please select a file!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FileUploadClient.this, "Please select a file!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -143,7 +140,7 @@ public class FileUpload extends AppCompatActivity {
                             .build();
 
                     Case service = retrofit.create(Case.class);
-                    Call<CommonResponse> commonResponseCall = service.addFile(lawyer_id,new AddFile(case_id,file,filename,file_p));
+                    Call<CommonResponse> commonResponseCall = service.addFile(client_id,new AddFile(case_id,file,filename,file_p));
                     commonResponseCall.enqueue(new Callback<CommonResponse>() {
                         @Override
                         public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -152,16 +149,16 @@ public class FileUpload extends AppCompatActivity {
                             notification.setText("No file selected");
                             fileselected = null;
                             if(!resp.isError()){
-                                Toast.makeText(FileUpload.this, "File uploaded !", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FileUploadClient.this, "File uploaded !", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(FileUpload.this, "Please fill up all the fields and try again.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FileUploadClient.this, "Please fill up all the fields and try again.", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<CommonResponse> call, Throwable t) {
                             dialog.dismiss();
-                            Toast.makeText(FileUpload.this, "Unable to upload file, please try again.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FileUploadClient.this, "Unable to upload file, please try again.", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -178,7 +175,7 @@ public class FileUpload extends AppCompatActivity {
         if(requestCode == 9 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             selectFile();
         } else {
-            Toast.makeText(FileUpload.this, "Please provide permission..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(FileUploadClient.this, "Please provide permission..", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -209,7 +206,7 @@ public class FileUpload extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == 100 && resultCode == RESULT_OK && data!=null){
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
             fileselected = data.getData();
             String uriString = fileselected.toString();
 //            String[] bits = pdfURi.toString().split("/");
@@ -232,13 +229,11 @@ public class FileUpload extends AppCompatActivity {
                 displayName = myFile.getName();
             }
             filename = displayName;
-            notification.setText("File selected is "+displayName);
+            notification.setText("File selected is " + displayName);
         } else {
-            Toast.makeText(FileUpload.this, "Please select a file", Toast.LENGTH_SHORT).show();
+            Toast.makeText(FileUploadClient.this, "Please select a file", Toast.LENGTH_SHORT).show();
         }
-
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -253,4 +248,5 @@ public class FileUpload extends AppCompatActivity {
             sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
         return sb.toString();
     }
+
 }

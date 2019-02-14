@@ -120,6 +120,10 @@ public interface Case {
     Call<CommonResponse> addFile(@Path("lawyer_id") String lawyer_id, @Body AddFile body);
 
     @Headers("Content-Type: application/json")
+    @POST("client/{client_id}/add-file")
+    Call<CommonResponse> addFileClient(@Path("client_id") String client_id, @Body AddFile body);
+
+    @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/list-all-file")
     Call<GetDocumentResponse> allDocument(@Path("lawyer_id") String lawyer_id, @Body GetDocument body);
 
@@ -133,12 +137,16 @@ public interface Case {
 
     @Headers("Content-Type: application/json")
     @POST("client/{client_id}/list-public-documents")
-    Call<GetDocumentResponse> publicDocumentClient(@Path("lawyer_id") String client_id, @Body GetDocument body);
+    Call<GetDocumentResponse> publicDocumentClient(@Path("client_id") String client_id, @Body GetDocument body);
 
 //    events module
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/add-event")
     Call<CommonResponse> createEventLawyer(@Path("lawyer_id") String lawyer_id, @Body CreateEventModel body);
+
+    @Headers("Content-Type: application/json")
+    @POST("client/{client_id}/add-event")
+    Call<CommonResponse> createEventClient(@Path("client_id") String client_id, @Body CreateEventModel body);
 
 //    GET REQUEST
     @Headers("Content-Type: application/json")

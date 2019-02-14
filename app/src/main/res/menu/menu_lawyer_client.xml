@@ -7,10 +7,7 @@
         android:title="View"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/edit_user"
-        android:title="Edit"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/remove_user"
-        android:title="Remove" />
+        android:title="Remove"
+        app:showAsAction="ifRoom" />
 </menu>
