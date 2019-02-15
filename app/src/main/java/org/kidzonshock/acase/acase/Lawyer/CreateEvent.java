@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
-import org.kidzonshock.acase.acase.Models.CreateEventModel;
+import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
 import org.kidzonshock.acase.acase.Models.DatePickerFragment;
 import org.kidzonshock.acase.acase.Models.LawyerListCase;
 import org.kidzonshock.acase.acase.Models.ListClient;
@@ -56,7 +56,7 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
     ACProgressFlower dialog;
     LinearLayout loading;
 
-    private final String TAG = "CreateEventModel";
+    private final String TAG = "CreateEventModelLawyer";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +161,7 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.createEventLawyer(lawyer_id,new CreateEventModel(client_id,title,location,details,date,time,type));
+        Call<CommonResponse> commonResponseCall = service.createEventLawyer(lawyer_id,new CreateEventModelLawyer(client_id,title,location,details,date,time,type));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

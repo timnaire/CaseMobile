@@ -22,7 +22,8 @@ import android.widget.Toast;
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.ClientListCase;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
-import org.kidzonshock.acase.acase.Models.CreateEventModel;
+import org.kidzonshock.acase.acase.Models.CreateEventModelClient;
+import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
 import org.kidzonshock.acase.acase.Models.DatePickerFragment;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
@@ -139,20 +140,20 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 }
                 if(validateForm(title,location,date,time)){
                     dialog.show();
-                    createEvent(client_id,title,location,details,date,time,type);
+                    createEvent(lawyer_id,title,location,details,date,time,type);
                 }
             }
         });
 
     }
 
-    private void createEvent(String client_id, String title, String location, String details, String date, String time, String type) {
+    private void createEvent(String lawyer_id, String title, String location, String details, String date, String time, String type) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.createEventClient(client_id,new CreateEventModel(lawyer_id,title,location,details,date,time,type));
+        Call<CommonResponse> commonResponseCall = service.createEventClient(client_id,new CreateEventModelClient(lawyer_id,title,location,details,date,time,type));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

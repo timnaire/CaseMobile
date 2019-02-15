@@ -76,6 +76,9 @@ public class ClientNavigation extends AppCompatActivity
 
         Glide.with(this).load(profile_pic).apply(options).into(nav_client_pic);
 
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
+
         TextView tvName  = headerLayout.findViewById(R.id.nav_client_name);
         tvName.setText(first_name + " " + last_name);
         TextView tvEmail = headerLayout.findViewById(R.id.nav_client_email);
@@ -141,13 +144,13 @@ public class ClientNavigation extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_event_client) {
             toolbar.setTitle("My Event");
-            fragment = new org.kidzonshock.acase.acase.Client.EventFragment();
+            fragment = new EventFragment();
         } else if (id == R.id.nav_payment) {
             toolbar.setTitle("Payment");
-//            fragment = new EventFragment();
+
         } else if (id == R.id.nav_mylawyer) {
             toolbar.setTitle("My Lawyer");
-            fragment = new EventFragment();
+            fragment = new LawyerFragment();
         } else if (id == R.id.nav_myaccount_client) {
             toolbar.setTitle("My Account");
             fragment = new AccountFragment();

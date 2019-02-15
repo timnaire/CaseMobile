@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/navigation_all"
-        android:icon="@drawable/icons8_folder_48"
+        android:icon="@drawable/menu_selected"
         android:title="All" />
 
     <item
         android:id="@+id/navigation_research"
-        android:icon="@drawable/icons8_folder_48"
+        android:icon="@drawable/menu_selected"
         android:title="Research" />
 
     <item
         android:id="@+id/navigation_publicdoc"
-        android:icon="@drawable/icons8_folder_48"
+        android:icon="@drawable/menu_selected"
         android:title="Public Documents" />
 
 </menu>

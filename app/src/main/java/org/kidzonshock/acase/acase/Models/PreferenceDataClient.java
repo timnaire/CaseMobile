@@ -153,6 +153,7 @@ public class PreferenceDataClient
         editor.remove(pref_client_address);
         editor.remove(pref_client_profilepic);
         editor.remove(pref_client_status);
+        editor.remove(pref_client_sex);
         editor.commit();
     }
 }

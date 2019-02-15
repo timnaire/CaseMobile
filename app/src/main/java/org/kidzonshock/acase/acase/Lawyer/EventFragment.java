@@ -51,7 +51,7 @@ public class EventFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_event,null);
-}
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -60,9 +60,20 @@ public class EventFragment extends Fragment {
         lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getActivity());
         lv = view.findViewById(R.id.list_of_events);
         loading = view.findViewById(R.id.linlaHeaderProgress);
-        getEvents();
+
         registerForContextMenu(lv);
+        getEvents();
         loading.setVisibility(View.VISIBLE);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == parent.getItemIdAtPosition(position)){
+                    EventModel event = (EventModel) parent.getItemAtPosition(position);
+                    Toast.makeText(getActivity(), "Click !"+event.getEventTitle(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
@@ -115,7 +126,7 @@ public class EventFragment extends Fragment {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        getActivity().getMenuInflater().inflate(R.menu.menu_case_context,menu);
+        getActivity().getMenuInflater().inflate(R.menu.menu_event_lawyer,menu);
         super.onCreateContextMenu(menu, v, menuInfo);
         info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         menu.setHeaderTitle(list.get(info.position).getEventTitle());

@@ -90,7 +90,7 @@ public class ClientChangePicture extends AppCompatActivity {
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
-                .placeholder(R.drawable.accounticon)
+                .placeholder(R.mipmap.ic_launcher_round)
                 .error(R.mipmap.ic_launcher_round);
 
         Glide.with(this).load(profile_pic).apply(options).into(client_profile_pic);

@@ -6,23 +6,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_mycase_client"
-            android:icon="@drawable/icons8_briefcase_48"
+            android:icon="@drawable/menu_case_selected"
             android:title="Case" />
         <item
             android:id="@+id/nav_mylawyer"
-            android:icon="@drawable/icons8_crowd_48"
+            android:icon="@drawable/menu_user_group_selected"
             android:title="Lawyer" />
         <item
             android:id="@+id/nav_event_client"
-            android:icon="@drawable/icons8_calendar_48"
+            android:icon="@drawable/menu_event_selected"
             android:title="Event" />
         <item
             android:id="@+id/nav_payment"
-            android:icon="@drawable/icons8_credit_card_48"
+            android:icon="@drawable/menu_payment_selected"
             android:title="Payment" />
         <item
             android:id="@+id/nav_myaccount_client"
-            android:icon="@drawable/icons8_account_48"
+            android:icon="@drawable/menu_account_selected"
             android:title="Account" />
     </group>
 

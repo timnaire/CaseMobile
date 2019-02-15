@@ -58,7 +58,7 @@ public class ClientAdapter extends BaseAdapter {
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
-                .placeholder(R.drawable.accounticon)
+                .placeholder(R.drawable.icons8_male_user_48_icon)
                 .error(R.mipmap.ic_launcher_round);
 
         Glide.with(context).load(c.getProfile_pic()).apply(options).into(iv);

@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Lawyer.CaseDocuments;
+import org.kidzonshock.acase.acase.Models.CaseModel;
 import org.kidzonshock.acase.acase.Models.EventAdapter;
 import org.kidzonshock.acase.acase.Models.EventModel;
 import org.kidzonshock.acase.acase.Models.EventResponse;
@@ -61,14 +63,17 @@ public class EventFragment extends Fragment {
         lv = view.findViewById(R.id.list_events_client);
         loading = view.findViewById(R.id.linlaHeaderProgress);
 
-        getEvents();
         registerForContextMenu(lv);
+        getEvents();
         loading.setVisibility(View.VISIBLE);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Click !", Toast.LENGTH_SHORT).show();
+                if(position == parent.getItemIdAtPosition(position)){
+                    EventModel event = (EventModel) parent.getItemAtPosition(position);
+                    Toast.makeText(getActivity(), "Click !"+event.getEventTitle(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -104,11 +109,12 @@ public class EventFragment extends Fragment {
         int id = item.getItemId();
         switch (id){
             case R.id.view_event_client:
+                Toast.makeText(getActivity(), "View Event!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.remove_event_client:
+                Toast.makeText(getActivity(), "Remove Event!", Toast.LENGTH_SHORT).show();
                 break;
         }
-
         return super.onContextItemSelected(item);
     }
 

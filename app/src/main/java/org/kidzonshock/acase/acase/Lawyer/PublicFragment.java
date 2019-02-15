@@ -81,7 +81,7 @@ public class PublicFragment extends Fragment {
                         dlUrl = list_files.get(i).getCaseFile();
                         fileType = list_files.get(i).getFileType();
                         filePrivacy = list_files.get(i).getFilePrivacy();
-                        list.add(new FileModel(R.drawable.icons8_document_48,fileName));
+                        list.add(new FileModel(R.drawable.icons8_document_48_color,fileName));
                     }
                     adapter = new FileAdapter(getActivity(),list);
                     grid.setAdapter(adapter);

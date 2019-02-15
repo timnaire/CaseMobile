@@ -57,7 +57,7 @@ public class FileAdapter extends BaseAdapter {
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
-                .placeholder(R.mipmap.ic_launcher_round)
+                .placeholder(R.drawable.icons8_document_48_color)
                 .error(R.mipmap.ic_launcher_round);
 
         Glide.with(context).load(f.getImg()).apply(options).into(iv);

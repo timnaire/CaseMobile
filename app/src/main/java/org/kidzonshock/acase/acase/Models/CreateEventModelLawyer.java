@@ -2,7 +2,7 @@ package org.kidzonshock.acase.acase.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CreateEventModel {
+public class CreateEventModelLawyer {
 
     @SerializedName("client_id")
     private String client_id;
@@ -25,7 +25,7 @@ public class CreateEventModel {
     @SerializedName("event_type")
     private String event_type;
 
-    public CreateEventModel(String client_id, String event_title, String event_location, String event_details, String event_date, String event_time, String event_type) {
+    public CreateEventModelLawyer(String client_id, String event_title, String event_location, String event_details, String event_date, String event_time, String event_type) {
         this.client_id = client_id;
         this.event_title = event_title;
         this.event_location = event_location;

@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,25 +62,17 @@ public class LawyerFragment extends Fragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         getActivity().getMenuInflater().inflate(R.menu.menu_lawyer_client,menu);
         super.onCreateContextMenu(menu, v, menuInfo);
         info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         menu.setHeaderTitle(list.get(info.position).getName());
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        switch(id){
-            case R.id.view_user:
-                break;
-            case R.id.remove_user:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void getLawyer() {

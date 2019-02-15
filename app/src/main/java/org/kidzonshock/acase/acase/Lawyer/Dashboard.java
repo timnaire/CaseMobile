@@ -87,6 +87,7 @@ public class Dashboard extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+        navigationView.setCheckedItem(R.id.nav_dashboard);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)

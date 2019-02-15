@@ -482,6 +482,7 @@ public class MyCaseFragment extends Fragment {
                     }
                     adapter = new CaseAdapter(getActivity(),caselist);
                     lv.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                     Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
                 }else{
                     loading.setVisibility(View.GONE);

@@ -4,7 +4,8 @@ import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.AddFCMToken;
 import org.kidzonshock.acase.acase.Models.AddFile;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
-import org.kidzonshock.acase.acase.Models.CreateEventModel;
+import org.kidzonshock.acase.acase.Models.CreateEventModelClient;
+import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
 import org.kidzonshock.acase.acase.Models.DeleteCase;
 import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.EventResponse;
@@ -142,11 +143,11 @@ public interface Case {
 //    events module
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/add-event")
-    Call<CommonResponse> createEventLawyer(@Path("lawyer_id") String lawyer_id, @Body CreateEventModel body);
+    Call<CommonResponse> createEventLawyer(@Path("lawyer_id") String lawyer_id, @Body CreateEventModelLawyer body);
 
     @Headers("Content-Type: application/json")
     @POST("client/{client_id}/add-event")
-    Call<CommonResponse> createEventClient(@Path("client_id") String client_id, @Body CreateEventModel body);
+    Call<CommonResponse> createEventClient(@Path("client_id") String client_id, @Body CreateEventModelClient body);
 
 //    GET REQUEST
     @Headers("Content-Type: application/json")
