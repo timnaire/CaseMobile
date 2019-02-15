@@ -6,7 +6,11 @@ public class EventModel {
 
     private String eventWith;
     private String eventTitle;
+    private String eventLocation;
+    private String eventDetails;
     private String eventDate;
+    private String eventTime;
+    private String eventType;
 
     //  client
     private String clientName;
@@ -20,11 +24,15 @@ public class EventModel {
     private String lawyerPhone;
     private String lawyerOffice;
 
-    public EventModel(String event_id,String eventWith,String eventTitle, String eventDate, String clientName, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
+    public EventModel(String event_id,String eventWith,String eventTitle, String eventLocation, String eventDetails, String eventDate,String eventTime, String eventType, String clientName, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
         this.event_id = event_id;
         this.eventWith = eventWith;
         this.eventTitle = eventTitle;
+        this.eventLocation = eventLocation;
+        this.eventDetails = eventDetails;
         this.eventDate = eventDate;
+        this.eventTime = eventTime;
+        this.eventType = eventType;
         this.clientName = clientName;
         this.clientEmail = clientEmail;
         this.clientPhone = clientPhone;
@@ -59,12 +67,44 @@ public class EventModel {
         this.eventTitle = eventTitle;
     }
 
+    public String getEventLocation() {
+        return eventLocation;
+    }
+
+    public void setEventLocation(String eventLocation) {
+        this.eventLocation = eventLocation;
+    }
+
+    public String getEventDetails() {
+        return eventDetails;
+    }
+
+    public void setEventDetails(String eventDetails) {
+        this.eventDetails = eventDetails;
+    }
+
     public String getEventDate() {
         return eventDate;
     }
 
     public void setEventDate(String eventDate) {
         this.eventDate = eventDate;
+    }
+
+    public String getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(String eventTime) {
+        this.eventTime = eventTime;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
     public String getClientName() {

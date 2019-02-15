@@ -139,11 +139,26 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 }
                 if(validateForm(title,location,date,time)){
                     dialog.show();
-                    createEvent(client_id,title,location,details,date,time,type);
+                    createEvent(client_id,title,location,details,date,time,type,lawyer_id);
                 }
             }
         });
 
+
+    }
+
+    private void edit(){
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            Toast.makeText(this, b.getString("event_with"), Toast.LENGTH_SHORT).show();
+            spinnerClient.setSelection(getIndex(spinnerClient,b.getString("event_with")));
+            inputEventTitle.setText(b.getString("event_title"));
+            inputEventLocation.setText(b.getString("event_location"));
+            eventDetails.setText(b.getString("event_details"));
+            inputEventDate.setText(b.getString("event_date"));
+            inputEventTime.setText(b.getString("event_time"));
+            spinnerEventType.setSelection(getIndex(spinnerEventType,b.getString("event_type")));
+        }
     }
 
     private int getIndex(Spinner spinner, String myString){
@@ -155,13 +170,13 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         return 0;
     }
 
-    private void createEvent(String client_id, String title, String location, String details, String date, String time, String type) {
+    private void createEvent(String client_id, String title, String location, String details, String date, String time, String type, String owner) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.createEventLawyer(lawyer_id,new CreateEventModelLawyer(client_id,title,location,details,date,time,type));
+        Call<CommonResponse> commonResponseCall = service.createEventLawyer(lawyer_id,new CreateEventModelLawyer(client_id,title,location,details,date,time,type, owner));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -248,6 +263,7 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                     loading.setVisibility(View.GONE);
                     Toast.makeText(CreateEvent.this, listClient.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                edit();
             }
             @Override
             public void onFailure(Call<ListClient> call, Throwable t) {

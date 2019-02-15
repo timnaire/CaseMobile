@@ -85,6 +85,7 @@ public class MyCaseFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getActivity());
         lv = view.findViewById(R.id.list_caseview);
+
         hmClient = new HashMap<String,String>();
 
         loading = view.findViewById(R.id.linlaHeaderProgress);
@@ -363,7 +364,7 @@ public class MyCaseFragment extends Fragment {
                 break;
             case R.id.Delete:
                 AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-                ab.setTitle("Detele");
+                ab.setTitle("Delete");
                 ab.setMessage("Are you sure you want to delete " + caselist.get(info.position).getTitle());
                 ab.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                     @Override

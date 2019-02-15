@@ -140,20 +140,20 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 }
                 if(validateForm(title,location,date,time)){
                     dialog.show();
-                    createEvent(lawyer_id,title,location,details,date,time,type);
+                    createEvent(lawyer_id,title,location,details,date,time,type, client_id);
                 }
             }
         });
 
     }
 
-    private void createEvent(String lawyer_id, String title, String location, String details, String date, String time, String type) {
+    private void createEvent(String lawyer_id, String title, String location, String details, String date, String time, String type, String owner) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.createEventClient(client_id,new CreateEventModelClient(lawyer_id,title,location,details,date,time,type));
+        Call<CommonResponse> commonResponseCall = service.createEventClient(client_id,new CreateEventModelClient(lawyer_id,title,location,details,date,time,type,owner));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

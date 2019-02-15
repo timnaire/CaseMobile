@@ -7,6 +7,7 @@ import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.CreateEventModelClient;
 import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
 import org.kidzonshock.acase.acase.Models.DeleteCase;
+import org.kidzonshock.acase.acase.Models.DeleteEvent;
 import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.EventResponse;
 import org.kidzonshock.acase.acase.Models.GetCase;
@@ -148,6 +149,14 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("client/{client_id}/add-event")
     Call<CommonResponse> createEventClient(@Path("client_id") String client_id, @Body CreateEventModelClient body);
+
+    @Headers("Content-Type: application/json")
+    @POST("client/{client_id}/delete-event")
+    Call<CommonResponse> deleteEventClient(@Path("client_id") String client_id, @Body DeleteEvent body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/delete-event")
+    Call<CommonResponse> deleteEventLawyer(@Path("lawyer_id") String lawyer_id, @Body DeleteEvent body);
 
 //    GET REQUEST
     @Headers("Content-Type: application/json")

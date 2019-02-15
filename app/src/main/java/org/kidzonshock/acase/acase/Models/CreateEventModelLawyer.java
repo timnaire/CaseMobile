@@ -25,7 +25,10 @@ public class CreateEventModelLawyer {
     @SerializedName("event_type")
     private String event_type;
 
-    public CreateEventModelLawyer(String client_id, String event_title, String event_location, String event_details, String event_date, String event_time, String event_type) {
+    @SerializedName("event_owner")
+    private String event_owner;
+
+    public CreateEventModelLawyer(String client_id, String event_title, String event_location, String event_details, String event_date, String event_time, String event_type, String event_owner) {
         this.client_id = client_id;
         this.event_title = event_title;
         this.event_location = event_location;
@@ -33,6 +36,7 @@ public class CreateEventModelLawyer {
         this.event_date = event_date;
         this.event_time = event_time;
         this.event_type = event_type;
+        this.event_owner = event_owner;
     }
 
     public String getClient_id() {
@@ -89,5 +93,13 @@ public class CreateEventModelLawyer {
 
     public void setEvent_type(String event_type) {
         this.event_type = event_type;
+    }
+
+    public String getEvent_owner() {
+        return event_owner;
+    }
+
+    public void setEvent_owner(String event_owner) {
+        this.event_owner = event_owner;
     }
 }
