@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +104,9 @@ public class LawyerFragment extends Fragment {
 
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), listLawyer.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(isAdded()) {
+                        Toast.makeText(getActivity(), listLawyer.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

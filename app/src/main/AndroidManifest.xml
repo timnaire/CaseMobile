@@ -78,7 +78,8 @@
             android:label="@string/title_activity_case_documents" />
         <activity android:name=".Client.CreateEventClient" />
         <activity android:name=".Client.CaseDocument" />
-        <activity android:name=".Client.FileUploadClient"></activity>
+        <activity android:name=".Client.FileUploadClient" />
+        <activity android:name=".Lawyer.PaymentDetails"></activity>
     </application>
 
 </manifest>

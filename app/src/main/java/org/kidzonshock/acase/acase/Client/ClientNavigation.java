@@ -147,7 +147,7 @@ public class ClientNavigation extends AppCompatActivity
             fragment = new EventFragment();
         } else if (id == R.id.nav_payment) {
             toolbar.setTitle("Payment");
-
+            fragment = new PaymentFragment();
         } else if (id == R.id.nav_mylawyer) {
             toolbar.setTitle("My Lawyer");
             fragment = new LawyerFragment();

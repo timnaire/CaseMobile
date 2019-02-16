@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/layoutClientPayment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="195dp"
+        android:layout_marginRight="30dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/inputClientPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Payment amount" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnClientPayment"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="180dp"
+        android:background="#3dcf94"
+        android:text="Pay Lawyer"
+        android:textColor="#ffffff" />
+</RelativeLayout>

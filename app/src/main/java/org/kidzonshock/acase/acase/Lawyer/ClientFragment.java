@@ -111,7 +111,9 @@ public class ClientFragment extends Fragment {
 
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), listClient.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(isAdded()) {
+                        Toast.makeText(getActivity(), listClient.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

@@ -7,6 +7,10 @@
         android:title="View"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/edit_event_client"
+        android:title="Edit"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/remove_event_client"
         android:title="Remove"
         app:showAsAction="ifRoom" />
