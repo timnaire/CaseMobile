@@ -71,7 +71,7 @@ public class ClientNavigation extends AppCompatActivity
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
-                .placeholder(R.mipmap.ic_launcher_round)
+                .placeholder(R.drawable.icons8_male_user_48_icon)
                 .error(R.mipmap.ic_launcher_round);
 
         Glide.with(this).load(profile_pic).apply(options).into(nav_client_pic);

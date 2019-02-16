@@ -8,6 +8,8 @@ import org.kidzonshock.acase.acase.Models.CreateEventModelClient;
 import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
 import org.kidzonshock.acase.acase.Models.DeleteCase;
 import org.kidzonshock.acase.acase.Models.DeleteEvent;
+import org.kidzonshock.acase.acase.Models.DeleteFileModel;
+import org.kidzonshock.acase.acase.Models.DeleteFileModelClient;
 import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.EventResponse;
 import org.kidzonshock.acase.acase.Models.GetCase;
@@ -24,6 +26,7 @@ import org.kidzonshock.acase.acase.Models.SignupClient;
 import org.kidzonshock.acase.acase.Models.SignupLawyer;
 import org.kidzonshock.acase.acase.Models.UpdateClientInfo;
 import org.kidzonshock.acase.acase.Models.UpdateEmail;
+import org.kidzonshock.acase.acase.Models.UpdateEvent;
 import org.kidzonshock.acase.acase.Models.UpdateLawyerInfo;
 import org.kidzonshock.acase.acase.Models.UpdatePassword;
 import org.kidzonshock.acase.acase.Models.UpdatePicture;
@@ -126,6 +129,14 @@ public interface Case {
     Call<CommonResponse> addFileClient(@Path("client_id") String client_id, @Body AddFile body);
 
     @Headers("Content-Type: application/json")
+    @POST("delete-file")
+    Call<CommonResponse> deleteFile(@Body DeleteFileModel body);
+
+    @Headers("Content-Type: application/json")
+    @POST("client/delete-file")
+    Call<CommonResponse> deleteFileClient(@Body DeleteFileModelClient body);
+
+    @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/list-all-file")
     Call<GetDocumentResponse> allDocument(@Path("lawyer_id") String lawyer_id, @Body GetDocument body);
 
@@ -140,6 +151,7 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("client/{client_id}/list-public-documents")
     Call<GetDocumentResponse> publicDocumentClient(@Path("client_id") String client_id, @Body GetDocument body);
+
 
 //    events module
     @Headers("Content-Type: application/json")
@@ -157,6 +169,10 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("lawyer/{lawyer_id}/delete-event")
     Call<CommonResponse> deleteEventLawyer(@Path("lawyer_id") String lawyer_id, @Body DeleteEvent body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/update-event")
+    Call<CommonResponse> updateEventLawyer(@Path("lawyer_id") String lawyer_id, @Body UpdateEvent body);
 
 //    GET REQUEST
     @Headers("Content-Type: application/json")

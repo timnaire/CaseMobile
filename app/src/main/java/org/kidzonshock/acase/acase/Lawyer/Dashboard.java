@@ -75,7 +75,7 @@ public class Dashboard extends AppCompatActivity
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
-                .placeholder(R.mipmap.ic_launcher_round)
+                .placeholder(R.drawable.icons8_administrator_male_48_color)
                 .error(R.mipmap.ic_launcher_round);
 
         Glide.with(this).load(profile_pic).apply(options).into(ivProfilePic);

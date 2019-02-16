@@ -2,6 +2,7 @@ package org.kidzonshock.acase.acase.Lawyer;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -9,6 +10,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.internal.service.Common;
+
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
@@ -27,6 +31,7 @@ import org.kidzonshock.acase.acase.Models.LawyerListCase;
 import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.Models.TimePickerFragment;
+import org.kidzonshock.acase.acase.Models.UpdateEvent;
 import org.kidzonshock.acase.acase.R;
 
 import java.text.DateFormat;
@@ -55,6 +60,9 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
     HashMap<String ,String> hmClient;
     ACProgressFlower dialog;
     LinearLayout loading;
+
+    Bundle b;
+    ArrayAdapter<String> adapter;
 
     private final String TAG = "CreateEventModelLawyer";
 
@@ -99,10 +107,10 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
         spinnerClientArray.add("Select Client");
         spinnerEventType = findViewById(R.id.spinnerEventType);
         spinnerClient = findViewById(R.id.spinnerClient);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerClientArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerClient.setAdapter(adapter);
+
 
 
         btnEventDate.setOnClickListener(new View.OnClickListener() {
@@ -139,26 +147,42 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 }
                 if(validateForm(title,location,date,time)){
                     dialog.show();
-                    createEvent(client_id,title,location,details,date,time,type,lawyer_id);
+                    if(btnCreateEvent.getText().toString().equals("Update Event")){
+                        Intent prev = getIntent();
+                        String event_id = prev.getStringExtra("event_id");
+                        updateEvent(event_id,client_id,title,location,details,date,time,type,lawyer_id);
+                    } else {
+                        createEvent(client_id, title, location, details, date, time, type, lawyer_id);
+                    }
                 }
             }
         });
 
-
     }
 
-    private void edit(){
-        Bundle b = getIntent().getExtras();
-        if(b != null) {
-            Toast.makeText(this, b.getString("event_with"), Toast.LENGTH_SHORT).show();
-            spinnerClient.setSelection(getIndex(spinnerClient,b.getString("event_with")));
-            inputEventTitle.setText(b.getString("event_title"));
-            inputEventLocation.setText(b.getString("event_location"));
-            eventDetails.setText(b.getString("event_details"));
-            inputEventDate.setText(b.getString("event_date"));
-            inputEventTime.setText(b.getString("event_time"));
-            spinnerEventType.setSelection(getIndex(spinnerEventType,b.getString("event_type")));
-        }
+    private void updateEvent(String eventId, String client_id,String title,String location, String details, String date, String time, String type, String lawyer_id){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> commonResponseCall = service.updateEventLawyer(lawyer_id,new UpdateEvent(eventId,client_id,title,location,details,date,time,type,lawyer_id));
+        commonResponseCall.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(!resp.isError()){
+                    Toast.makeText(CreateEvent.this, "Event Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreateEvent.this, "Event was not updated.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                Log.d(TAG,"Error: "+ t.getMessage());
+            }
+        });
     }
 
     private int getIndex(Spinner spinner, String myString){
@@ -253,17 +277,28 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
                 if(!listClient.isError()){
                     ArrayList<LawyerListCase> list_clients = response.body().getList_clients();
                     String client_id,name;
+                    b = getIntent().getExtras();
                     for(int i=0; i < list_clients.size(); i++){
                         client_id = list_clients.get(i).getClient_id();
                         name = list_clients.get(i).getClient().getFirst_name()+" "+list_clients.get(i).getClient().getLast_name();
                         spinnerClientArray.add(name);
                         hmClient.put(client_id,name);
                     }
+                    spinnerClient.setAdapter(adapter);
+                    if(b !=null){
+                        spinnerClient.setSelection(getIndex(spinnerClient,b.getString("event_with")));
+                        inputEventTitle.setText(b.getString("event_title"));
+                        inputEventLocation.setText(b.getString("event_location"));
+                        eventDetails.setText(b.getString("event_details"));
+                        inputEventDate.setText(b.getString("event_date"));
+                        inputEventTime.setText(b.getString("event_time"));
+                        spinnerEventType.setSelection(getIndex(spinnerEventType,b.getString("event_type")));
+                        btnCreateEvent.setText("Update Event");
+                    }
                 }else{
                     loading.setVisibility(View.GONE);
                     Toast.makeText(CreateEvent.this, listClient.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                edit();
             }
             @Override
             public void onFailure(Call<ListClient> call, Throwable t) {

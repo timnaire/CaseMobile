@@ -98,7 +98,7 @@ public class CaseFragment extends Fragment {
                         case_id = cases.get(i).getCase_id();
                         client_id = cases.get(i).getClient_id();
                         title = cases.get(i).getCase_title();
-                        name = cases.get(i).getClient().getFirst_name()+ " " +cases.get(i).getClient().getLast_name();
+                        name = cases.get(i).getLawyer().getFirst_name() +" "+cases.get(i).getLawyer().getLast_name();
                         date = cases.get(i).getCreated();
                         description = cases.get(i).getCase_description();
                         status = cases.get(i).getCase_status();

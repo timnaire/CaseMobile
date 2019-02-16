@@ -16,11 +16,15 @@ public class AddFile {
     @SerializedName("file_privacy")
     private String file_privacy;
 
-    public AddFile(String case_id, String case_file, String file_name, String file_privacy) {
+    @SerializedName("uploaded_by")
+    private String uploaded_by;
+
+    public AddFile(String case_id, String case_file, String file_name, String file_privacy, String uploaded_by) {
         this.case_id = case_id;
         this.case_file = case_file;
         this.file_name = file_name;
         this.file_privacy = file_privacy;
+        this.uploaded_by = uploaded_by;
     }
 
     public String getCase_id() {
@@ -53,5 +57,13 @@ public class AddFile {
 
     public void setFile_privacy(String file_privacy) {
         this.file_privacy = file_privacy;
+    }
+
+    public String getUploaded_by() {
+        return uploaded_by;
+    }
+
+    public void setUploaded_by(String uploaded_by) {
+        this.uploaded_by = uploaded_by;
     }
 }

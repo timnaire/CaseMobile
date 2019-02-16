@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Document {
 
+    @SerializedName("file_id")
+    @Expose
+    private String file_id;
+
     @SerializedName("case_file")
     @Expose
     private String caseFile;
@@ -21,11 +25,25 @@ public class Document {
     @Expose
     private String filePrivacy;
 
-    public Document(String caseFile, String fileName, String fileType, String filePrivacy) {
+    @SerializedName("uploaded_by")
+    @Expose
+    private String uploaded_by;
+
+    public Document(String file_id, String caseFile, String fileName, String fileType, String filePrivacy, String uploaded_by) {
+        this.file_id = file_id;
         this.caseFile = caseFile;
         this.fileName = fileName;
         this.fileType = fileType;
         this.filePrivacy = filePrivacy;
+        this.uploaded_by = uploaded_by;
+    }
+
+    public String getFile_id() {
+        return file_id;
+    }
+
+    public void setFile_id(String file_id) {
+        this.file_id = file_id;
     }
 
     public String getCaseFile() {
@@ -58,5 +76,13 @@ public class Document {
 
     public void setFilePrivacy(String filePrivacy) {
         this.filePrivacy = filePrivacy;
+    }
+
+    public String getUploaded_by() {
+        return uploaded_by;
+    }
+
+    public void setUploaded_by(String uploaded_by) {
+        this.uploaded_by = uploaded_by;
     }
 }

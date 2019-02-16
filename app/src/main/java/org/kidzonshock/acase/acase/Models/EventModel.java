@@ -11,6 +11,7 @@ public class EventModel {
     private String eventDate;
     private String eventTime;
     private String eventType;
+    private String eventOwner;
 
     //  client
     private String clientName;
@@ -24,7 +25,7 @@ public class EventModel {
     private String lawyerPhone;
     private String lawyerOffice;
 
-    public EventModel(String event_id,String eventWith,String eventTitle, String eventLocation, String eventDetails, String eventDate,String eventTime, String eventType, String clientName, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
+    public EventModel(String event_id,String eventWith,String eventTitle, String eventLocation, String eventDetails, String eventDate,String eventTime, String eventType,String eventOwner, String clientName, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
         this.event_id = event_id;
         this.eventWith = eventWith;
         this.eventTitle = eventTitle;
@@ -33,6 +34,7 @@ public class EventModel {
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.eventType = eventType;
+        this.eventOwner = eventOwner;
         this.clientName = clientName;
         this.clientEmail = clientEmail;
         this.clientPhone = clientPhone;
@@ -105,6 +107,14 @@ public class EventModel {
 
     public void setEventType(String eventType) {
         this.eventType = eventType;
+    }
+
+    public String getEventOwner() {
+        return eventOwner;
+    }
+
+    public void setEventOwner(String eventOwner) {
+        this.eventOwner = eventOwner;
     }
 
     public String getClientName() {

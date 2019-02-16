@@ -115,8 +115,12 @@ public class EventFragment extends Fragment {
                 Toast.makeText(getActivity(), "View Event!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.edit_event_lawyer:
-                Intent editEvent = new Intent(getActivity(), CreateEventClient.class);
-                startActivityForResult(editEvent, 1);
+                if(list.get(info.position).getEventOwner().equals(client_id)){
+                    Intent editEvent = new Intent(getActivity(), CreateEventClient.class);
+                    startActivityForResult(editEvent, 1);
+                } else {
+                    Toast.makeText(getActivity(), "Unauthorized!, Only the owner of this can update this event.", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.remove_event_client:
                 AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
@@ -126,9 +130,14 @@ public class EventFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String event_id = list.get(info.position).getEvent_id();
-                        list.remove(info.position);
-                        adapter.notifyDataSetChanged();
-                        deleteEvent(client_id,event_id);
+                        if(list.get(info.position).getEventOwner().equals(client_id)){
+                            deleteEvent(client_id,event_id);
+                            list.remove(info.position);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getActivity(), "Unauthorized!, Only the owner of this can delete this event.", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
                 ab.show();
@@ -150,7 +159,7 @@ public class EventFragment extends Fragment {
                 EventResponse resp = response.body();
                 loading.setVisibility(View.GONE);
                 if(isAdded() && !resp.isError()){
-                    String event_id,eventTitle,eventLocation,eventDetails,eventWith,eventDate,eventTime,eventType,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice;
+                    String event_owner,event_id,eventTitle,eventLocation,eventDetails,eventWith,eventDate,eventTime,eventType,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice;
                     ArrayList<Events> list_events = response.body().getEvents();
                     for(int i=0; i < list_events.size(); i++){
                         event_id = list_events.get(i).getEvent_id();
@@ -169,9 +178,9 @@ public class EventFragment extends Fragment {
                         lawyerEmail = list_events.get(i).getLawyer().getEmail();
                         lawyerPhone = list_events.get(i).getLawyer().getPhone();
                         lawyerOffice = list_events.get(i).getLawyer().getOffice();
-
+                        event_owner = list_events.get(i).getEventOwner();
                         eventWith = lawyerName;
-                        list.add(new EventModel(event_id,eventWith,eventTitle,eventLocation,eventDetails,eventDate,eventTime,eventType,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
+                        list.add(new EventModel(event_id,eventWith,eventTitle,eventLocation,eventDetails,eventDate,eventTime,eventType,event_owner,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
                     }
                     adapter = new EventAdapter(getActivity(),list);
                     lv.setAdapter(adapter);

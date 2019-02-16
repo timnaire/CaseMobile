@@ -27,6 +27,22 @@ public class FileAdapter extends BaseAdapter {
         this.list = list;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+    public void removeItem(int position){
+        list.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public String getFilename(int position){
+        return list.get(position).getFilename();
+    }
+
+    public String uploadedBy(int position){
+        return list.get(position).getUploadedBy();
+    }
+
+    public String getFileId(int position){
+        return list.get(position).getFileId();
+    }
 
     @Override
     public int getCount() {

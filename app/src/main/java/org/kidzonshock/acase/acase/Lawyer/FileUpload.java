@@ -143,7 +143,7 @@ public class FileUpload extends AppCompatActivity {
                             .build();
 
                     Case service = retrofit.create(Case.class);
-                    Call<CommonResponse> commonResponseCall = service.addFile(lawyer_id,new AddFile(case_id,file,filename,file_p));
+                    Call<CommonResponse> commonResponseCall = service.addFile(lawyer_id,new AddFile(case_id,file,filename,file_p,lawyer_id));
                     commonResponseCall.enqueue(new Callback<CommonResponse>() {
                         @Override
                         public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

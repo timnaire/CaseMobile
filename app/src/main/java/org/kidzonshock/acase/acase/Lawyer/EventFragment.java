@@ -93,7 +93,7 @@ public class EventFragment extends Fragment {
                 EventResponse resp = response.body();
                 loading.setVisibility(View.GONE);
                 if(isAdded() && !resp.isError()){
-                    String event_id,eventTitle,eventLocation,eventDetails,eventTime,eventType,eventWith,eventDate,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice;
+                    String event_owner,event_id,eventTitle,eventLocation,eventDetails,eventTime,eventType,eventWith,eventDate,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice;
                     ArrayList<Events> list_events = response.body().getEvents();
                     for(int i=0; i < list_events.size(); i++){
                         event_id = list_events.get(i).getEvent_id();
@@ -112,9 +112,9 @@ public class EventFragment extends Fragment {
                         lawyerEmail = list_events.get(i).getLawyer().getEmail();
                         lawyerPhone = list_events.get(i).getLawyer().getPhone();
                         lawyerOffice = list_events.get(i).getLawyer().getOffice();
-
+                        event_owner = list_events.get(i).getEventOwner();
                         eventWith = clientName;
-                        list.add(new EventModel(event_id,eventWith,eventTitle,eventLocation,eventDetails,eventDate,eventTime,eventType,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
+                        list.add(new EventModel(event_id,eventWith,eventTitle,eventLocation,eventDetails,eventDate,eventTime,eventType,event_owner,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
                     }
                     adapter = new EventAdapter(getActivity(),list);
                     lv.setAdapter(adapter);
@@ -165,15 +165,22 @@ public class EventFragment extends Fragment {
             case R.id.view_event_lawyer:
                 break;
             case R.id.edit_event_lawyer:
-                Intent editEvent = new Intent(getActivity(), CreateEvent.class);
-                editEvent.putExtra("event_title" , list.get(info.position).getEventTitle());
-                editEvent.putExtra("event_location" , list.get(info.position).getEventLocation());
-                editEvent.putExtra("event_details" , list.get(info.position).getEventDetails());
-                editEvent.putExtra("event_date" , list.get(info.position).getEventDate());
-                editEvent.putExtra("event_time" , list.get(info.position).getEventTime());
-                editEvent.putExtra("event_type" , list.get(info.position).getEventType());
-                editEvent.putExtra("event_with" , list.get(info.position).getEventWith());
-                startActivityForResult(editEvent, 1);
+                String oid = list.get(info.position).getEventOwner();
+                if(oid.equals(lawyer_id)){
+                    Intent editEvent = new Intent(getActivity(), CreateEvent.class);
+                    editEvent.putExtra("event_id",list.get(info.position).getEvent_id());
+                    editEvent.putExtra("event_title" , list.get(info.position).getEventTitle());
+                    editEvent.putExtra("event_location" , list.get(info.position).getEventLocation());
+                    editEvent.putExtra("event_details" , list.get(info.position).getEventDetails());
+                    editEvent.putExtra("event_date" , list.get(info.position).getEventDate());
+                    editEvent.putExtra("event_time" , list.get(info.position).getEventTime());
+                    editEvent.putExtra("event_type" , list.get(info.position).getEventType());
+                    editEvent.putExtra("event_with" , list.get(info.position).getEventWith());
+                    startActivityForResult(editEvent, 1);
+                } else {
+                    Toast.makeText(getActivity(), "Unauthorized!, Only the owner of this can update the event.", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.remove_event_lawyer:
                 AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
@@ -183,15 +190,25 @@ public class EventFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String event_id = list.get(info.position).getEvent_id();
-                        list.remove(info.position);
-                        adapter.notifyDataSetChanged();
-                        deleteEvent(lawyer_id,event_id);
+                        Toast.makeText(getActivity(), list.get(info.position).getEventOwner(), Toast.LENGTH_SHORT).show();
+                        if(list.get(info.position).getEventOwner().equals(lawyer_id)){
+                            deleteEvent(lawyer_id,event_id);
+                            list.remove(info.position);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getActivity(), "Unauthorized!, Only the owner of this can delete the event.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 ab.show();
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void deleteEvent(String lawyer_id, String event_id){

@@ -35,8 +35,11 @@ public class Events {
     @SerializedName("event_type")
     @Expose
     private String eventType;
+    @SerializedName("event_owner")
+    @Expose
+    private String eventOwner;
 
-    public Events(String event_id,Client client, Lawyer lawyer, String eventTitle, String eventLocation, String eventDetails, String eventDate, String eventTime, String eventType) {
+    public Events(String event_id,Client client, Lawyer lawyer, String eventTitle, String eventLocation, String eventDetails, String eventDate, String eventTime, String eventType, String eventOwner) {
         this.event_id = event_id;
         this.client = client;
         this.lawyer = lawyer;
@@ -46,6 +49,7 @@ public class Events {
         this.eventDate = eventDate;
         this.eventTime = eventTime;
         this.eventType = eventType;
+        this.eventOwner = eventOwner;
     }
 
     public String getEvent_id() {
@@ -118,5 +122,13 @@ public class Events {
 
     public void setEventType(String eventType) {
         this.eventType = eventType;
+    }
+
+    public String getEventOwner() {
+        return eventOwner;
+    }
+
+    public void setEventOwner(String eventOwner) {
+        this.eventOwner = eventOwner;
     }
 }
