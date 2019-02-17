@@ -115,7 +115,9 @@ public class PublicFragment extends Fragment {
                 if(!resp.isError()){
                     Toast.makeText(getActivity(), "File deleted!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "File was not deleted", Toast.LENGTH_SHORT).show();
+                    if(isAdded()) {
+                        Toast.makeText(getActivity(), "File was not deleted", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -138,7 +140,7 @@ public class PublicFragment extends Fragment {
             public void onResponse(Call<GetDocumentResponse> call, Response<GetDocumentResponse> response) {
                 GetDocumentResponse documents = response.body();
                 loading.setVisibility(View.GONE);
-                if(!documents.isError()){
+                if(isAdded() && !documents.isError()){
                     ArrayList<Document> list_files = response.body().getFile();
                     String fileId,dlUrl,fileName, fileType, filePrivacy,uploadedBy;
                     for(int i=0; i < list_files.size(); i++){
@@ -154,7 +156,9 @@ public class PublicFragment extends Fragment {
                     grid.setAdapter(adapter);
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Found 0 file(s)", Toast.LENGTH_SHORT).show();
+                    if(isAdded()) {
+                        Toast.makeText(getActivity(), "Found 0 file(s)", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }

@@ -23,7 +23,6 @@ import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.ClientListCase;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.CreateEventModelClient;
-import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
 import org.kidzonshock.acase.acase.Models.DatePickerFragment;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
@@ -56,7 +55,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
     HashMap<String ,String> hmClient;
     ACProgressFlower dialog;
     LinearLayout loading;
-
+    Bundle b;
     private final String TAG = "CreateEventClient";
 
     @Override

@@ -158,7 +158,9 @@ public class AllFragment extends Fragment {
                     grid.setAdapter(adapter);
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Found 0 file(s)", Toast.LENGTH_SHORT).show();
+                    if(isAdded()){
+                        Toast.makeText(getActivity(), "Found 0 file(s)", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
             @Override

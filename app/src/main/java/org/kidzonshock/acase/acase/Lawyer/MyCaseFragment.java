@@ -257,7 +257,9 @@ public class MyCaseFragment extends Fragment {
                     }
                 }else{
                     loading.setVisibility(View.GONE);
-                    Log.d(TAG, "No clients found");
+                    if(isAdded()) {
+                        Log.d(TAG, "No clients found");
+                    }
                 }
             }
             @Override
@@ -487,7 +489,9 @@ public class MyCaseFragment extends Fragment {
                     Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Found 0 case(s)", Toast.LENGTH_SHORT).show();
+                    if(isAdded()) {
+                        Toast.makeText(getActivity(), "Found 0 case(s)", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

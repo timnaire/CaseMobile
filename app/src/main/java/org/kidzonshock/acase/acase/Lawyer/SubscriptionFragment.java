@@ -1,4 +1,4 @@
-package org.kidzonshock.acase.acase.Client;
+package org.kidzonshock.acase.acase.Lawyer;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -6,14 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.paypal.android.sdk.payments.PayPalConfiguration;
@@ -24,14 +23,13 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONException;
 import org.kidzonshock.acase.acase.Config.Config;
-import org.kidzonshock.acase.acase.Lawyer.PaymentDetails;
 import org.kidzonshock.acase.acase.R;
 
 import java.math.BigDecimal;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PaymentFragment extends Fragment {
+public class SubscriptionFragment extends Fragment {
 
     private static final int PAYPAL_REQUEST_CODE = 123;
 
@@ -39,46 +37,59 @@ public class PaymentFragment extends Fragment {
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .clientId(Config.PAYPAL_CLIENT_ID);
 
+    TextView txtTitle1, txtPrice1, txtTitle2, txtPrice2;
+    Button btnPlan1, btnPlan2;
+    String amount;
+
+    private final String TAG = "Subscription";
     @Override
     public void onDestroyView() {
         getActivity().stopService(new Intent(getActivity(),PayPalService.class));
         super.onDestroyView();
     }
 
-    TextInputLayout layoutClientPayment;
-    TextInputEditText inputClientPayment;
-
-    Button btnClientPayment;
-    String amount = "";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_payment,null);
+        return inflater.inflate(R.layout.fragment_subscription,null);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        txtTitle1 = view.findViewById(R.id.planTitle1);
+        txtPrice1 = view.findViewById(R.id.planPrice1);
+        btnPlan1 = view.findViewById(R.id.btnPlan1);
+
+        txtTitle2 = view.findViewById(R.id.planTitle2);
+        txtPrice2 = view.findViewById(R.id.planPrice2);
+        btnPlan2 = view.findViewById(R.id.btnPlan2);
+
         //start paypal service
         Intent intent = new Intent(getActivity(), PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         getActivity().startService(intent);
 
-        layoutClientPayment = view.findViewById(R.id.layoutClientPayment);
-        inputClientPayment = view.findViewById(R.id.inputClientPayment);
-        btnClientPayment = view.findViewById(R.id.btnClientPayment);
 
-        btnClientPayment.setOnClickListener(new View.OnClickListener() {
+        btnPlan1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                proccessPayment();
+                proccessPaymentPlan1();
             }
         });
+
+        btnPlan2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                proccessPaymentPlan2();
+            }
+        });
+
     }
 
-    private void proccessPayment() {
-        amount = inputClientPayment.getText().toString();
+    private void proccessPaymentPlan1(){
+        amount = "1000";
         PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)),"PHP",
                 "Basic Plan", PayPalPayment.PAYMENT_INTENT_SALE);
         Intent intent = new Intent(getActivity(), PaymentActivity.class);
@@ -86,6 +97,17 @@ public class PaymentFragment extends Fragment {
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payPalPayment);
         startActivityForResult(intent,PAYPAL_REQUEST_CODE);
     }
+
+    private void proccessPaymentPlan2(){
+        amount = "3000";
+        PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)),"PHP",
+                "Premium Plan", PayPalPayment.PAYMENT_INTENT_SALE);
+        Intent intent = new Intent(getActivity(), PaymentActivity.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payPalPayment);
+        startActivityForResult(intent,PAYPAL_REQUEST_CODE);
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -125,5 +147,4 @@ public class PaymentFragment extends Fragment {
             Toast.makeText(getActivity(), "Invalid", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

@@ -195,7 +195,8 @@ public class Dashboard extends AppCompatActivity
 
         } else if (id == R.id.nav_subscription) {
 
-            toolbar.setTitle("Subscription");
+            toolbar.setTitle("Monthly Subscription");
+            fragment = new SubscriptionFragment();
 
         } else if (id == R.id.nav_signout) {
             PreferenceDataLawyer.setUserLoggedInStatus(Dashboard.this,false);

@@ -49,7 +49,7 @@ public class EventFragment extends Fragment {
     LinearLayout loading;
     AdapterView.AdapterContextMenuInfo info;
 
-    private final String TAG = "EventFragment";
+    private final String TAG = "EventFragment1";
 
     @Nullable
     @Override
@@ -114,9 +114,17 @@ public class EventFragment extends Fragment {
             case R.id.view_event_client:
                 Toast.makeText(getActivity(), "View Event!", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.edit_event_lawyer:
+            case R.id.edit_event_client:
                 if(list.get(info.position).getEventOwner().equals(client_id)){
                     Intent editEvent = new Intent(getActivity(), CreateEventClient.class);
+                    editEvent.putExtra("event_id",list.get(info.position).getEvent_id());
+                    editEvent.putExtra("event_title" , list.get(info.position).getEventTitle());
+                    editEvent.putExtra("event_location" , list.get(info.position).getEventLocation());
+                    editEvent.putExtra("event_details" , list.get(info.position).getEventDetails());
+                    editEvent.putExtra("event_date" , list.get(info.position).getEventDate());
+                    editEvent.putExtra("event_time" , list.get(info.position).getEventTime());
+                    editEvent.putExtra("event_type" , list.get(info.position).getEventType());
+                    editEvent.putExtra("event_with" , list.get(info.position).getEventWith());
                     startActivityForResult(editEvent, 1);
                 } else {
                     Toast.makeText(getActivity(), "Unauthorized!, Only the owner of this can update this event.", Toast.LENGTH_SHORT).show();
@@ -186,7 +194,9 @@ public class EventFragment extends Fragment {
                     lv.setAdapter(adapter);
                 } else {
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "No event(s) found", Toast.LENGTH_SHORT).show();
+                    if(isAdded()) {
+                        Toast.makeText(getActivity(), "No event(s) found", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

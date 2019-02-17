@@ -91,7 +91,7 @@ public class CaseFragment extends Fragment {
             public void onResponse(Call<GetCase> call, Response<GetCase> response) {
                 GetCase getCase = response.body();
                 loading.setVisibility(View.GONE);
-                if(!getCase.isError()){
+                if(isAdded() && !getCase.isError()){
                     ArrayList<Cases> cases = response.body().getCases();
                     String case_id, client_id,title,name,description,date,status,clientEmail, clientPhone,clientAddress, lawyerName, lawyerEmail, lawyerPhone, lawyerOffice;
                     for(int i=0; i < cases.size(); i++){
@@ -116,7 +116,9 @@ public class CaseFragment extends Fragment {
                     Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
                 }else{
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(isAdded()) {
+                        Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

@@ -21,8 +21,6 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.common.internal.service.Common;
-
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
@@ -171,6 +169,7 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 CommonResponse resp = response.body();
+                dialog.dismiss();
                 if(!resp.isError()){
                     Toast.makeText(CreateEvent.this, "Event Updated!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -181,6 +180,7 @@ public class CreateEvent extends AppCompatActivity implements DatePickerDialog.O
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {
                 Log.d(TAG,"Error: "+ t.getMessage());
+                dialog.dismiss();
             }
         });
     }

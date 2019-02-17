@@ -49,7 +49,7 @@ public class EventFragment extends Fragment {
     LinearLayout loading;
     AdapterView.AdapterContextMenuInfo info;
 
-    private final String TAG = "EventFragment";
+    private final String TAG = "EventFragment0";
 
     @Nullable
     @Override
@@ -70,13 +70,6 @@ public class EventFragment extends Fragment {
 
         registerForContextMenu(lv);
         loading.setVisibility(View.VISIBLE);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Click me bitch !@", Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 
@@ -120,7 +113,9 @@ public class EventFragment extends Fragment {
                     lv.setAdapter(adapter);
                 } else {
                     loading.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "No event(s) found", Toast.LENGTH_SHORT).show();
+                    if(isAdded()) {
+                        Toast.makeText(getActivity(), "No event(s) found", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
