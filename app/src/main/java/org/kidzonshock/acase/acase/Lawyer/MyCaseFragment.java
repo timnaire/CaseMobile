@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -463,7 +465,7 @@ public class MyCaseFragment extends Fragment {
             public void onResponse(Call<GetCase> call, Response<GetCase> response) {
                 GetCase getCase = response.body();
                 loading.setVisibility(View.GONE);
-                if(!getCase.isError()){
+                if(isAdded() && !getCase.isError()){
                     ArrayList<Cases> cases = response.body().getCases();
                     String case_id, client_id,title,name,description,date,status,clientEmail, clientPhone,clientAddress, lawyerName, lawyerEmail, lawyerPhone, lawyerOffice;
                     for(int i=0; i < cases.size(); i++){
@@ -485,7 +487,6 @@ public class MyCaseFragment extends Fragment {
                     }
                     adapter = new CaseAdapter(getActivity(),caselist);
                     lv.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
                     Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
                 }else{
                     loading.setVisibility(View.GONE);
@@ -518,12 +519,24 @@ public class MyCaseFragment extends Fragment {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 CommonResponse commonResponse = response.body();
-                if(!commonResponse.isError()){
+                if(isAdded() && !commonResponse.isError()){
                     Toast.makeText(getActivity(), commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     add.dismiss();
-
+                    addinputCaseDescription.setText("");
+                    addinputCaseTitle.setText("");
+                    spinner.setSelection(getIndex(spinner,"Select Client"));
+                    caselist.clear();
+                    lv.setAdapter(null);
+                    loading.setVisibility(View.VISIBLE);
+                    getAllCase();
+//                    Fragment f = new MyCaseFragment();
+//                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                    ft.detach(f).attach(f).commit();
+//                    adapter.notifyDataSetChanged();
                 } else{
-                    Toast.makeText(getActivity(), commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(isAdded()) {
+                        Toast.makeText(getActivity(), commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

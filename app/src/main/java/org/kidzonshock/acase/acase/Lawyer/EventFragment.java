@@ -185,7 +185,6 @@ public class EventFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String event_id = list.get(info.position).getEvent_id();
-                        Toast.makeText(getActivity(), list.get(info.position).getEventOwner(), Toast.LENGTH_SHORT).show();
                         if(list.get(info.position).getEventOwner().equals(lawyer_id)){
                             deleteEvent(lawyer_id,event_id);
                             list.remove(info.position);
@@ -220,7 +219,9 @@ public class EventFragment extends Fragment {
                 if(isAdded() && !resp.isError()) {
                     Toast.makeText(getActivity(), "Event deleted! ", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "Event was not deleted", Toast.LENGTH_SHORT).show();
+                    if (isAdded()) {
+                        Toast.makeText(getActivity(), "Event was not deleted", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -229,5 +230,16 @@ public class EventFragment extends Fragment {
                 Log.d(TAG, "Error: " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(isAdded()){
+            list.clear();
+            lv.setAdapter(null);
+            loading.setVisibility(View.VISIBLE);
+            getEvents();
+        }
     }
 }

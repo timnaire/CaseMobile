@@ -16,6 +16,7 @@ import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetDocument;
 import org.kidzonshock.acase.acase.Models.GetDocumentResponse;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
+import org.kidzonshock.acase.acase.Models.PaymentModel;
 import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PreAppointResponse;
@@ -95,11 +96,11 @@ public interface Case {
 
 //    case module
     @Headers("Content-Type: application/json")
-    @POST("lawyer/{lawyer_id}/mycase")
+    @POST("lawyer/{lawyer_id}/newcase")
         Call<CommonResponse> addCase(@Path("lawyer_id") String lawyer_id, @Body AddCase body);
 
     @Headers("Content-Type: application/json")
-    @POST("lawyer/{lawyer_id}/edit-case")
+    @POST("lawyer/{lawyer_id}/mobile/edit-case")
     Call<CommonResponse> editCase(@Path("lawyer_id") String lawyer_id, @Body EditCase body);
 
     @Headers("Content-Type: application/json")
@@ -151,6 +152,16 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("client/{client_id}/list-public-documents")
     Call<GetDocumentResponse> publicDocumentClient(@Path("client_id") String client_id, @Body GetDocument body);
+
+//    payment module
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/subscribe")
+    Call<CommonResponse> lawyerSubscribe(@Path("lawyer_id") String lawyer_id, @Body PaymentModel body);
+
+    @Headers("Content-Type: application/json")
+    @POST("client/{client_id}/payment")
+    Call<CommonResponse> clientPayment(@Path("client_id") String client_id, @Body PaymentModel body);
 
 
 //    events module

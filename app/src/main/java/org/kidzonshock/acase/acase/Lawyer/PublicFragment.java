@@ -169,4 +169,16 @@ public class PublicFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(isAdded()){
+            list.clear();
+            grid.setAdapter(null);
+            loading.setVisibility(View.VISIBLE);
+            publicDocument();
+
+        }
+    }
 }

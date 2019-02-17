@@ -128,7 +128,6 @@ public class AllFragment extends Fragment {
         });
     }
 
-
     public void getAllDocuments(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
@@ -170,5 +169,14 @@ public class AllFragment extends Fragment {
         });
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(isAdded()){
+            list.clear();
+            grid.setAdapter(null);
+            loading.setVisibility(View.VISIBLE);
+            getAllDocuments();
+        }
+    }
 }

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,21 @@ import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.kidzonshock.acase.acase.Config.Config;
+import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.PaymentModel;
+import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
 import java.math.BigDecimal;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -39,7 +51,7 @@ public class SubscriptionFragment extends Fragment {
 
     TextView txtTitle1, txtPrice1, txtTitle2, txtPrice2;
     Button btnPlan1, btnPlan2;
-    String amount;
+    String amount,paymentId,lawyer_id;
 
     private final String TAG = "Subscription";
     @Override
@@ -57,6 +69,8 @@ public class SubscriptionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(getActivity());
 
         txtTitle1 = view.findViewById(R.id.planTitle1);
         txtPrice1 = view.findViewById(R.id.planPrice1);
@@ -119,22 +133,21 @@ public class SubscriptionFragment extends Fragment {
                     try{
                         String paymentDetails = confirmation.toJSONObject().toString(4);
 
-                        Toast.makeText(getActivity(), "Amount: "+amount, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(),PaymentDetails.class);
-                        intent.putExtra("PaymentDetails",paymentDetails);
-                        intent.putExtra("PaymentAmount", amount);
+//                        Toast.makeText(getActivity(), "Amount: "+amount, Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(getActivity(),PaymentDetails.class);
+//                        intent.putExtra("PaymentDetails",paymentDetails);
+//                        intent.putExtra("PaymentAmount", amount);
 //                        startActivity(intent);
 
-                        AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-                        ab.setTitle("Subscription Success");
-                        ab.setMessage("Thank you for supporting us! \n You have now 50 more cases to create!");
-                        ab.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getActivity(), "Payment Success!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        ab.show();
+                        try {
+                            JSONObject jsonObject = new JSONObject(paymentDetails);
+                            paymentId = jsonObject.getJSONObject("response").getString("id");
+                            addPayment(paymentId,amount);
+                            showDetails(jsonObject.getJSONObject("response"),amount);
+                        } catch (JSONException e){
+                            e.printStackTrace();
+                        }
+
 
                     } catch(JSONException e){
                         e.printStackTrace();
@@ -145,6 +158,52 @@ public class SubscriptionFragment extends Fragment {
             }
         } else if( resultCode == PaymentActivity.RESULT_EXTRAS_INVALID){
             Toast.makeText(getActivity(), "Invalid", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addPayment(String paymentId,String amount){
+        Retrofit retrofit = new Retrofit.Builder()
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl(Case.BASE_URL)
+                            .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> commonResponseCall = service.lawyerSubscribe(lawyer_id,new PaymentModel(paymentId,"paypal",amount));
+        commonResponseCall.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(isAdded() && !resp.isError()){
+                    Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }else{
+                    if(isAdded()){
+                        Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), "Unable to pay, please try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showDetails(JSONObject response, String paymentAmount) {
+        try {
+            Log.d(TAG,"Transaction ID:" + response.getString("id"));
+            Log.d(TAG,"amount:"+paymentAmount);
+            AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+            ab.setTitle("Subscription Success");
+            ab.setMessage("Thank you for supporting us! \n You can now create more cases !");
+            ab.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getActivity(), "Payment Success!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            ab.show();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }
