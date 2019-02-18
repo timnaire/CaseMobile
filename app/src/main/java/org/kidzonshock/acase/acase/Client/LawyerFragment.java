@@ -1,5 +1,6 @@
 package org.kidzonshock.acase.acase.Client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -60,15 +61,22 @@ public class LawyerFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
             case R.id.view_user:
+                Intent intent = new Intent(getActivity(),LawyerProfile.class);
+                intent.putExtra("profile_pic", list.get(info.position).getProfile_pic());
+                intent.putExtra("name", list.get(info.position).getName());
+                intent.putExtra("email", list.get(info.position).getEmail());
+                intent.putExtra("phone", list.get(info.position).getPhone());
+                intent.putExtra("office", list.get(info.position).getOffice());
+                startActivity(intent);
                 break;
             case R.id.remove_user:
                 break;
         }
-        return super.onOptionsItemSelected(item);
+        return super.onContextItemSelected(item);
     }
 
     @Override
