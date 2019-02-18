@@ -186,6 +186,10 @@ public interface Case {
     @POST("lawyer/{lawyer_id}/update-event")
     Call<CommonResponse> updateEventLawyer(@Path("lawyer_id") String lawyer_id, @Body UpdateEvent body);
 
+    @Headers("Content-Type: application/json")
+    @POST("client/{client_id}/update-event")
+    Call<CommonResponse> updateEventClient(@Path("client_id") String client_id, @Body UpdateEvent body);
+
 //    GET REQUEST
     @Headers("Content-Type: application/json")
     @GET("lawyer/{lawyer_id}/get-lawyer-practice")

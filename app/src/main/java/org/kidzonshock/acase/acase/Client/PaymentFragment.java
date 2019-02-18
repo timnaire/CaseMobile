@@ -212,11 +212,9 @@ public class PaymentFragment extends Fragment {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 CommonResponse resp = response.body();
-                Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 if(!resp.isError()){
                     Toast.makeText(getActivity(), "Payment success", Toast.LENGTH_SHORT).show();
                 }else{
-
                     Toast.makeText(getActivity(), "Unsuccessful payment, please try again.", Toast.LENGTH_SHORT).show();
 
                 }

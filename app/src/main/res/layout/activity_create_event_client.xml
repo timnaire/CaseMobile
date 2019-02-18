@@ -41,7 +41,7 @@
                 android:layout_marginRight="30dp" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/layoutEventTitle"
+                android:id="@+id/layoutEventTitleClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -49,14 +49,14 @@
                 android:layout_marginBottom="10dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/inputEventTitle"
+                    android:id="@+id/inputEventTitleClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Title" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/layoutEventLocation"
+                android:id="@+id/layoutEventLocationClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -65,14 +65,14 @@
                 android:layout_marginBottom="10dp">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/inputEventLocation"
+                    android:id="@+id/inputEventLocationClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Location" />
             </android.support.design.widget.TextInputLayout>
 
             <EditText
-                android:id="@+id/eventDetails"
+                android:id="@+id/eventDetailsClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -90,20 +90,20 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/layoutEventDate"
+                    android:id="@+id/layoutEventDateClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/inputEventDate"
+                        android:id="@+id/inputEventDateClient"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Date" />
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
-                    android:id="@+id/btnEventDate"
+                    android:id="@+id/btnEventDateClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -121,20 +121,20 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/layoutEventTime"
+                    android:id="@+id/layoutEventTimeClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/inputEventTime"
+                        android:id="@+id/inputEventTimeClient"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Time Start" />
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
-                    android:id="@+id/btnEventTime"
+                    android:id="@+id/btnEventTimeClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -154,7 +154,7 @@
                 android:entries="@array/event_type" />
 
             <Button
-                android:id="@+id/btnCreateEvent"
+                android:id="@+id/btnCreateEventClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"

@@ -48,14 +48,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CreateEventClient extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , TimePickerDialog.OnTimeSetListener {
 
-    Button btnEventDate,btnEventTime, btnCreateEvent;
-    TextInputLayout layoutEventTitle,layoutEventLocation, layoutEventDate, layoutEventTime;
-    TextInputEditText inputEventTitle, inputEventLocation, inputEventDate, inputEventTime;
-    EditText eventDetails;
+    Button btnEventDateClient,btnEventTimeClient, btnCreateEventClient;
+    TextInputLayout layoutEventTitleClient,layoutEventLocationClient, layoutEventDateClient, layoutEventTimeClient;
+    TextInputEditText inputEventTitleClient, inputEventLocationClient, inputEventDateClient, inputEventTimeClient;
+    EditText eventDetailsClient;
     Spinner spinnerLawyer,spinnerEventType;
     ArrayList<String> spinnerLawyerArray;
 
     String lawyer_id,client_id;
+    ArrayAdapter<String> adapter;
     HashMap<String ,String> hmLawyer;
     ACProgressFlower dialog;
     LinearLayout loading;
@@ -83,33 +84,32 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 .text("Please wait")
                 .fadeColor(Color.DKGRAY).build();
 
-        btnCreateEvent = findViewById(R.id.btnCreateEvent);
-        btnEventDate = findViewById(R.id.btnEventDate);
-        btnEventTime = findViewById(R.id.btnEventTime);
+        btnCreateEventClient = findViewById(R.id.btnCreateEventClient);
+        btnEventDateClient = findViewById(R.id.btnEventDateClient);
+        btnEventTimeClient = findViewById(R.id.btnEventTimeClient);
 
-        layoutEventTitle = findViewById(R.id.layoutEventTitle);
-        layoutEventLocation = findViewById(R.id.layoutEventLocation);
-        layoutEventDate = findViewById(R.id.layoutEventDate);
-        layoutEventTime = findViewById(R.id.layoutEventTime);
+        layoutEventTitleClient = findViewById(R.id.layoutEventTitleClient);
+        layoutEventLocationClient = findViewById(R.id.layoutEventLocationClient);
+        layoutEventDateClient = findViewById(R.id.layoutEventDateClient);
+        layoutEventTimeClient = findViewById(R.id.layoutEventTimeClient);
 
-        inputEventTitle = findViewById(R.id.inputEventTitle);
-        inputEventLocation = findViewById(R.id.inputEventLocation);
-        inputEventDate = findViewById(R.id.inputEventDate);
-        inputEventTime = findViewById(R.id.inputEventTime);
+        inputEventTitleClient = findViewById(R.id.inputEventTitleClient);
+        inputEventLocationClient = findViewById(R.id.inputEventLocationClient);
+        inputEventDateClient = findViewById(R.id.inputEventDateClient);
+        inputEventTimeClient = findViewById(R.id.inputEventTimeClient);
 
-        eventDetails = findViewById(R.id.eventDetails);
+        eventDetailsClient = findViewById(R.id.eventDetailsClient);
 
         spinnerLawyerArray = new ArrayList<String>();
         spinnerLawyerArray.add("Select Lawyer");
         spinnerEventType = findViewById(R.id.spinnerEventType);
         spinnerLawyer = findViewById(R.id.spinnerClient);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, spinnerLawyerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLawyer.setAdapter(adapter);
 
 
-        btnEventDate.setOnClickListener(new View.OnClickListener() {
+        btnEventDateClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment datepicker = new DatePickerFragment();
@@ -117,7 +117,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        btnEventTime.setOnClickListener(new View.OnClickListener() {
+        btnEventTimeClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment timepicker = new TimePickerFragment();
@@ -125,15 +125,15 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
             }
         });
 
-        btnCreateEvent.setOnClickListener(new View.OnClickListener() {
+        btnCreateEventClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String lawyer_name,title,location,details,date,time,type;
-                title = inputEventTitle.getText().toString();
-                location = inputEventLocation.getText().toString();
-                details = eventDetails.getText().toString();
-                date = inputEventDate.getText().toString();
-                time = inputEventTime.getText().toString();
+                title = inputEventTitleClient.getText().toString();
+                location = inputEventLocationClient.getText().toString();
+                details = eventDetailsClient.getText().toString();
+                date = inputEventDateClient.getText().toString();
+                time = inputEventTimeClient.getText().toString();
                 type = spinnerEventType.getSelectedItem().toString();
                 lawyer_name = spinnerLawyer.getSelectedItem().toString();
                 for(String key: hmLawyer.keySet()) {
@@ -143,14 +143,13 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 }
                 if(validateForm(title,location,date,time)){
                     dialog.show();
-                    if(btnCreateEvent.getText().toString().equals("Update Event")){
+                    if(btnCreateEventClient.getText().toString().equals("Update Event")){
                         Intent prev = getIntent();
                         String event_id = prev.getStringExtra("event_id");
                         updateEvent(event_id,lawyer_id,title,location,details,date,time,type,client_id);
                     } else {
                         createEvent(lawyer_id,title,location,details,date,time,type, client_id);
                     }
-
                 }
             }
         });
@@ -163,7 +162,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.updateEventLawyer(client_id,new UpdateEvent(eventId,lawyer_id,title,location,details,date,time,type,client_id));
+        Call<CommonResponse> commonResponseCall = service.updateEventClient(client_id,new UpdateEvent(eventId,lawyer_id,title,location,details,date,time,type,client_id));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -198,11 +197,11 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 CommonResponse resp = response.body();
                 dialog.dismiss();
                 if(!resp.isError()){
-                    eventDetails.setText("");
-                    inputEventTime.setText("");
-                    inputEventDate.setText("");
-                    inputEventLocation.setText("");
-                    inputEventTitle.setText("");
+                    eventDetailsClient.setText("");
+                    inputEventTimeClient.setText("");
+                    inputEventDateClient.setText("");
+                    inputEventLocationClient.setText("");
+                    inputEventTitleClient.setText("");
                     spinnerLawyer.setSelection(getIndex(spinnerLawyer,"Select Lawyer"));
                     spinnerEventType.setSelection(getIndex(spinnerEventType,"Meeting"));
                     Toast.makeText(CreateEventClient.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
@@ -241,7 +240,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         String currenDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
-        inputEventDate.setText(currenDateString);
+        inputEventDateClient.setText(currenDateString);
     }
 
     @Override
@@ -259,7 +258,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
             format = "AM";
         }
         String time = hourOfDay + ":" + String.format("%02d",minute) + " "+format;
-        inputEventTime.setText(time);
+        inputEventTimeClient.setText(time);
     }
 
     private void getLawyer() {
@@ -276,6 +275,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 loading.setVisibility(View.GONE);
                 if(!listLawyer.isError()){
                     ArrayList<ClientListCase> list_lawyers = response.body().getList_lawyers();
+                    b = getIntent().getExtras();
                     String lawyer_id,name;
                     for(int i=0; i < list_lawyers.size(); i++){
                         lawyer_id = list_lawyers.get(i).getLawyer_id();
@@ -283,15 +283,16 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                         spinnerLawyerArray.add(name);
                         hmLawyer.put(lawyer_id,name);
                     }
+                    spinnerLawyer.setAdapter(adapter);
                     if(b !=null){
                         spinnerLawyer.setSelection(getIndex(spinnerLawyer,b.getString("event_with")));
-                        inputEventTitle.setText(b.getString("event_title"));
-                        inputEventLocation.setText(b.getString("event_location"));
-                        eventDetails.setText(b.getString("event_details"));
-                        inputEventDate.setText(b.getString("event_date"));
-                        inputEventTime.setText(b.getString("event_time"));
+                        inputEventTitleClient.setText(b.getString("event_title"));
+                        inputEventLocationClient.setText(b.getString("event_location"));
+                        eventDetailsClient.setText(b.getString("event_details"));
+                        inputEventDateClient.setText(b.getString("event_date"));
+                        inputEventTimeClient.setText(b.getString("event_time"));
                         spinnerEventType.setSelection(getIndex(spinnerEventType,b.getString("event_type")));
-                        btnCreateEvent.setText("Update Event");
+                        btnCreateEventClient.setText("Update Event");
                     }
                 }else{
                     loading.setVisibility(View.GONE);
@@ -308,35 +309,35 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
     private boolean validateForm(String title, String location, String date, String time){
         boolean valid = true;
         if (TextUtils.isEmpty(time)) {
-            layoutEventTime.setError("Required");
-            layoutEventTime.requestFocus();
+            layoutEventTimeClient.setError("Required");
+            layoutEventTimeClient.requestFocus();
             valid = false;
         } else {
-            layoutEventTime.setError(null);
+            layoutEventTimeClient.setError(null);
         }
 
         if (TextUtils.isEmpty(date)) {
-            layoutEventDate.setError("Required");
-            layoutEventDate.requestFocus();
+            layoutEventDateClient.setError("Required");
+            layoutEventDateClient.requestFocus();
             valid = false;
         } else {
-            layoutEventDate.setError(null);
+            layoutEventDateClient.setError(null);
         }
 
         if (TextUtils.isEmpty(location)) {
-            layoutEventLocation.setError("Required");
-            layoutEventLocation.requestFocus();
+            layoutEventLocationClient.setError("Required");
+            layoutEventLocationClient.requestFocus();
             valid = false;
         } else {
-            layoutEventLocation.setError(null);
+            layoutEventLocationClient.setError(null);
         }
 
         if (TextUtils.isEmpty(title)) {
-            layoutEventTitle.setError("Required");
-            layoutEventTitle.requestFocus();
+            layoutEventTitleClient.setError("Required");
+            layoutEventTitleClient.requestFocus();
             valid = false;
         } else {
-            layoutEventTitle.setError(null);
+            layoutEventTitleClient.setError(null);
         }
         return valid;
     }
