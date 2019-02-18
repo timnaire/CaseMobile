@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -58,7 +59,6 @@ public class ClientChangeInformation extends AppCompatActivity {
         phone = PreferenceDataClient.getLoggedInPhone(ClientChangeInformation.this);
         address = PreferenceDataClient.getLoggedInAddress(ClientChangeInformation.this);
         sex = PreferenceDataClient.getLoggedInSex(ClientChangeInformation.this);
-        Toast.makeText(this, "Client sex:"+sex, Toast.LENGTH_SHORT).show();
 //        set all the id from views
         btnSaveInfoClient = findViewById(R.id.btnSaveInfoClient);
 

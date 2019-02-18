@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyService extends IntentService {
 
     public static final String Accept = "Accept";
-    public static final String Reject = "Reject";
+    public static final String Decline = "Decline";
 
     public MyService() {
         super("MyService");
@@ -52,11 +52,11 @@ public class MyService extends IntentService {
                 }
             });
 
-        } else if (Reject.equals(action)) {
+        } else if (Decline.equals(action)) {
             lawyer_id = PreferenceDataLawyer.getLoggedInLawyerid(MyService.this);
             client_id = intent.getStringExtra("client_id");
             relation_id = intent.getStringExtra("relation_id");
-            status = "Rejected";
+            status = "Declined";
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Case.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())

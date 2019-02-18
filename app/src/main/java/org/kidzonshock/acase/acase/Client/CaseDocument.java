@@ -100,8 +100,7 @@ public class CaseDocument extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_document,menu);
         super.onCreateContextMenu(menu, v, menuInfo);
         info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-//        menu.setHeaderTitle(adapter.getIndexForPosition(info.position));
-//        menu.setHeaderTitle(grid)
+        menu.setHeaderTitle(adapter.getFilename(info.position));
     }
 
     @Override

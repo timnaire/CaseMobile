@@ -16,9 +16,10 @@ import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetDocument;
 import org.kidzonshock.acase.acase.Models.GetDocumentResponse;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
-import org.kidzonshock.acase.acase.Models.PaymentModel;
+import org.kidzonshock.acase.acase.Models.ClientPaymentModel;
 import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
+import org.kidzonshock.acase.acase.Models.PaymentModel;
 import org.kidzonshock.acase.acase.Models.PreAppointResponse;
 import org.kidzonshock.acase.acase.Models.SigninBody;
 import org.kidzonshock.acase.acase.Models.SigninResponseClient;
@@ -161,7 +162,7 @@ public interface Case {
 
     @Headers("Content-Type: application/json")
     @POST("client/{client_id}/payment")
-    Call<CommonResponse> clientPayment(@Path("client_id") String client_id, @Body PaymentModel body);
+    Call<CommonResponse> clientPayment(@Path("client_id") String client_id, @Body ClientPaymentModel body);
 
 
 //    events module
@@ -191,7 +192,7 @@ public interface Case {
     Call<GetLawPractice> getPractice(@Path("lawyer_id") String lawyer_id);
 
     @Headers("Content-Type: application/json")
-    @GET("lawyer/{lawyer_id}/get-case")
+    @GET("lawyer/{lawyer_id}/mobile/get-case")
     Call<GetCase> getCases(@Path("lawyer_id") String lawyer_id);
 
     @Headers("Content-Type: application/json")

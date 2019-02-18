@@ -49,9 +49,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         rejectIntent.putExtra("relation_id",relation_id);
 
         acceptIntent.setAction(MyService.Accept);
-        rejectIntent.setAction(MyService.Reject);
+        rejectIntent.setAction(MyService.Decline);
         PendingIntent acceptPendingIntent = PendingIntent.getService(this, 0 , acceptIntent,PendingIntent.FLAG_ONE_SHOT);
-        PendingIntent rejectPendingIntent = PendingIntent.getService(this, 0 , rejectIntent,PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent declinePendingIntent = PendingIntent.getService(this, 0 , rejectIntent,PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = "MyChannel";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -62,7 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setWhen(0)
                         .addAction(R.drawable.outline_check_black_18dp,"Accept",acceptPendingIntent)
-                        .addAction(R.drawable.outline_close_black_18dp,"Reject",rejectPendingIntent)
+                        .addAction(R.drawable.outline_close_black_18dp,"Decline",declinePendingIntent)
                         .setAutoCancel(true)
                         .setOngoing(false)
                         .setSound(defaultSoundUri);

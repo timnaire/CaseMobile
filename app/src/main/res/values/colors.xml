@@ -8,4 +8,5 @@
     <color name="btnLawyerSignin">#66b2ff</color>
     <color name="btnLawyerSignup">#cc99ff</color>
     <color name="textWhite">#ffffff</color>
+    <drawable name="transparentColor">#00000000</drawable>
 </resources>

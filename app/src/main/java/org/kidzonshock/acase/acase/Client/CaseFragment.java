@@ -113,6 +113,8 @@ public class CaseFragment extends Fragment {
                     }
                     adapter = new CaseAdapter(getActivity(),caselist);
                     lv.setAdapter(adapter);
+                    lv.setDivider(getActivity().getResources().getDrawable(R.drawable.transparentColor));
+                    lv.setDividerHeight(20);
                     Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
                 }else{
                     loading.setVisibility(View.GONE);

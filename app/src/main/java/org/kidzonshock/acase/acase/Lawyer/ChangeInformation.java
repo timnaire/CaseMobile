@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
@@ -37,9 +38,10 @@ public class ChangeInformation extends AppCompatActivity {
     CheckBox chkBusinessLaw, chkCivilLaw,chkConstitutionalLaw,chkCriminalLaw,chkFamilyLaw,chkLaborLaw,chkTaxationLaw;
     ACProgressFlower dialog;
 
-    TextInputLayout layoutUpdateFirst, layoutUpdateLast, layoutUpdatePhone, layoutUpdateCity,layoutUpdateOffice,layoutUpdateFirm, layoutUpdateSex;
-    TextInputEditText inputUpdateFirst, inputUpdateLast, inputUpdatePhone, inputUpdateCity,inputUpdateOffice,inputUpdateFirm, inputUpdateSex;
+    TextInputLayout layoutUpdateFirst, layoutUpdateLast, layoutUpdatePhone, layoutUpdateCity,layoutUpdateOffice,layoutUpdateFirm;
+    TextInputEditText inputUpdateFirst, inputUpdateLast, inputUpdatePhone, inputUpdateCity,inputUpdateOffice,inputUpdateFirm;
     Button btnSaveInfo;
+    Spinner spinnerLawyerSex;
     EditText updateAboutme;
 
     private final String TAG = "ChangeInformation";
@@ -70,7 +72,6 @@ public class ChangeInformation extends AppCompatActivity {
         layoutUpdateCity = findViewById(R.id.layoutUpdateCity);
         layoutUpdateOffice = findViewById(R.id.layoutUpdateOffice);
         layoutUpdateFirm = findViewById(R.id.layoutUpdateFirm);
-        layoutUpdateSex = findViewById(R.id.layoutUpdateSex);
 
         inputUpdateFirst = findViewById(R.id.inputUpdateFirst);
         inputUpdateLast = findViewById(R.id.inputUpdateLast);
@@ -79,7 +80,7 @@ public class ChangeInformation extends AppCompatActivity {
         inputUpdateOffice = findViewById(R.id.inputUpdateOffice);
         updateAboutme = findViewById(R.id.updateAboutme);
         inputUpdateFirm = findViewById(R.id.inputUpdateFirm);
-        inputUpdateSex = findViewById(R.id.inputUpdateSex);
+        spinnerLawyerSex = findViewById(R.id.spinnerLawyerSex);
 
         chkBusinessLaw = findViewById(R.id.chkBusinessLaw);
         chkCivilLaw = findViewById(R.id.chkCivilLaw);
@@ -104,8 +105,8 @@ public class ChangeInformation extends AppCompatActivity {
         inputUpdateCity.setText(cityOrMunicipality);
         inputUpdateOffice.setText(office);
         inputUpdateFirm.setText(firm);
-        inputUpdateSex.setText(sex);
         updateAboutme.setText(aboutme);
+        spinnerLawyerSex.setSelection(getIndex(spinnerLawyerSex,sex));
 
         for(int i=0; i < law_practice.length; i++){
             if(law_practice[i].equals(chkBusinessLaw.getText().toString())){
@@ -136,7 +137,7 @@ public class ChangeInformation extends AppCompatActivity {
                 String newOffice = inputUpdateOffice.getText().toString();
                 String newAboutme = updateAboutme.getText().toString();
                 String newFirm = inputUpdateFirm.getText().toString();
-                String newSex = inputUpdateSex.getText().toString();
+                String newSex = spinnerLawyerSex.getSelectedItem().toString();
                 if(validateForm(newFirstname,newLastname,newPhone,newCity,newOffice,newAboutme,newFirm,newSex)){
                     ArrayList<String> newLaw_practice = new ArrayList<String>();
                     if(chkBusinessLaw.isChecked()){
@@ -175,6 +176,17 @@ public class ChangeInformation extends AppCompatActivity {
         return true;
     }
 
+    //private method of your class
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+        return 0;
+    }
+
+
     public void updateInfo(final String newFirstname, final String newLastname, final String newPhone, final String newCity, final String newOffice,final String newFirm, final String newSex, final String newAboutme, final ArrayList<String> newLaw_practice){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
@@ -195,6 +207,7 @@ public class ChangeInformation extends AppCompatActivity {
                     PreferenceDataLawyer.setLoggedInCityOrMunicipality(ChangeInformation.this,newCity);
                     PreferenceDataLawyer.setLoggedInOffice(ChangeInformation.this,newOffice);
                     PreferenceDataLawyer.setLoggedInFirm(ChangeInformation.this,newFirm);
+                    PreferenceDataLawyer.setLoggedInSex(ChangeInformation.this,newSex);
                     PreferenceDataLawyer.setLoggedInAboutme(ChangeInformation.this,newAboutme);
                     Toast.makeText(ChangeInformation.this, commonResponse.getMessage() , Toast.LENGTH_SHORT).show();
                 } else {
@@ -216,14 +229,6 @@ public class ChangeInformation extends AppCompatActivity {
 
         if(aboutme.equals(null)){
             valid = false;
-        }
-
-        if (TextUtils.isEmpty(sex)) {
-            layoutUpdateSex.setError("Required");
-            layoutUpdateSex.requestFocus();
-            valid = false;
-        } else {
-            layoutUpdateSex.setError(null);
         }
 
         if (TextUtils.isEmpty(firm)) {

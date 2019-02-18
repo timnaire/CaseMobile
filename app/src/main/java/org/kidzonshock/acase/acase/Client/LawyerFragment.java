@@ -61,7 +61,13 @@ public class LawyerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        int id = item.getItemId();
+        switch(id){
+            case R.id.view_user:
+                break;
+            case R.id.remove_user:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

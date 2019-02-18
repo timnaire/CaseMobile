@@ -75,8 +75,7 @@ public class ResearchFragment extends Fragment {
         getActivity().getMenuInflater().inflate(R.menu.menu_document,menu);
         super.onCreateContextMenu(menu, v, menuInfo);
         info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-//        menu.setHeaderTitle(adapter.getIndexForPosition(info.position));
-//        menu.setHeaderTitle(grid)
+        menu.setHeaderTitle(adapter.getFilename(info.position));
     }
 
     @Override
@@ -169,16 +168,4 @@ public class ResearchFragment extends Fragment {
             }
         });
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(isAdded()){
-            list.clear();
-            grid.setAdapter(null);
-            loading.setVisibility(View.VISIBLE);
-            researchDocument();
-        }
-    }
-
 }

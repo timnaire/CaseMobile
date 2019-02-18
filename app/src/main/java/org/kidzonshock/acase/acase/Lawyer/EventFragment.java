@@ -232,14 +232,4 @@ public class EventFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(isAdded()){
-            list.clear();
-            lv.setAdapter(null);
-            loading.setVisibility(View.VISIBLE);
-            getEvents();
-        }
-    }
 }

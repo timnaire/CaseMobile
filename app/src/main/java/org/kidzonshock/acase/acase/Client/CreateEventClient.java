@@ -52,7 +52,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
     ArrayList<String> spinnerLawyerArray;
 
     String lawyer_id,client_id;
-    HashMap<String ,String> hmClient;
+    HashMap<String ,String> hmLawyer;
     ACProgressFlower dialog;
     LinearLayout loading;
     Bundle b;
@@ -65,7 +65,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
 
         client_id = PreferenceDataClient.getLoggedInClientid(CreateEventClient.this);
         loading = findViewById(R.id.linlaHeaderProgress);
-        hmClient = new HashMap<String,String>();
+        hmLawyer = new HashMap<String,String>();
         getLawyer();
         loading.setVisibility(View.VISIBLE);
 
@@ -132,8 +132,8 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 time = inputEventTime.getText().toString();
                 type = spinnerEventType.getSelectedItem().toString();
                 lawyer_name = spinnerLawyer.getSelectedItem().toString();
-                for(String key: hmClient.keySet()) {
-                    if(hmClient.get(key).equals(lawyer_name)) {
+                for(String key: hmLawyer.keySet()) {
+                    if(hmLawyer.get(key).equals(lawyer_name)) {
                         lawyer_id = key;
                     }
                 }
@@ -159,9 +159,9 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 CommonResponse resp = response.body();
                 dialog.dismiss();
                 if(!resp.isError()){
+                    eventDetails.setText("");
                     inputEventTime.setText("");
                     inputEventDate.setText("");
-                    eventDetails.setText("");
                     inputEventLocation.setText("");
                     inputEventTitle.setText("");
                     spinnerLawyer.setSelection(getIndex(spinnerLawyer,"Select Lawyer"));
@@ -242,7 +242,7 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                         lawyer_id = list_lawyers.get(i).getLawyer_id();
                         name = list_lawyers.get(i).getLawyer().getFirst_name()+" "+list_lawyers.get(i).getLawyer().getLast_name();
                         spinnerLawyerArray.add(name);
-                        hmClient.put(lawyer_id,name);
+                        hmLawyer.put(lawyer_id,name);
                     }
                 }else{
                     loading.setVisibility(View.GONE);

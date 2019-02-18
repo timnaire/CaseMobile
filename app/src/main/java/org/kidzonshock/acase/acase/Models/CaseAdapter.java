@@ -1,6 +1,7 @@
 package org.kidzonshock.acase.acase.Models;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,16 @@ import android.widget.TextView;
 
 import org.kidzonshock.acase.acase.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CaseAdapter extends BaseAdapter {
 
+    private final String TAG = "CaseAdapter";
+
+    String output;
     Context context;
     ArrayList<CaseModel> list;
     LayoutInflater inflater;
@@ -50,9 +57,18 @@ public class CaseAdapter extends BaseAdapter {
         TextView case_status = view.findViewById(R.id.case_status);
         CaseModel c = list.get(position);
 
+        String input = c.getDate_created();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            output = dateFormat.format(dateFormat.parse(input));
+            Log.d(TAG,"date : " +output);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        case_date.setText(output);
         case_title.setText(c.getTitle());
         case_clientname.setText(c.getClientName());
-        case_date.setText(c.getDate_created());
+
         case_status.setText(c.getStatus());
 
         return view;

@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import org.kidzonshock.acase.acase.Config.Config;
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.ClientPaymentModel;
 import org.kidzonshock.acase.acase.Models.PaymentModel;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
@@ -141,8 +142,6 @@ public class SubscriptionFragment extends Fragment {
 
                         try {
                             JSONObject jsonObject = new JSONObject(paymentDetails);
-                            paymentId = jsonObject.getJSONObject("response").getString("id");
-                            addPayment(paymentId,amount);
                             showDetails(jsonObject.getJSONObject("response"),amount);
                         } catch (JSONException e){
                             e.printStackTrace();
@@ -162,25 +161,23 @@ public class SubscriptionFragment extends Fragment {
     }
 
     private void addPayment(String paymentId,String amount){
+        String method = "paypal";
         Retrofit retrofit = new Retrofit.Builder()
                             .addConverterFactory(GsonConverterFactory.create())
                             .baseUrl(Case.BASE_URL)
                             .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.lawyerSubscribe(lawyer_id,new PaymentModel(paymentId,"paypal",amount));
+        Call<CommonResponse> commonResponseCall = service.lawyerSubscribe(lawyer_id,new PaymentModel(paymentId,method,amount));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 CommonResponse resp = response.body();
-                if(isAdded() && !resp.isError()){
-                    Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_SHORT).show();
+                if(!resp.isError()){
+                    Toast.makeText(getActivity(), "Payment Success", Toast.LENGTH_SHORT).show();
                 }else{
-                    if(isAdded()){
-                        Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getActivity(), "Unsuccessful payment, please try again.", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<CommonResponse> call, Throwable t) {
                 Toast.makeText(getActivity(), "Unable to pay, please try again.", Toast.LENGTH_SHORT).show();
@@ -188,17 +185,18 @@ public class SubscriptionFragment extends Fragment {
         });
     }
 
-    private void showDetails(JSONObject response, String paymentAmount) {
+    private void showDetails(JSONObject response, final String paymentAmount) {
         try {
             Log.d(TAG,"Transaction ID:" + response.getString("id"));
             Log.d(TAG,"amount:"+paymentAmount);
+            paymentId = response.getString("id");
             AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
             ab.setTitle("Subscription Success");
             ab.setMessage("Thank you for supporting us! \n You can now create more cases !");
             ab.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getActivity(), "Payment Success!", Toast.LENGTH_SHORT).show();
+                    addPayment(paymentId,paymentAmount);
                 }
             });
             ab.show();

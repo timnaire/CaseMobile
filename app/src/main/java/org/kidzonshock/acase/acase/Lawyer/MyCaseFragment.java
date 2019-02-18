@@ -42,6 +42,8 @@ import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -75,6 +77,8 @@ public class MyCaseFragment extends Fragment {
     LinearLayout loading;
     AdapterView.AdapterContextMenuInfo info;
     HashMap<String ,String> hmClient;
+    private String output;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -333,7 +337,7 @@ public class MyCaseFragment extends Fragment {
                 client_address = caselist.get(info.position).getClientAddress();
                 case_status = caselist.get(info.position).getStatus();
                 vIntent.putExtra("title",title);
-                vIntent.putExtra("date",date);
+                vIntent.putExtra("date",isoToDate(date));
                 vIntent.putExtra("client_name",client_name);
                 vIntent.putExtra("client_email",client_email);
                 vIntent.putExtra("client_phone",client_phone);
@@ -487,6 +491,8 @@ public class MyCaseFragment extends Fragment {
                     }
                     adapter = new CaseAdapter(getActivity(),caselist);
                     lv.setAdapter(adapter);
+                    lv.setDivider(getActivity().getResources().getDrawable(R.drawable.transparentColor));
+                    lv.setDividerHeight(20);
                     Toast.makeText(getActivity(), getCase.getMessage(), Toast.LENGTH_SHORT).show();
                 }else{
                     loading.setVisibility(View.GONE);
@@ -506,7 +512,15 @@ public class MyCaseFragment extends Fragment {
         });
     }
 
-
+    private String isoToDate(String input) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            output = dateFormat.format(dateFormat.parse(input));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
 
     public void addCase(String title, String clientid, String description){
         Retrofit retrofit = new Retrofit.Builder()
