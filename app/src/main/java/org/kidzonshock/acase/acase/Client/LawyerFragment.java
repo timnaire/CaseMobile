@@ -66,6 +66,7 @@ public class LawyerFragment extends Fragment {
         switch(id){
             case R.id.view_user:
                 Intent intent = new Intent(getActivity(),LawyerProfile.class);
+                intent.putExtra("lawyer_id", list.get(info.position).getLawyer_id());
                 intent.putExtra("profile_pic", list.get(info.position).getProfile_pic());
                 intent.putExtra("name", list.get(info.position).getName());
                 intent.putExtra("email", list.get(info.position).getEmail());
@@ -102,20 +103,21 @@ public class LawyerFragment extends Fragment {
                 loading.setVisibility(View.GONE);
                 if(!listLawyer.isError()){
                     ArrayList<ClientListCase> list_lawyers = response.body().getList_lawyers();
-                    String profile_pic,name,email,phone,office;
+                    String lawyer_id,profile_pic,name,email,phone,office;
                     for(int i=0; i < list_lawyers.size(); i++){
+                        lawyer_id = list_lawyers.get(i).getLawyer_id();
                         profile_pic = list_lawyers.get(i).getLawyer().getProfile_pic();
                         name = list_lawyers.get(i).getLawyer().getFirst_name()+" "+list_lawyers.get(i).getLawyer().getLast_name();
                         email = list_lawyers.get(i).getLawyer().getEmail();
                         phone = list_lawyers.get(i).getLawyer().getPhone();
                         office = list_lawyers.get(i).getLawyer().getOffice();
-                        list.add(new LawyerModel(name,email,phone,office,profile_pic));
+                        list.add(new LawyerModel(lawyer_id,name,email,phone,office,profile_pic));
                     }
-
-                    adapter = new LawyerAdapter(getActivity(),list);
-                    lv.setAdapter(adapter);
-                    Toast.makeText(getActivity(), listLawyer.getMessage(), Toast.LENGTH_SHORT).show();
-
+                    if(getActivity()!=null) {
+                        adapter = new LawyerAdapter(getActivity(), list);
+                        lv.setAdapter(adapter);
+                        Toast.makeText(getActivity(), listLawyer.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     loading.setVisibility(View.GONE);
                     if(isAdded()) {

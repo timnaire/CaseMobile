@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +21,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -28,16 +31,32 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.kidzonshock.acase.acase.HttpDataHandler;
+import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.Feedback;
+import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
 import org.kidzonshock.acase.acase.R;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallback {
 
     TextView txtName, txtEmail, txtPhone, txtOffice;
+    Button btnRateLawyer,btnCallLawyer,btnMessageLawyer;
     ImageView profile_pic;
     String lat,lng;
-    String name,email,phone,office,prof_url;
+    String client_id,lawyer_id,name,email,phone,office,prof_url;
     private GoogleMap map;
     GoogleApiClient mGoogleApiClient;
+
+    RatingBar ratingBar;
+    Dialog rateDialog;
+    Float rate;
+    String feedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +67,19 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Lawyer Information");
 
+        client_id = PreferenceDataClient.getLoggedInClientid(LawyerProfile.this);
+
         txtName = findViewById(R.id.lawyerName);
         txtEmail = findViewById(R.id.lawyerEmail);
         txtOffice = findViewById(R.id.lawyerOfficeAddress);
         profile_pic = findViewById(R.id.lawyerProfile);
 
+        btnRateLawyer = findViewById(R.id.btnRateLawyer);
+        btnCallLawyer = findViewById(R.id.btnCallLawyer);
+        btnMessageLawyer = findViewById(R.id.btnMessageLawyer);
+
         Intent prev = getIntent();
+        lawyer_id = prev.getStringExtra("lawyer_id");
         name = prev.getStringExtra("name");
         email = prev.getStringExtra("email");
         phone = prev.getStringExtra("phone");
@@ -73,6 +99,60 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
 
         Glide.with(this).load(prof_url).apply(options).into(profile_pic);
 
+        btnRateLawyer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                rateDialog = new Dialog(LawyerProfile.this, R.style.FullHeightDialog);
+                rateDialog.setContentView(R.layout.rate_dialog);
+                rateDialog.setCancelable(true);
+                ratingBar = rateDialog.findViewById(R.id.dialog_ratingbar);
+                ratingBar.setRating(ratingBar.getRating());
+
+                TextView lName = rateDialog.findViewById(R.id.lawName);
+                final EditText lawyerFeedback = rateDialog.findViewById(R.id.lawyerFeedback);
+                lName.setText(name);
+
+                Button rateButton = rateDialog.findViewById(R.id.rank_dialog_button);
+                rateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rate = ratingBar.getRating();
+                        feedback = lawyerFeedback.getText().toString();
+                        sendFeedback(rate,feedback);
+                        rateDialog.dismiss();
+                    }
+                });
+                //now that the dialog is set up, it's time to show it
+                rateDialog.show();
+            }
+        });
+
+    }
+
+    private void sendFeedback(Float rate, String feedback){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> commonResponseCall = service.sendFeedback(client_id,new Feedback(lawyer_id,rate,feedback));
+        commonResponseCall.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(response.isSuccessful() && !resp.isError()){
+                    Toast.makeText(LawyerProfile.this, "Thank you for your feedback !", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LawyerProfile.this, "Rate and feedback was not saved.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                Toast.makeText(LawyerProfile.this, "Unable to send feedback, please try again", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

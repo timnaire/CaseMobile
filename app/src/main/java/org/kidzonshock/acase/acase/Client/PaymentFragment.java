@@ -138,7 +138,7 @@ public class PaymentFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode,resultCode,data);
         if(requestCode == PAYPAL_REQUEST_CODE){
             if(resultCode == RESULT_OK){
                 PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
@@ -202,17 +202,18 @@ public class PaymentFragment extends Fragment {
     }
 
     private void addPayment(String lawyer_id,String paymentId,String amount){
+        String method = "paypal";
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(Case.BASE_URL)
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.clientPayment(client_id,new ClientPaymentModel(lawyer_id,paymentId,"paypal",amount));
+        Call<CommonResponse> commonResponseCall = service.clientPayment(client_id,new ClientPaymentModel(lawyer_id,paymentId,method,amount));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                 CommonResponse resp = response.body();
-                if(!resp.isError()){
+                if(response.isSuccessful() && !resp.isError()){
                     Toast.makeText(getActivity(), "Payment success", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getActivity(), "Unsuccessful payment, please try again.", Toast.LENGTH_SHORT).show();
@@ -233,8 +234,8 @@ public class PaymentFragment extends Fragment {
             Log.d(TAG,"amount:"+paymentAmount);
             paymentId = response.getString("id");
             AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
-            ab.setTitle("Subscription Success");
-            ab.setMessage("Thank you for supporting us! \n You can now create more cases !");
+            ab.setTitle("Payment Successful!");
+            ab.setMessage("Your lawyer will be delighted to received your payment !");
             ab.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

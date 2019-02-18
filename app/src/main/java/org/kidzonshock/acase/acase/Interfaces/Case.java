@@ -12,6 +12,7 @@ import org.kidzonshock.acase.acase.Models.DeleteFileModel;
 import org.kidzonshock.acase.acase.Models.DeleteFileModelClient;
 import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.EventResponse;
+import org.kidzonshock.acase.acase.Models.Feedback;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetDocument;
 import org.kidzonshock.acase.acase.Models.GetDocumentResponse;
@@ -42,7 +43,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface Case {
-
     String BASE_URL = "http://case-legal-aid.appspot.com/";
 
 //    POST REQUEST
@@ -190,6 +190,10 @@ public interface Case {
     @POST("client/{client_id}/update-event")
     Call<CommonResponse> updateEventClient(@Path("client_id") String client_id, @Body UpdateEvent body);
 
+    @Headers("Content-Type: application/json")
+    @POST("client/{client_id}/lawyer/feedback")
+    Call<CommonResponse> sendFeedback(@Path("client_id") String client_id, @Body Feedback body);
+
 //    GET REQUEST
     @Headers("Content-Type: application/json")
     @GET("lawyer/{lawyer_id}/get-lawyer-practice")
@@ -222,5 +226,4 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @GET("client/{client_id}/get-event")
     Call<EventResponse> getEventClient(@Path("client_id") String client_id);
-
 }
