@@ -101,7 +101,7 @@ public interface Case {
         Call<CommonResponse> addCase(@Path("lawyer_id") String lawyer_id, @Body AddCase body);
 
     @Headers("Content-Type: application/json")
-    @POST("lawyer/{lawyer_id}/mobile/edit-case")
+    @POST("lawyer/{lawyer_id}/edit-case")
     Call<CommonResponse> editCase(@Path("lawyer_id") String lawyer_id, @Body EditCase body);
 
     @Headers("Content-Type: application/json")

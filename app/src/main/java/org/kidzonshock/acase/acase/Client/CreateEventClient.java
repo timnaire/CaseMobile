@@ -2,6 +2,7 @@ package org.kidzonshock.acase.acase.Client;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -9,6 +10,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Lawyer.CreateEvent;
 import org.kidzonshock.acase.acase.Models.ClientListCase;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.CreateEventModelClient;
@@ -27,6 +30,7 @@ import org.kidzonshock.acase.acase.Models.DatePickerFragment;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
 import org.kidzonshock.acase.acase.Models.TimePickerFragment;
+import org.kidzonshock.acase.acase.Models.UpdateEvent;
 import org.kidzonshock.acase.acase.R;
 
 import java.text.DateFormat;
@@ -139,12 +143,47 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                 }
                 if(validateForm(title,location,date,time)){
                     dialog.show();
-                    createEvent(lawyer_id,title,location,details,date,time,type, client_id);
+                    if(btnCreateEvent.getText().toString().equals("Update Event")){
+                        Intent prev = getIntent();
+                        String event_id = prev.getStringExtra("event_id");
+                        updateEvent(event_id,lawyer_id,title,location,details,date,time,type,client_id);
+                    } else {
+                        createEvent(lawyer_id,title,location,details,date,time,type, client_id);
+                    }
+
                 }
             }
         });
 
     }
+
+    private void updateEvent(String eventId, String lawyer_id,String title,String location, String details, String date, String time, String type, String client_id){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> commonResponseCall = service.updateEventLawyer(client_id,new UpdateEvent(eventId,lawyer_id,title,location,details,date,time,type,client_id));
+        commonResponseCall.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                dialog.dismiss();
+                if(!resp.isError()){
+                    Toast.makeText(CreateEventClient.this, "Event Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreateEventClient.this, "Event was not updated.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                Log.d(TAG,"Error: "+ t.getMessage());
+                dialog.dismiss();
+            }
+        });
+    }
+
 
     private void createEvent(String lawyer_id, String title, String location, String details, String date, String time, String type, String owner) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -243,6 +282,16 @@ public class CreateEventClient extends AppCompatActivity implements DatePickerDi
                         name = list_lawyers.get(i).getLawyer().getFirst_name()+" "+list_lawyers.get(i).getLawyer().getLast_name();
                         spinnerLawyerArray.add(name);
                         hmLawyer.put(lawyer_id,name);
+                    }
+                    if(b !=null){
+                        spinnerLawyer.setSelection(getIndex(spinnerLawyer,b.getString("event_with")));
+                        inputEventTitle.setText(b.getString("event_title"));
+                        inputEventLocation.setText(b.getString("event_location"));
+                        eventDetails.setText(b.getString("event_details"));
+                        inputEventDate.setText(b.getString("event_date"));
+                        inputEventTime.setText(b.getString("event_time"));
+                        spinnerEventType.setSelection(getIndex(spinnerEventType,b.getString("event_type")));
+                        btnCreateEvent.setText("Update Event");
                     }
                 }else{
                     loading.setVisibility(View.GONE);
