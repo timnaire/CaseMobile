@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +58,8 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
     Dialog rateDialog;
     Float rate;
     String feedback;
+
+    private final String TAG = "LawyerProfile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,6 +227,8 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
                         .getJSONObject("location").get("lat").toString();
                 lng = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry")
                         .getJSONObject("location").get("lng").toString();
+                Log.d(TAG,"Lat :"+lat);
+                Log.d(TAG,"Lng :"+lng);
                 double latitude = Double.parseDouble(lat);
                 double longitude = Double.parseDouble(lng);
                 LatLng latLng = new LatLng(latitude,longitude);

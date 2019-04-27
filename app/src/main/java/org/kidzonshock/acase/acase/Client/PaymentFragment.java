@@ -239,6 +239,7 @@ public class PaymentFragment extends Fragment {
             ab.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    inputClientPayment.setText("");
                     addPayment(lawyer_id,paymentId,paymentAmount);
                 }
             });
