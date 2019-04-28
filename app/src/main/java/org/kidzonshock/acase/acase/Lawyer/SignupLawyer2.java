@@ -30,10 +30,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignupLawyer2 extends AppCompatActivity {
 
     Button btnRegSend;
-    TextInputLayout layoutRegOfficeLawyer, layoutRegPassLawyer, layoutRegConfirmLawyer;
-    TextInputEditText inputRegOfficeLawyer, inputRegPassLawyer, inputRegConfirmLawyer;
+    TextInputLayout layoutRegOfficeLawyer,layoutRegFirmLawyer, layoutRegPassLawyer, layoutRegConfirmLawyer;
+    TextInputEditText inputRegOfficeLawyer,inputRegFirmLawyer, inputRegPassLawyer, inputRegConfirmLawyer;
     Spinner spinnerLawpractice, spinnerRegProvince;
-    String firstname, lastname, email, phone,sex,rollno, office, cityOrMunicipality, selectedLawpractice, password, confirm;
+    String firstname, lastname, email, phone,sex,rollno, office, cityOrMunicipality, selectedLawpractice, firm, password, confirm;
     ACProgressFlower dialog;
     Context context;
 
@@ -56,10 +56,12 @@ public class SignupLawyer2 extends AppCompatActivity {
 
         btnRegSend = findViewById(R.id.btnRegLawyer);
         inputRegOfficeLawyer = findViewById(R.id.inputRegOfficeLawyer);
+        layoutRegFirmLawyer = findViewById(R.id.layoutRegFirmLawyer);
         layoutRegPassLawyer = findViewById(R.id.layoutRegPassLawyer);
         layoutRegConfirmLawyer = findViewById(R.id.layoutRegConfirmLawyer);
 
         layoutRegOfficeLawyer = findViewById(R.id.layoutRegOfficeLawyer);
+        inputRegFirmLawyer = findViewById(R.id.inputRegFirmLawyer);
         inputRegPassLawyer = findViewById(R.id.inputRegPassLawyer);
         inputRegConfirmLawyer = findViewById(R.id.inputRegConfirmLawyer);
 
@@ -83,12 +85,13 @@ public class SignupLawyer2 extends AppCompatActivity {
                 cityOrMunicipality = spinnerRegProvince.getSelectedItem().toString();
 
                 office = inputRegOfficeLawyer.getText().toString();
+                firm = inputRegFirmLawyer.getText().toString();
                 password = inputRegPassLawyer.getText().toString();
                 confirm = inputRegConfirmLawyer.getText().toString();
                 
                 if(password.equals(confirm)){
-                    if(validateFormAgain(office,password,confirm)){
-                        sendPostRequest(firstname,lastname,email,phone,rollno,sex,cityOrMunicipality,office,selectedLawpractice,password,confirm);
+                    if(validateFormAgain(office,firm,password,confirm)){
+                        sendPostRequest(firstname,lastname,email,phone,rollno,sex,cityOrMunicipality,office,firm,selectedLawpractice,password,confirm);
                     }    
                 } else {
                     Toast.makeText(SignupLawyer2.this, "Confirmation password does not match, please try again.", Toast.LENGTH_SHORT).show();
@@ -105,7 +108,7 @@ public class SignupLawyer2 extends AppCompatActivity {
         return true;
     }
 
-    private void sendPostRequest(String firstname, String lastname, String email, String phone,String rollno, String sex, String cityOrMunicipality, String office, String lawpractice, String password, String confirm) {
+    private void sendPostRequest(String firstname, String lastname, String email, String phone,String rollno, String sex, String cityOrMunicipality, String office, String firm, String lawpractice, String password, String confirm) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
@@ -115,7 +118,7 @@ public class SignupLawyer2 extends AppCompatActivity {
         dialog.show();
         Case service = retrofit.create(Case.class);
 
-        Call<CommonResponse> commonResponseCall = service.signupLawyer(new SignupLawyer(firstname,lastname,email,phone, rollno, sex, cityOrMunicipality,office,lawpractice,password,confirm));
+        Call<CommonResponse> commonResponseCall = service.signupLawyer(new SignupLawyer(firstname,lastname,email,phone, rollno, sex, cityOrMunicipality,office,lawpractice,firm,password,confirm));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -138,7 +141,7 @@ public class SignupLawyer2 extends AppCompatActivity {
         });
 
     }
-    private boolean validateFormAgain(String office, String password, String confirm) {
+    private boolean validateFormAgain(String office, String firm, String password, String confirm) {
         boolean valid = true;
 
         if (TextUtils.isEmpty(confirm)) {
@@ -155,6 +158,14 @@ public class SignupLawyer2 extends AppCompatActivity {
             valid = false;
         } else {
             layoutRegPassLawyer.setError(null);
+        }
+
+        if (TextUtils.isEmpty(firm)) {
+            layoutRegFirmLawyer.setError("Required");
+            layoutRegFirmLawyer.requestFocus();
+            valid = false;
+        } else {
+            layoutRegFirmLawyer.setError(null);
         }
 
         if (TextUtils.isEmpty(office)) {

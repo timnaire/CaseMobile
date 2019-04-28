@@ -22,12 +22,14 @@ public class SignupLawyer {
     private String office;
     @SerializedName("law_practice")
     private String lawpractice;
+    @SerializedName("firm")
+    private String firm;
     @SerializedName("password")
     private String password;
     @SerializedName("confirm")
     private String confirm;
 
-    public SignupLawyer(String firstname, String lastname, String email, String phone, String rollno, String sex, String cityOrMunicipality, String office, String lawpractice, String password, String confirm) {
+    public SignupLawyer(String firstname, String lastname, String email, String phone, String rollno, String sex, String cityOrMunicipality, String office, String lawpractice, String firm, String password, String confirm) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -37,6 +39,7 @@ public class SignupLawyer {
         this.cityOrMunicipality = cityOrMunicipality;
         this.office = office;
         this.lawpractice = lawpractice;
+        this.firm = firm;
         this.password = password;
         this.confirm = confirm;
     }
@@ -111,6 +114,14 @@ public class SignupLawyer {
 
     public void setLawpractice(String lawpractice) {
         this.lawpractice = lawpractice;
+    }
+
+    public String getFirm() {
+        return firm;
+    }
+
+    public void setFirm(String firm) {
+        this.firm = firm;
     }
 
     public String getPassword() {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/pre_appoint"
+        android:title="Pre Appoint Request"
+        android:icon="@drawable/icons8_account_48"/>
+
+    <item android:id="@+id/client_request"
+        android:title="Client Request"
+        android:icon="@drawable/icons8_account_48"/>
+
+</menu>

@@ -21,6 +21,7 @@ import org.kidzonshock.acase.acase.Models.ClientPaymentModel;
 import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PaymentModel;
+import org.kidzonshock.acase.acase.Models.PreAppointRequestResponse;
 import org.kidzonshock.acase.acase.Models.PreAppointResponse;
 import org.kidzonshock.acase.acase.Models.SigninBody;
 import org.kidzonshock.acase.acase.Models.SigninResponseClient;
@@ -43,8 +44,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface Case {
-    String BASE_URL = "http://case-legal-aid.appspot.com/";
-
+//    String BASE_URL = "http://case-legal-aid.appspot.com/";
+    String BASE_URL = "http://192.168.1.3:1234/";
 //    POST REQUEST
 //    account mgt module
     @Headers("Content-Type: application/json")
@@ -226,4 +227,8 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @GET("client/{client_id}/get-event")
     Call<EventResponse> getEventClient(@Path("client_id") String client_id);
+
+    @Headers("Content-Type: application/json")
+    @GET("lawyer/{lawyer_id}/dashboard-mobile")
+    Call<PreAppointRequestResponse> listRequest(@Path("lawyer_id") String lawyer_id);
 }

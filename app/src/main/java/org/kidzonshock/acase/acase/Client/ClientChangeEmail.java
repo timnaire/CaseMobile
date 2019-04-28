@@ -98,9 +98,9 @@ public class ClientChangeEmail extends AppCompatActivity {
                 if(!commonResponse.isError()){
                     PreferenceDataLawyer.setLoggedInEmail(ClientChangeEmail.this,newemail);
                     Toast.makeText(ClientChangeEmail.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    inputCurrentClient.setText("");
                     inputNewEmailClient.setText("");
                     inputPassClient.setText("");
+                    inputCurrentClient.setText("");
                 }else{
                     Toast.makeText(ClientChangeEmail.this, commonResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
