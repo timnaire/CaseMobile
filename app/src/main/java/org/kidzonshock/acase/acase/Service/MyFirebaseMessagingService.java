@@ -56,7 +56,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String channelId = "MyChannel";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setSmallIcon(R.drawable.business_case)
                         .setContentTitle("Pre-Appointment")
                         .setContentText(messageBody)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)

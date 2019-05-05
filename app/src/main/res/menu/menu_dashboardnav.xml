@@ -6,7 +6,7 @@
         android:icon="@drawable/icons8_account_48"/>
 
     <item android:id="@+id/client_request"
-        android:title="Client Request"
+        android:title="Incoming Client"
         android:icon="@drawable/icons8_account_48"/>
 
 </menu>

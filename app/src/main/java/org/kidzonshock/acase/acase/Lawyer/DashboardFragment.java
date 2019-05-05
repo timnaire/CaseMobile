@@ -1,12 +1,10 @@
 package org.kidzonshock.acase.acase.Lawyer;
 
-import android.app.PendingIntent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -54,7 +52,7 @@ public class DashboardFragment extends Fragment {
                 fragment = new PreAppointFragment();
                 Toast.makeText(getActivity(), "Pre Appoint Request", Toast.LENGTH_SHORT).show();
             } else if(id == R.id.client_request){
-                fragment = new ClientRequestFragment();
+                fragment = new IncomingClientFragment();
                 Toast.makeText(getActivity(), "Client Request", Toast.LENGTH_SHORT).show();
             }
 

@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 
 import org.kidzonshock.acase.acase.R;
 
-public class ClientRequestFragment extends Fragment {
+public class IncomingClientFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_client_request, null);
+        return inflater.inflate(R.layout.fragment_incoming_client, null);
     }
 
     @Override
