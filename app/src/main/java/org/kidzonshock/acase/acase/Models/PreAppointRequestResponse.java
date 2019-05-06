@@ -6,18 +6,37 @@ import java.util.ArrayList;
 
 public class PreAppointRequestResponse {
 
-    @SerializedName("relation")
-    private ArrayList<Relation> relation;
+    private boolean error;
+    private String message;
+    private ArrayList<PreAppoint> preappoints;
 
-    public PreAppointRequestResponse(ArrayList<Relation> relation) {
-        this.relation = relation;
+    public PreAppointRequestResponse(boolean error, String message, ArrayList<PreAppoint> preappoints) {
+        this.error = error;
+        this.message = message;
+        this.preappoints = preappoints;
     }
 
-    public ArrayList<Relation> getRelation() {
-        return relation;
+    public boolean isError() {
+        return error;
     }
 
-    public void setRelation(ArrayList<Relation> relation) {
-        this.relation = relation;
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public ArrayList<PreAppoint> getPreappoints() {
+        return preappoints;
+    }
+
+    public void setPreappoints(ArrayList<PreAppoint> preappoints) {
+        this.preappoints = preappoints;
     }
 }

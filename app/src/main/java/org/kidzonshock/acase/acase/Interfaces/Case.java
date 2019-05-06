@@ -229,6 +229,6 @@ public interface Case {
     Call<EventResponse> getEventClient(@Path("client_id") String client_id);
 
     @Headers("Content-Type: application/json")
-    @GET("lawyer/{lawyer_id}/dashboard-mobile")
+    @GET("lawyer/{lawyer_id}/preappointments")
     Call<PreAppointRequestResponse> listRequest(@Path("lawyer_id") String lawyer_id);
 }
