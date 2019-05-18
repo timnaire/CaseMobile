@@ -19,7 +19,6 @@ import org.kidzonshock.acase.acase.Models.IncomingClient;
 import org.kidzonshock.acase.acase.Models.PreAppoint;
 import org.kidzonshock.acase.acase.Models.PreAppointAdapter;
 import org.kidzonshock.acase.acase.Models.PreAppointModel;
-import org.kidzonshock.acase.acase.Models.PreAppointRequestResponse;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
@@ -98,15 +97,17 @@ public class IncomingClientFragment extends Fragment {
                 loading.setVisibility(View.GONE);
                 IncomingClient resp = response.body();
                 if (!resp.isError()) {
-                    ArrayList<PreAppoint> list_preappoint = resp.getPreappoints();
-                    String name,email,phone,address,profile_pic;
-                    for (int i=0; i < list_preappoint.size(); i++) {
-                        name = list_preappoint.get(i).getClient().getFirst_name() + " " + list_preappoint.get(i).getClient().getLast_name();
-                        email = list_preappoint.get(i).getClient().getEmail();
-                        phone = list_preappoint.get(i).getClient().getPhone();
-                        address = list_preappoint.get(i).getClient().getAddress();
-                        profile_pic = list_preappoint.get(i).getClient().getProfile_pic();
-                        list.add(new PreAppointModel(name,email,phone,address,profile_pic));
+                    ArrayList<PreAppoint> list_incomingclient = resp.getPreappoints();
+                    String iid,client_id,name,email,phone,address,profile_pic;
+                    for (int i=0; i < list_incomingclient.size(); i++) {
+                        iid = list_incomingclient.get(i).getId();
+                        client_id = list_incomingclient.get(i).getClient().getClient_id();
+                        name = list_incomingclient.get(i).getClient().getFirst_name() + " " + list_incomingclient.get(i).getClient().getLast_name();
+                        email = list_incomingclient.get(i).getClient().getEmail();
+                        phone = list_incomingclient.get(i).getClient().getPhone();
+                        address = list_incomingclient.get(i).getClient().getAddress();
+                        profile_pic = list_incomingclient.get(i).getClient().getProfile_pic();
+                        list.add(new PreAppointModel(iid,client_id,name,email,phone,address,profile_pic));
                     }
                     adapter = new PreAppointAdapter(getActivity(),list);
                     lv.setAdapter(adapter);

@@ -15,14 +15,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
-import org.kidzonshock.acase.acase.Models.ClientAdapter;
-import org.kidzonshock.acase.acase.Models.ClientModel;
+import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.PreAppoint;
 import org.kidzonshock.acase.acase.Models.PreAppointAdapter;
 import org.kidzonshock.acase.acase.Models.PreAppointModel;
 import org.kidzonshock.acase.acase.Models.PreAppointRequestResponse;
+import org.kidzonshock.acase.acase.Models.PreAppointment;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
-import org.kidzonshock.acase.acase.Models.Relation;
 import org.kidzonshock.acase.acase.R;
 
 import java.util.ArrayList;
@@ -41,6 +40,8 @@ public class PreAppointFragment extends Fragment {
     PreAppointAdapter adapter;
     LinearLayout loading;
     AdapterView.AdapterContextMenuInfo info;
+
+    private final String TAG = "PreAppointmentFragment";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,17 +74,75 @@ public class PreAppointFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
+        String pid = list.get(info.position).getPid();
+        String client_id = list.get(info.position).getClient_id();
+        String status = "";
         switch(id){
             case R.id.accept_user:
+                status = "accept";
+                acceptAppointment(client_id, lawyer_id,status);
                 Toast.makeText(getActivity(), "Accepted pre appointment", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.decline_user:
+                status = "decline";
+                declineAppointment(client_id,status);
                 Toast.makeText(getActivity(), "Declined a pre appointment", Toast.LENGTH_SHORT).show();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void acceptAppointment(String client_id, String lawyer_id, String status) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> accept = service.acceptPreAppoint(client_id, new PreAppointment(lawyer_id,status));
+        accept.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(!resp.isError()){
+                    Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void declineAppointment(String client_id, String status) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> decline = service.declinePreAppoint(client_id, new PreAppointment(lawyer_id,status));
+        decline.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(!resp.isError()){
+                    Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     public void listRequest(){
         Retrofit retrofit = new Retrofit.Builder()
@@ -100,14 +159,16 @@ public class PreAppointFragment extends Fragment {
                 PreAppointRequestResponse resp = response.body();
                 if (!resp.isError()) {
                     ArrayList<PreAppoint> list_preappoint = resp.getPreappoints();
-                    String name,email,phone,address,profile_pic;
+                    String pid,client_id,name,email,phone,address,profile_pic;
                     for (int i=0; i < list_preappoint.size(); i++) {
+                        client_id = list_preappoint.get(i).getClient().getClient_id();
+                        pid = list_preappoint.get(i).getId();
                         name = list_preappoint.get(i).getClient().getFirst_name() + " " + list_preappoint.get(i).getClient().getLast_name();
                         email = list_preappoint.get(i).getClient().getEmail();
                         phone = list_preappoint.get(i).getClient().getPhone();
                         address = list_preappoint.get(i).getClient().getAddress();
                         profile_pic = list_preappoint.get(i).getClient().getProfile_pic();
-                        list.add(new PreAppointModel(name,email,phone,address,profile_pic));
+                        list.add(new PreAppointModel(pid,client_id,name,email,phone,address,profile_pic));
                     }
                     adapter = new PreAppointAdapter(getActivity(),list);
                     lv.setAdapter(adapter);

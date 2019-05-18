@@ -2,18 +2,28 @@ package org.kidzonshock.acase.acase.Models;
 
 public class PreAppoint {
 
+    private String id;
     private Lawyer lawyer;
     private Client client;
     private String status;
     private String created;
     private String updated;
 
-    public PreAppoint(Lawyer lawyer, Client client, String status, String created, String updated) {
+    public PreAppoint(String id, Lawyer lawyer, Client client, String status, String created, String updated) {
+        this.id = id;
         this.lawyer = lawyer;
         this.client = client;
         this.status = status;
         this.created = created;
         this.updated = updated;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Lawyer getLawyer() {

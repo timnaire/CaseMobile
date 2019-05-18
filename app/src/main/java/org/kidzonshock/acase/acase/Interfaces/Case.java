@@ -3,6 +3,7 @@ package org.kidzonshock.acase.acase.Interfaces;
 import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.AddFCMToken;
 import org.kidzonshock.acase.acase.Models.AddFile;
+import org.kidzonshock.acase.acase.Models.ClientPaymentModel;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.CreateEventModelClient;
 import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
@@ -17,13 +18,13 @@ import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetDocument;
 import org.kidzonshock.acase.acase.Models.GetDocumentResponse;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
-import org.kidzonshock.acase.acase.Models.ClientPaymentModel;
 import org.kidzonshock.acase.acase.Models.IncomingClient;
 import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PaymentModel;
 import org.kidzonshock.acase.acase.Models.PreAppointRequestResponse;
 import org.kidzonshock.acase.acase.Models.PreAppointResponse;
+import org.kidzonshock.acase.acase.Models.PreAppointment;
 import org.kidzonshock.acase.acase.Models.SigninBody;
 import org.kidzonshock.acase.acase.Models.SigninResponseClient;
 import org.kidzonshock.acase.acase.Models.SigninResponseLawyer;
@@ -191,6 +192,16 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @POST("client/{client_id}/update-event")
     Call<CommonResponse> updateEventClient(@Path("client_id") String client_id, @Body UpdateEvent body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{client_id}/pre-appoint-response")
+    Call<CommonResponse> acceptPreAppoint(@Path("client_id") String client_id, @Body PreAppointment body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{client_id}/pre-appoint-response")
+    Call<CommonResponse> declinePreAppoint(@Path("client_id") String client_id, @Body PreAppointment body);
+
+//    dashboard lawyer
 
     @Headers("Content-Type: application/json")
     @POST("client/{client_id}/lawyer/feedback")

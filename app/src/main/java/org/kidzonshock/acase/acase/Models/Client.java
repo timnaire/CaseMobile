@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Client {
 
+    @SerializedName("client_id")
+    @Expose
+    private String client_id;
+
     @SerializedName("first_name")
     @Expose
     private String first_name;
@@ -36,6 +40,14 @@ public class Client {
         this.phone = phone;
         this.address = address;
         this.profile_pic = profile_pic;
+    }
+
+    public String getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(String client_id) {
+        this.client_id = client_id;
     }
 
     public String getFirst_name() {
