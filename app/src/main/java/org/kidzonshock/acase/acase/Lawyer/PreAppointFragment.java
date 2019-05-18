@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -57,6 +59,30 @@ public class PreAppointFragment extends Fragment {
 
         listRequest();
         loading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_option_dashboard,menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+        info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        menu.setHeaderTitle(list.get(info.position).getName());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        switch(id){
+            case R.id.accept_user:
+                Toast.makeText(getActivity(), "Accepted pre appointment", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.decline_user:
+                Toast.makeText(getActivity(), "Declined a pre appointment", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void listRequest(){

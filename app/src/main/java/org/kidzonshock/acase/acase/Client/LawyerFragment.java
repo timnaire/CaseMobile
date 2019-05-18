@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.ClientListCase;
+import org.kidzonshock.acase.acase.Models.Feedbacks;
 import org.kidzonshock.acase.acase.Models.LawyerAdapter;
 import org.kidzonshock.acase.acase.Models.LawyerModel;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
@@ -72,6 +74,7 @@ public class LawyerFragment extends Fragment {
                 intent.putExtra("email", list.get(info.position).getEmail());
                 intent.putExtra("phone", list.get(info.position).getPhone());
                 intent.putExtra("office", list.get(info.position).getOffice());
+                intent.putExtra("fid", list.get(info.position).getFid());
                 startActivity(intent);
                 break;
             case R.id.remove_user:
@@ -103,6 +106,7 @@ public class LawyerFragment extends Fragment {
                 loading.setVisibility(View.GONE);
                 if(!listLawyer.isError()){
                     ArrayList<ClientListCase> list_lawyers = response.body().getList_lawyers();
+                    ArrayList<Feedbacks> list_feedbacks = response.body().getFeedbacks();
                     String lawyer_id,profile_pic,name,email,phone,office;
                     for(int i=0; i < list_lawyers.size(); i++){
                         lawyer_id = list_lawyers.get(i).getLawyer_id();
@@ -111,7 +115,21 @@ public class LawyerFragment extends Fragment {
                         email = list_lawyers.get(i).getLawyer().getEmail();
                         phone = list_lawyers.get(i).getLawyer().getPhone();
                         office = list_lawyers.get(i).getLawyer().getOffice();
-                        list.add(new LawyerModel(lawyer_id,name,email,phone,office,profile_pic));
+                        Log.d(TAG,"Feedback: "+list_feedbacks);
+                        if(list_feedbacks != null) {
+                            String f_email,fid;
+                            for(int f=0; f < list_feedbacks.size(); f++) {
+                                f_email = list_feedbacks.get(f).getLawyer().getEmail();
+                                fid = list_feedbacks.get(f).getFeedback_id();
+                                if(email.equals(f_email)){
+                                    list.add(new LawyerModel(lawyer_id,name,email,phone,office,profile_pic,fid));
+                                }
+                            }
+                        } else {
+                            String fid = "";
+                            list.add(new LawyerModel(lawyer_id,name,email,phone,office,profile_pic,fid));
+                        }
+
                     }
                     if(getActivity()!=null) {
                         adapter = new LawyerAdapter(getActivity(), list);

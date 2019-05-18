@@ -50,7 +50,7 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
     Button btnRateLawyer,btnCallLawyer,btnMessageLawyer;
     ImageView profile_pic;
     String lat,lng;
-    String client_id,lawyer_id,name,email,phone,office,prof_url;
+    String client_id,lawyer_id,name,email,phone,office,prof_url,fid;
     private GoogleMap map;
     GoogleApiClient mGoogleApiClient;
 
@@ -88,6 +88,7 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
         phone = prev.getStringExtra("phone");
         office = prev.getStringExtra("office");
         prof_url = prev.getStringExtra("profile_pic");
+        fid = prev.getStringExtra("fid");
 
         txtName.setText(name);
         txtEmail.setText(email);
@@ -122,7 +123,7 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
                     public void onClick(View v) {
                         rate = ratingBar.getRating();
                         feedback = lawyerFeedback.getText().toString();
-                        sendFeedback(rate,feedback);
+                        sendFeedback(rate,feedback, fid);
                         rateDialog.dismiss();
                     }
                 });
@@ -133,13 +134,13 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
 
     }
 
-    private void sendFeedback(Float rate, String feedback){
+    private void sendFeedback(Float rate, String feedback, String fid){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        Call<CommonResponse> commonResponseCall = service.sendFeedback(client_id,new Feedback(lawyer_id,rate,feedback));
+        Call<CommonResponse> commonResponseCall = service.sendFeedback(client_id,new Feedback(lawyer_id,rate,feedback,fid));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {

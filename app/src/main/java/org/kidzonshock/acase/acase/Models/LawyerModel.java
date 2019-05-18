@@ -7,6 +7,7 @@ public class LawyerModel {
     private String phone;
     private String office;
     private String profile_pic;
+    private String fid;
 
     public LawyerModel(String lawyer_id,String name, String email, String phone, String office, String profile_pic) {
         this.lawyer_id = lawyer_id;
@@ -15,6 +16,24 @@ public class LawyerModel {
         this.phone = phone;
         this.office = office;
         this.profile_pic = profile_pic;
+    }
+
+    public LawyerModel(String lawyer_id,String name, String email, String phone, String office, String profile_pic, String fid) {
+        this.lawyer_id = lawyer_id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.office = office;
+        this.profile_pic = profile_pic;
+        this.fid = fid;
+    }
+
+    public String getFid() {
+        return fid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid;
     }
 
     public String getLawyer_id() {

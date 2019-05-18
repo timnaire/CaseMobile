@@ -10,11 +10,14 @@ public class Feedback {
     private Float rating;
     @SerializedName("feedback")
     private String feedback;
+    @SerializedName("fid")
+    private String fid;
 
-    public Feedback(String lawyer_id, Float rating, String feedback) {
+    public Feedback(String lawyer_id, Float rating, String feedback, String fid) {
         this.lawyer_id = lawyer_id;
         this.rating = rating;
         this.feedback = feedback;
+        this.fid = fid;
     }
 
     public String getLawyer_id() {
@@ -39,5 +42,13 @@ public class Feedback {
 
     public void setFeedback(String feedback) {
         this.feedback = feedback;
+    }
+
+    public String getFid() {
+        return fid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid;
     }
 }
