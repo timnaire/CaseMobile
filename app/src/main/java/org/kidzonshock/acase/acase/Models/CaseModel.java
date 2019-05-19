@@ -10,6 +10,7 @@ public class CaseModel {
     private String date_created;
     private String case_description;
     private String status;
+    private String remarks;
 
 //  client
     private String clientEmail;
@@ -22,7 +23,7 @@ public class CaseModel {
     private String lawyerPhone;
     private String lawyerOffice;
 
-    public CaseModel(String case_id,String client_id,String title, String clientName, String date_created, String case_description, String status, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
+    public CaseModel(String case_id,String client_id,String title, String clientName, String date_created, String case_description, String status, String remarks, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
         this.case_id = case_id;
         this.client_id = client_id;
         this.title = title;
@@ -30,6 +31,7 @@ public class CaseModel {
         this.date_created = date_created;
         this.case_description = case_description;
         this.status = status;
+        this.remarks = remarks;
         this.clientEmail = clientEmail;
         this.clientPhone = clientPhone;
         this.clientAddress = clientAddress;
@@ -149,5 +151,13 @@ public class CaseModel {
 
     public void setLawyerOffice(String lawyerOffice) {
         this.lawyerOffice = lawyerOffice;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }

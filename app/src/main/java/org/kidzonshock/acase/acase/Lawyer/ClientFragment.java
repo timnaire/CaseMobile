@@ -1,5 +1,6 @@
 package org.kidzonshock.acase.acase.Lawyer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.kidzonshock.acase.acase.Client.LawyerProfile;
 import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.Client;
 import org.kidzonshock.acase.acase.Models.ClientAdapter;
 import org.kidzonshock.acase.acase.Models.ClientModel;
 import org.kidzonshock.acase.acase.Models.LawyerListCase;
@@ -67,17 +70,24 @@ public class ClientFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item) {
 
         int id = item.getItemId();
         switch(id){
             case R.id.view_user:
+                Intent intent = new Intent(getActivity(), ClientProfile.class);
+                intent.putExtra("client_id", list.get(info.position).getClient_id());
+                intent.putExtra("profile_pic", list.get(info.position).getProfile_pic());
+                intent.putExtra("name", list.get(info.position).getName());
+                intent.putExtra("email", list.get(info.position).getEmail());
+                intent.putExtra("phone", list.get(info.position).getPhone());
+                startActivity(intent);
                 break;
             case R.id.remove_user:
                 break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onContextItemSelected(item);
     }
 
     public void getClients(){
@@ -95,14 +105,15 @@ public class ClientFragment extends Fragment {
                 loading.setVisibility(View.GONE);
                 if(!listClient.isError()){
                     ArrayList<LawyerListCase> list_clients = response.body().getList_clients();
-                    String profile_pic,name,email,phone,address;
+                    String client_id,profile_pic,name,email,phone,address;
                     for(int i=0; i < list_clients.size(); i++){
+                        client_id = list_clients.get(i).getClient_id();
                         profile_pic = list_clients.get(i).getClient().getProfile_pic();
                         name = list_clients.get(i).getClient().getFirst_name()+" "+list_clients.get(i).getClient().getLast_name();
                         email = list_clients.get(i).getClient().getEmail();
                         phone = list_clients.get(i).getClient().getPhone();
                         address = list_clients.get(i).getClient().getAddress();
-                        list.add(new ClientModel(name,email,phone,address,profile_pic));
+                        list.add(new ClientModel(client_id,name,email,phone,address,profile_pic));
                     }
 
                     adapter = new ClientAdapter(getActivity(),list);

@@ -50,10 +50,8 @@ public class DashboardFragment extends Fragment {
 
             if(id == R.id.pre_appoint) {
                 fragment = new PreAppointFragment();
-                Toast.makeText(getActivity(), "Pre Appoint Request", Toast.LENGTH_SHORT).show();
             } else if(id == R.id.client_request){
                 fragment = new IncomingClientFragment();
-                Toast.makeText(getActivity(), "Client Request", Toast.LENGTH_SHORT).show();
             }
 
             if(fragment != null) {

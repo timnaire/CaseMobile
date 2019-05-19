@@ -37,6 +37,18 @@ public class Cases {
     @Expose
     private String case_status;
 
+    @SerializedName("remarks")
+    @Expose
+    private String remarks;
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
     public String getCase_id() {
         return case_id;
     }

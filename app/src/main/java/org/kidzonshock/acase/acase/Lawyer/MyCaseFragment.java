@@ -67,6 +67,8 @@ public class MyCaseFragment extends Fragment {
     TextInputEditText addinputCaseDescription;
     TextInputLayout editlayoutCaseDescription;
     TextInputEditText editinputCaseDescription;
+    TextInputLayout editlayoutCaseRemarks;
+    TextInputEditText editinputCaseRemarks;
 
     ArrayList<String> spinnerArray,statusSpinnerArray;
     Spinner spinner,statusSpinner;
@@ -110,6 +112,8 @@ public class MyCaseFragment extends Fragment {
         editinputCaseTitle = new TextInputEditText(getActivity());
         editlayoutCaseDescription = new TextInputLayout(getActivity());
         editinputCaseDescription = new TextInputEditText(getActivity());
+        editlayoutCaseRemarks = new TextInputLayout(getActivity());
+        editinputCaseRemarks = new TextInputEditText(getActivity());
 
         statusSpinnerArray = new ArrayList<>();
         statusSpinnerArray.add("Case Open");
@@ -171,6 +175,12 @@ public class MyCaseFragment extends Fragment {
         editlayoutCaseDescription.addView(editinputCaseDescription);
         editlayoutCaseDescription.setPadding(getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),0);
         editlayout.addView(editlayoutCaseDescription);
+
+        editinputCaseRemarks.setInputType(InputType.TYPE_CLASS_TEXT);
+        editlayoutCaseRemarks.setHint("Remarks");
+        editlayoutCaseRemarks.addView(editinputCaseRemarks);
+        editlayoutCaseRemarks.setPadding(getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),0);
+        editlayout.addView(editlayoutCaseRemarks);
 
         addCase.setTitle("Add New Case");
         addCase.setView(dialayout);
@@ -324,7 +334,7 @@ public class MyCaseFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        final String case_id,title,date,description,client_name,client_email,client_phone,client_address,case_status;
+        final String case_id,title,date,description,client_name,client_email,client_phone,client_address,case_status,remarks;
         int id = item.getItemId();
         switch(id){
             case R.id.View:
@@ -349,20 +359,23 @@ public class MyCaseFragment extends Fragment {
                 title = caselist.get(info.position).getTitle();
                 description = caselist.get(info.position).getCase_description();
                 case_status = caselist.get(info.position).getStatus();
+                remarks = caselist.get(info.position).getRemarks();
                 editinputCaseTitle.setText(title);
                 editinputCaseDescription.setText(description);
+                editinputCaseRemarks.setText(remarks);
                 statusSpinner.setSelection(getIndex(statusSpinner, case_status));
                 edit.show();
                 edit.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String title, status, description, case_id;
+                        String title, status, description, remarks, case_id;
                         case_id = caselist.get(info.position).getCase_id();
                         title = editinputCaseTitle.getText().toString();
                         description = editinputCaseDescription.getText().toString();
+                        remarks = editinputCaseRemarks.getText().toString();
                         status = statusSpinner.getSelectedItem().toString();
                         if(validateEditForm(title,description)){
-                            editCase(case_id,title,description,status);
+                            editCase(case_id,title,description,status, remarks);
                             adapter.notifyDataSetChanged();
 //                        FragmentTransaction ft = getFragmentManager().beginTransaction();
 //                        ft.detach(MyCaseFragment.this).attach(MyCaseFragment.this).commit();
@@ -427,13 +440,13 @@ public class MyCaseFragment extends Fragment {
         });
     }
 
-    private void editCase(String case_id,String title, String description,String status) {
+    private void editCase(String case_id,String title, String description,String status, String remarks) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        final Call<CommonResponse> commonResponseCall = service.editCase(lawyer_id,new EditCase(case_id,title,description, status));
+        final Call<CommonResponse> commonResponseCall = service.editCase(lawyer_id,new EditCase(case_id,title,description, status,remarks));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -471,7 +484,7 @@ public class MyCaseFragment extends Fragment {
                 loading.setVisibility(View.GONE);
                 if(isAdded() && !getCase.isError()){
                     ArrayList<Cases> cases = response.body().getCases();
-                    String case_id, client_id,title,name,description,date,status,clientEmail, clientPhone,clientAddress, lawyerName, lawyerEmail, lawyerPhone, lawyerOffice;
+                    String case_id, client_id,title,name,description,date,status,remarks,clientEmail, clientPhone,clientAddress, lawyerName, lawyerEmail, lawyerPhone, lawyerOffice;
                     for(int i=0; i < cases.size(); i++){
                         case_id = cases.get(i).getCase_id();
                         client_id = cases.get(i).getClient_id();
@@ -480,6 +493,7 @@ public class MyCaseFragment extends Fragment {
                         date = cases.get(i).getCreated();
                         description = cases.get(i).getCase_description();
                         status = cases.get(i).getCase_status();
+                        remarks = cases.get(i).getRemarks();
                         clientEmail = cases.get(i).getClient().getEmail();
                         clientPhone = cases.get(i).getClient().getPhone();
                         clientAddress = cases.get(i).getClient().getAddress();
@@ -487,7 +501,7 @@ public class MyCaseFragment extends Fragment {
                         lawyerEmail = cases.get(i).getLawyer().getEmail();
                         lawyerPhone = cases.get(i).getLawyer().getPhone();
                         lawyerOffice = cases.get(i).getLawyer().getOffice();
-                        caselist.add(new CaseModel(case_id,client_id,title,name,date,description,status,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
+                        caselist.add(new CaseModel(case_id,client_id,title,name,date,description,status,remarks,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
                     }
                     adapter = new CaseAdapter(getActivity(),caselist);
                     lv.setAdapter(adapter);

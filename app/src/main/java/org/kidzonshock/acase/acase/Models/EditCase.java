@@ -16,11 +16,15 @@ public class EditCase {
     @SerializedName("case_status")
     private String case_status;
 
-    public EditCase(String case_id, String case_title, String case_description, String case_status) {
+    @SerializedName("remarks")
+    private String remarks;
+
+    public EditCase(String case_id, String case_title, String case_description, String case_status, String remarks) {
         this.case_id = case_id;
         this.case_title = case_title;
         this.case_description = case_description;
         this.case_status = case_status;
+        this.remarks = remarks;
     }
 
     public String getCase_id() {
@@ -53,5 +57,13 @@ public class EditCase {
 
     public void setCase_status(String case_status) {
         this.case_status = case_status;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }

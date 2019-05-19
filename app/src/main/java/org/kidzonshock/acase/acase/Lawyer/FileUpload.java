@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class FileUpload extends AppCompatActivity {
 
     ACProgressFlower dialog;
     private final String TAG = "FileUpload";
+    private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,7 @@ public class FileUpload extends AppCompatActivity {
         btnSelectFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(btnClick);
                 if(ContextCompat.checkSelfPermission(FileUpload.this,Manifest.permission.READ_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
                     selectFile();
                 } else {
@@ -105,6 +108,7 @@ public class FileUpload extends AppCompatActivity {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(btnClick);
                 file_p = file_privacy.getSelectedItem().toString();
                 if(fileselected!=null) {
                     dialog.show();

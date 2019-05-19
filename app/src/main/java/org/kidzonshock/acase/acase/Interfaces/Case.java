@@ -9,16 +9,19 @@ import org.kidzonshock.acase.acase.Models.CreateEventModelClient;
 import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
 import org.kidzonshock.acase.acase.Models.DeleteCase;
 import org.kidzonshock.acase.acase.Models.DeleteEvent;
+import org.kidzonshock.acase.acase.Models.DeleteFeedback;
 import org.kidzonshock.acase.acase.Models.DeleteFileModel;
 import org.kidzonshock.acase.acase.Models.DeleteFileModelClient;
 import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.EventResponse;
 import org.kidzonshock.acase.acase.Models.Feedback;
+import org.kidzonshock.acase.acase.Models.Feedbacks;
 import org.kidzonshock.acase.acase.Models.GetCase;
 import org.kidzonshock.acase.acase.Models.GetDocument;
 import org.kidzonshock.acase.acase.Models.GetDocumentResponse;
 import org.kidzonshock.acase.acase.Models.GetLawPractice;
 import org.kidzonshock.acase.acase.Models.IncomingClient;
+import org.kidzonshock.acase.acase.Models.IncomingClientModel;
 import org.kidzonshock.acase.acase.Models.ListClient;
 import org.kidzonshock.acase.acase.Models.ListLawyer;
 import org.kidzonshock.acase.acase.Models.PaymentModel;
@@ -30,6 +33,7 @@ import org.kidzonshock.acase.acase.Models.SigninResponseClient;
 import org.kidzonshock.acase.acase.Models.SigninResponseLawyer;
 import org.kidzonshock.acase.acase.Models.SignupClient;
 import org.kidzonshock.acase.acase.Models.SignupLawyer;
+import org.kidzonshock.acase.acase.Models.SoloFeedback;
 import org.kidzonshock.acase.acase.Models.UpdateClientInfo;
 import org.kidzonshock.acase.acase.Models.UpdateEmail;
 import org.kidzonshock.acase.acase.Models.UpdateEvent;
@@ -201,6 +205,18 @@ public interface Case {
     @POST("lawyer/{client_id}/pre-appoint-response")
     Call<CommonResponse> declinePreAppoint(@Path("client_id") String client_id, @Body PreAppointment body);
 
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/incoming-client")
+    Call<CommonResponse> acceptClient(@Path("lawyer_id") String lawyer_id, @Body IncomingClientModel body);
+
+    @Headers("Content-Type: application/json")
+    @POST("lawyer/{lawyer_id}/incoming-client")
+    Call<CommonResponse> declineClient(@Path("lawyer_id") String lawyer_id, @Body IncomingClientModel body);
+
+    @Headers("Content-Type: application/json")
+    @POST("client/{client_id}/lawyer/feedback-delete")
+    Call<CommonResponse> deleteFeedback(@Path("client_id") String client_id, @Body DeleteFeedback body);
+
 //    dashboard lawyer
 
     @Headers("Content-Type: application/json")
@@ -247,4 +263,8 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @GET("lawyer/{lawyer_id}/incoming-clients")
     Call<IncomingClient> listPendingClient(@Path("lawyer_id") String lawyer_id);
+
+    @Headers("Content-Type: application/json")
+    @GET("client/{client_id}/lawyer/feedback/{fid}")
+    Call<SoloFeedback> getFeedback(@Path("client_id") String client_id, @Path("fid") String fid);
 }

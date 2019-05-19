@@ -71,26 +71,25 @@ public class PreAppointFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        String pid = list.get(info.position).getPid();
         String client_id = list.get(info.position).getClient_id();
-        String status = "";
+        String status;
         switch(id){
             case R.id.accept_user:
                 status = "accept";
                 acceptAppointment(client_id, lawyer_id,status);
-                Toast.makeText(getActivity(), "Accepted pre appointment", Toast.LENGTH_SHORT).show();
+                adapter.notifyDataSetChanged();
                 break;
             case R.id.decline_user:
                 status = "decline";
                 declineAppointment(client_id,status);
-                Toast.makeText(getActivity(), "Declined a pre appointment", Toast.LENGTH_SHORT).show();
+                adapter.notifyDataSetChanged();
                 break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onContextItemSelected(item);
     }
 
     private void acceptAppointment(String client_id, String lawyer_id, String status) {

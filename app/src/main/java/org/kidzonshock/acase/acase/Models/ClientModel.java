@@ -2,18 +2,28 @@ package org.kidzonshock.acase.acase.Models;
 
 public class ClientModel {
 
+    private String client_id;
     private String name;
     private String email;
     private String phone;
     private String address;
     private String profile_pic;
 
-    public ClientModel(String name, String email, String phone, String address, String profile_pic) {
+    public ClientModel(String client_id, String name, String email, String phone, String address, String profile_pic) {
+        this.client_id = client_id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
         this.profile_pic = profile_pic;
+    }
+
+    public String getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(String client_id) {
+        this.client_id = client_id;
     }
 
     public String getName() {

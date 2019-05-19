@@ -20,7 +20,7 @@
 
     <string-array name="event_type">
         <item>Meeting</item>
-        <item>Appointment</item>
+        <item>Trial</item>
     </string-array>
 
     <string-array name="cityOrMunicipality">

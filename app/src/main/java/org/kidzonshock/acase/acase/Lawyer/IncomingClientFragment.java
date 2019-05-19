@@ -15,10 +15,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.kidzonshock.acase.acase.Interfaces.Case;
+import org.kidzonshock.acase.acase.Models.CommonResponse;
 import org.kidzonshock.acase.acase.Models.IncomingClient;
+import org.kidzonshock.acase.acase.Models.IncomingClientModel;
 import org.kidzonshock.acase.acase.Models.PreAppoint;
 import org.kidzonshock.acase.acase.Models.PreAppointAdapter;
 import org.kidzonshock.acase.acase.Models.PreAppointModel;
+import org.kidzonshock.acase.acase.Models.PreAppointment;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
@@ -68,19 +71,77 @@ public class IncomingClientFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item) {
 
         int id = item.getItemId();
+        String iid = list.get(info.position).getPid();
+        String client_id = list.get(info.position).getClient_id();
+        String status;
+        Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
         switch(id){
             case R.id.accept_user:
-                Toast.makeText(getActivity(), "Client accepted!", Toast.LENGTH_SHORT).show();
+                status = "client";
+                acceptClient(status,client_id,iid);
+                adapter.notifyDataSetChanged();
                 break;
             case R.id.decline_user:
-                Toast.makeText(getActivity(), "Client rejected!", Toast.LENGTH_SHORT).show();
+                status = "decline";
+                declineClient(status,client_id,iid);
+                adapter.notifyDataSetChanged();
                 break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onContextItemSelected(item);
+    }
+
+    private void acceptClient(String status, String client_id, String pid) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> accept = service.acceptClient(lawyer_id, new IncomingClientModel(status,client_id,pid));
+        accept.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(!resp.isError()) {
+                    Toast.makeText(getActivity(), "Great! You have made a new client!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Something went wrong please", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void declineClient(String status, String client_id, String pid) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> decline = service.declineClient(lawyer_id, new IncomingClientModel(status,client_id,pid));
+        decline.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(!resp.isError()) {
+                    Toast.makeText(getActivity(), "You have decline a client!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Something went wrong please", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     public void listIncomingClient(){

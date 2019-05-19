@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -76,6 +77,7 @@ public class PaymentFragment extends Fragment {
     Button btnClientPayment;
     String amount = "",client_id,paymentId,lawyer_id;
     LinearLayout loading;
+    private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -111,6 +113,7 @@ public class PaymentFragment extends Fragment {
         btnClientPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(btnClick);
                 String lawyer_name;
                 amount = inputClientPayment.getText().toString();
                 lawyer_name = spinnerPayLawyer.getSelectedItem().toString();

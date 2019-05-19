@@ -2,14 +2,19 @@ package org.kidzonshock.acase.acase.Client;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +39,15 @@ import org.json.JSONObject;
 import org.kidzonshock.acase.acase.HttpDataHandler;
 import org.kidzonshock.acase.acase.Interfaces.Case;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.DeleteFeedback;
 import org.kidzonshock.acase.acase.Models.Feedback;
+import org.kidzonshock.acase.acase.Models.Feedbacks;
+import org.kidzonshock.acase.acase.Models.PreAppointment;
 import org.kidzonshock.acase.acase.Models.PreferenceDataClient;
+import org.kidzonshock.acase.acase.Models.SoloFeedback;
 import org.kidzonshock.acase.acase.R;
+
+import java.net.SocketOption;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +69,10 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
     Dialog rateDialog;
     Float rate;
     String feedback;
+    private final AlphaAnimation btnClick = new AlphaAnimation(1F,0.8F);
+
+    String frate,fbody;
+    LinearLayout loading;
 
     private final String TAG = "LawyerProfile";
 
@@ -71,6 +86,9 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
         getSupportActionBar().setTitle("Lawyer Information");
 
         client_id = PreferenceDataClient.getLoggedInClientid(LawyerProfile.this);
+
+//        loading = findViewById(R.id.linlaHeaderProgress);
+//        loading.setVisibility(View.VISIBLE);
 
         txtName = findViewById(R.id.lawyerName);
         txtEmail = findViewById(R.id.lawyerEmail);
@@ -103,21 +121,70 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
 
         Glide.with(this).load(prof_url).apply(options).into(profile_pic);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<SoloFeedback> fb = service.getFeedback(client_id,fid);
+        fb.enqueue(new Callback<SoloFeedback>() {
+            @Override
+            public void onResponse(Call<SoloFeedback> call, Response<SoloFeedback> response) {
+                SoloFeedback resp = response.body();
+//                loading.setVisibility(View.GONE);
+                if(!resp.isError()) {
+                    frate = resp.getFeedback().getRating();
+                    fbody = resp.getFeedback().getFeedback();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SoloFeedback> call, Throwable t) {
+//                loading.setVisibility(View.GONE);
+            }
+        });
+
+
+
+        btnMessageLawyer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(btnClick);
+                sendSMS(phone);
+            }
+        });
+
+        btnCallLawyer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(btnClick);
+                dialPhoneNumber(phone);
+            }
+        });
+
         btnRateLawyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(btnClick);
 
                 rateDialog = new Dialog(LawyerProfile.this, R.style.FullHeightDialog);
                 rateDialog.setContentView(R.layout.rate_dialog);
                 rateDialog.setCancelable(true);
                 ratingBar = rateDialog.findViewById(R.id.dialog_ratingbar);
-                ratingBar.setRating(ratingBar.getRating());
+
+                if(frate != null){
+                    ratingBar.setRating(Float.parseFloat(frate));
+                } else {
+                    ratingBar.setRating(ratingBar.getRating());
+                }
 
                 TextView lName = rateDialog.findViewById(R.id.lawName);
                 final EditText lawyerFeedback = rateDialog.findViewById(R.id.lawyerFeedback);
                 lName.setText(name);
+                lawyerFeedback.setText(fbody);
 
                 Button rateButton = rateDialog.findViewById(R.id.rank_dialog_button);
+                Button deleteButton = rateDialog.findViewById(R.id.deleteFeedback);
                 rateButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -127,11 +194,80 @@ public class LawyerProfile extends AppCompatActivity implements OnMapReadyCallba
                         rateDialog.dismiss();
                     }
                 });
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteFeedback(fid);
+                        rateDialog.dismiss();
+                    }
+                });
                 //now that the dialog is set up, it's time to show it
                 rateDialog.show();
             }
         });
 
+    }
+
+    public void deleteFeedback(String fid){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CommonResponse> deleteFeedback = service.deleteFeedback(client_id,new DeleteFeedback(fid));
+        deleteFeedback.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                CommonResponse resp = response.body();
+                if(!resp.isError()) {
+                    Toast.makeText(LawyerProfile.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LawyerProfile.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+                Toast.makeText(LawyerProfile.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void dialPhoneNumber(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    private void sendSMS(String phone) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // At least KitKat
+        {
+            String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(this); // Need to change the build to API 19
+
+//            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+            sendIntent.setData(Uri.parse("smsto:"+phone));
+//            sendIntent.setType("text/plain");
+//            sendIntent.putExtra(Intent.EXTRA_TEXT, "text");
+
+            if (defaultSmsPackageName != null)// Can be null in case that there is no default, then the user would be able to choose
+            // any app that support this intent.
+            {
+                sendIntent.setPackage(defaultSmsPackageName);
+            }
+            startActivity(sendIntent);
+
+        }
+        else // For early versions, do what worked for you before.
+        {
+            Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+            smsIntent.setType("vnd.android-dir/mms-sms");
+            smsIntent.putExtra("address",phone);
+            smsIntent.putExtra("sms_body","");
+            startActivity(smsIntent);
+        }
     }
 
     private void sendFeedback(Float rate, String feedback, String fid){
