@@ -187,7 +187,11 @@ public class EventFragment extends Fragment {
                         lawyerPhone = list_events.get(i).getLawyer().getPhone();
                         lawyerOffice = list_events.get(i).getLawyer().getOffice();
                         event_owner = list_events.get(i).getEventOwner();
-                        eventWith = lawyerName;
+                        if(event_owner.equals(client_id)){
+                            eventWith = clientName;
+                        } else {
+                            eventWith = lawyerName;
+                        }
                         list.add(new EventModel(event_id,eventWith,eventTitle,eventLocation,eventDetails,eventDate,eventTime,eventType,event_owner,clientName,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
                     }
                     adapter = new EventAdapter(getActivity(),list);

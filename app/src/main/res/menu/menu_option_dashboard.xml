@@ -7,6 +7,14 @@
         android:title="Accept"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/call_user"
+        android:title="Call"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/message_user"
+        android:title="Message"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/decline_user"
         android:title="Decline"
         app:showAsAction="ifRoom" />

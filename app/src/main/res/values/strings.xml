@@ -20,6 +20,7 @@
 
     <string-array name="event_type">
         <item>Meeting</item>
+        <item>Hearing</item>
         <item>Trial</item>
     </string-array>
 

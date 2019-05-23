@@ -1,6 +1,10 @@
 package org.kidzonshock.acase.acase.Lawyer;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,7 +25,6 @@ import org.kidzonshock.acase.acase.Models.IncomingClientModel;
 import org.kidzonshock.acase.acase.Models.PreAppoint;
 import org.kidzonshock.acase.acase.Models.PreAppointAdapter;
 import org.kidzonshock.acase.acase.Models.PreAppointModel;
-import org.kidzonshock.acase.acase.Models.PreAppointment;
 import org.kidzonshock.acase.acase.Models.PreferenceDataLawyer;
 import org.kidzonshock.acase.acase.R;
 
@@ -76,6 +79,7 @@ public class IncomingClientFragment extends Fragment {
         int id = item.getItemId();
         String iid = list.get(info.position).getPid();
         String client_id = list.get(info.position).getClient_id();
+        String phone = list.get(info.position).getPhone();
         String status;
         Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
         switch(id){
@@ -83,6 +87,12 @@ public class IncomingClientFragment extends Fragment {
                 status = "client";
                 acceptClient(status,client_id,iid);
                 adapter.notifyDataSetChanged();
+                break;
+            case R.id.call_user:
+                dialPhoneNumber(phone);
+                break;
+            case R.id.message_user:
+                sendSMS(phone);
                 break;
             case R.id.decline_user:
                 status = "decline";
@@ -92,6 +102,43 @@ public class IncomingClientFragment extends Fragment {
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    public void dialPhoneNumber(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    private void sendSMS(String phone) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) // At least KitKat
+        {
+            String defaultSmsPackageName = Telephony.Sms.getDefaultSmsPackage(getActivity()); // Need to change the build to API 19
+
+//            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+            sendIntent.setData(Uri.parse("smsto:"+phone));
+//            sendIntent.setType("text/plain");
+//            sendIntent.putExtra(Intent.EXTRA_TEXT, "text");
+
+            if (defaultSmsPackageName != null)// Can be null in case that there is no default, then the user would be able to choose
+            // any app that support this intent.
+            {
+                sendIntent.setPackage(defaultSmsPackageName);
+            }
+            startActivity(sendIntent);
+
+        }
+        else // For early versions, do what worked for you before.
+        {
+            Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+            smsIntent.setType("vnd.android-dir/mms-sms");
+            smsIntent.putExtra("address",phone);
+            smsIntent.putExtra("sms_body","");
+            startActivity(smsIntent);
+        }
     }
 
     private void acceptClient(String status, String client_id, String pid) {
