@@ -117,6 +117,8 @@ public class MyCaseFragment extends Fragment {
 
         statusSpinnerArray = new ArrayList<>();
         statusSpinnerArray.add("Case Open");
+        statusSpinnerArray.add("Case Pending");
+        statusSpinnerArray.add("Case Moved");
         statusSpinnerArray.add("Case Closed");
 
         statusSpinner = new Spinner(getActivity());
@@ -334,7 +336,7 @@ public class MyCaseFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        final String case_id,title,date,description,client_name,client_email,client_phone,client_address,case_status,remarks;
+        final String case_id,title,date,description,client_name,client_email,client_phone,client_address,case_status,remarks,court_status,client_type;
         int id = item.getItemId();
         switch(id){
             case R.id.View:
@@ -346,6 +348,8 @@ public class MyCaseFragment extends Fragment {
                 client_phone = caselist.get(info.position).getClientPhone();
                 client_address = caselist.get(info.position).getClientAddress();
                 case_status = caselist.get(info.position).getStatus();
+                court_status = caselist.get(info.position).getCourt_status();
+                client_type = caselist.get(info.position).getClient_type();
                 vIntent.putExtra("title",title);
                 vIntent.putExtra("date",isoToDate(date));
                 vIntent.putExtra("client_name",client_name);
@@ -353,6 +357,8 @@ public class MyCaseFragment extends Fragment {
                 vIntent.putExtra("client_phone",client_phone);
                 vIntent.putExtra("client_address",client_address);
                 vIntent.putExtra("case_status",case_status);
+                vIntent.putExtra("court_status",court_status);
+                vIntent.putExtra("client_type",client_type);
                 startActivity(vIntent);
                 break;
             case R.id.Edit:
@@ -484,7 +490,7 @@ public class MyCaseFragment extends Fragment {
                 loading.setVisibility(View.GONE);
                 if(isAdded() && !getCase.isError()){
                     ArrayList<Cases> cases = response.body().getCases();
-                    String case_id, client_id,title,name,description,date,status,remarks,clientEmail, clientPhone,clientAddress, lawyerName, lawyerEmail, lawyerPhone, lawyerOffice;
+                    String case_id, client_id,title,name,description,date,status,remarks,court_status,client_type,clientEmail, clientPhone,clientAddress, lawyerName, lawyerEmail, lawyerPhone, lawyerOffice;
                     for(int i=0; i < cases.size(); i++){
                         case_id = cases.get(i).getCase_id();
                         client_id = cases.get(i).getClient_id();
@@ -492,6 +498,8 @@ public class MyCaseFragment extends Fragment {
                         name = cases.get(i).getClient().getFirst_name()+ " " +cases.get(i).getClient().getLast_name();
                         date = cases.get(i).getCreated();
                         description = cases.get(i).getCase_description();
+                        court_status = cases.get(i).getCourt_status();
+                        client_type = cases.get(i).getClient_type();
                         status = cases.get(i).getCase_status();
                         remarks = cases.get(i).getRemarks();
                         clientEmail = cases.get(i).getClient().getEmail();
@@ -501,7 +509,7 @@ public class MyCaseFragment extends Fragment {
                         lawyerEmail = cases.get(i).getLawyer().getEmail();
                         lawyerPhone = cases.get(i).getLawyer().getPhone();
                         lawyerOffice = cases.get(i).getLawyer().getOffice();
-                        caselist.add(new CaseModel(case_id,client_id,title,name,date,description,status,remarks,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
+                        caselist.add(new CaseModel(case_id,client_id,title,name,date,description,status,remarks,court_status,client_type,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
                     }
                     adapter = new CaseAdapter(getActivity(),caselist);
                     lv.setAdapter(adapter);

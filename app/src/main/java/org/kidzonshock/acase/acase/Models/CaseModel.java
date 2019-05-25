@@ -11,6 +11,8 @@ public class CaseModel {
     private String case_description;
     private String status;
     private String remarks;
+    private String court_status;
+    private String client_type;
 
 //  client
     private String clientEmail;
@@ -23,7 +25,7 @@ public class CaseModel {
     private String lawyerPhone;
     private String lawyerOffice;
 
-    public CaseModel(String case_id,String client_id,String title, String clientName, String date_created, String case_description, String status, String remarks, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
+    public CaseModel(String case_id,String client_id,String title, String clientName, String date_created, String case_description, String status, String remarks, String court_status, String client_type, String clientEmail, String clientPhone, String clientAddress, String lawyerName, String lawyyerEmail, String lawyerPhone, String lawyerOffice) {
         this.case_id = case_id;
         this.client_id = client_id;
         this.title = title;
@@ -32,6 +34,8 @@ public class CaseModel {
         this.case_description = case_description;
         this.status = status;
         this.remarks = remarks;
+        this.court_status = court_status;
+        this.client_type = client_type;
         this.clientEmail = clientEmail;
         this.clientPhone = clientPhone;
         this.clientAddress = clientAddress;
@@ -159,5 +163,21 @@ public class CaseModel {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String getCourt_status() {
+        return court_status;
+    }
+
+    public void setCourt_status(String court_status) {
+        this.court_status = court_status;
+    }
+
+    public String getClient_type() {
+        return client_type;
+    }
+
+    public void setClient_type(String client_type) {
+        this.client_type = client_type;
     }
 }

@@ -9,8 +9,8 @@ import org.kidzonshock.acase.acase.R;
 
 public class ViewCase extends AppCompatActivity {
 
-    TextView txtTitle, txtDate, txtClient_name,txtClient_email,txtClient_phone,txtClient_address,txtCase_status;
-    String title,date,client_name,client_email,client_phone,client_address,case_status;
+    TextView txtTitle, txtDate, txtClient_name,txtClient_email,txtClient_phone,txtClient_address,txtCase_status,txtCourt_status,txtClient_type;
+    String title,date,client_name,client_email,client_phone,client_address,case_status,court_status,client_type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +27,8 @@ public class ViewCase extends AppCompatActivity {
         txtClient_phone = findViewById(R.id.clientPhone);
         txtClient_address = findViewById(R.id.clientAddress);
         txtCase_status = findViewById(R.id.caseStatus);
+        txtCourt_status = findViewById(R.id.courtStatus);
+        txtClient_type = findViewById(R.id.clientType);
 
         Intent prev = getIntent();
         title = prev.getStringExtra("title");
@@ -36,6 +38,8 @@ public class ViewCase extends AppCompatActivity {
         client_phone = prev.getStringExtra("client_phone");
         client_address = prev.getStringExtra("client_address");
         case_status = prev.getStringExtra("case_status");
+        court_status = prev.getStringExtra("court_status");
+        client_type = prev.getStringExtra("client_type");
 
         txtTitle.setText(title);
         txtDate.setText(date);
@@ -44,6 +48,8 @@ public class ViewCase extends AppCompatActivity {
         txtClient_phone.setText(client_phone);
         txtClient_address.setText(client_address);
         txtCase_status.setText(case_status);
+        txtCourt_status.setText(court_status);
+        txtClient_type.setText(client_type);
     }
 
     @Override

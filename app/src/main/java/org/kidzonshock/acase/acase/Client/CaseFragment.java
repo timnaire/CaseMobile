@@ -93,7 +93,7 @@ public class CaseFragment extends Fragment {
                 loading.setVisibility(View.GONE);
                 if(isAdded() && !getCase.isError()){
                     ArrayList<Cases> cases = response.body().getCases();
-                    String case_id, client_id,title,name,description,remarks,date,status,clientEmail, clientPhone,clientAddress, lawyerName, lawyerEmail, lawyerPhone, lawyerOffice;
+                    String case_id, client_id,title,name,description,remarks,date,status,court_status,client_type,clientEmail, clientPhone,clientAddress, lawyerName, lawyerEmail, lawyerPhone, lawyerOffice;
                     for(int i=0; i < cases.size(); i++){
                         case_id = cases.get(i).getCase_id();
                         client_id = cases.get(i).getClient_id();
@@ -103,6 +103,8 @@ public class CaseFragment extends Fragment {
                         description = cases.get(i).getCase_description();
                         status = cases.get(i).getCase_status();
                         remarks = cases.get(i).getRemarks();
+                        court_status = cases.get(i).getCourt_status();
+                        client_type = cases.get(i).getClient_type();
                         clientEmail = cases.get(i).getClient().getEmail();
                         clientPhone = cases.get(i).getClient().getPhone();
                         clientAddress = cases.get(i).getClient().getAddress();
@@ -110,7 +112,7 @@ public class CaseFragment extends Fragment {
                         lawyerEmail = cases.get(i).getLawyer().getEmail();
                         lawyerPhone = cases.get(i).getLawyer().getPhone();
                         lawyerOffice = cases.get(i).getLawyer().getOffice();
-                        caselist.add(new CaseModel(case_id,client_id,title,name,date,description,status,remarks,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
+                        caselist.add(new CaseModel(case_id,client_id,title,name,date,description,status,remarks,court_status,client_type,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
                     }
                     adapter = new CaseAdapter(getActivity(),caselist);
                     lv.setAdapter(adapter);

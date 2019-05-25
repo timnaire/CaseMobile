@@ -41,6 +41,14 @@ public class Cases {
     @Expose
     private String remarks;
 
+    @SerializedName("court_status")
+    @Expose
+    private String court_status;
+
+    @SerializedName("client_type")
+    @Expose
+    private String client_type;
+
     public String getRemarks() {
         return remarks;
     }
@@ -111,5 +119,21 @@ public class Cases {
 
     public void setCase_status(String case_status) {
         this.case_status = case_status;
+    }
+
+    public String getCourt_status() {
+        return court_status;
+    }
+
+    public void setCourt_status(String court_status) {
+        this.court_status = court_status;
+    }
+
+    public String getClient_type() {
+        return client_type;
+    }
+
+    public void setClient_type(String client_type) {
+        this.client_type = client_type;
     }
 }
