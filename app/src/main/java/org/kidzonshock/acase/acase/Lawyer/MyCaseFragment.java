@@ -84,7 +84,7 @@ public class MyCaseFragment extends Fragment {
     ArrayList<CaseModel> caselist = new ArrayList<>();
     LinearLayout loading;
     AdapterView.AdapterContextMenuInfo info;
-    HashMap<String ,String> hmClient;
+    HashMap<String ,String> hmClient,hmCT,hmCS;
     private String output;
 
     @Nullable
@@ -101,6 +101,8 @@ public class MyCaseFragment extends Fragment {
         lv = view.findViewById(R.id.list_caseview);
 
         hmClient = new HashMap<String,String>();
+        hmCT = new HashMap<String,String>();
+        hmCS = new HashMap<String,String>();
 
         loading = view.findViewById(R.id.linlaHeaderProgress);
 
@@ -195,12 +197,16 @@ public class MyCaseFragment extends Fragment {
 
         dialayout.addView(spinner);
 
+        dialayout.addView(spinnerClientType);
+
 //       add description
         addinputCaseDescription.setInputType(InputType.TYPE_CLASS_TEXT);
         addlayoutCaseDescription.setHint("Case Description");
         addlayoutCaseDescription.addView(addinputCaseDescription);
         addlayoutCaseDescription.setPadding(getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),0);
         dialayout.addView(addlayoutCaseDescription);
+
+        dialayout.addView(spinnerCourtStatus);
 
 //       edit  title
         editinputCaseTitle.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -559,6 +565,10 @@ public class MyCaseFragment extends Fragment {
                         lawyerEmail = cases.get(i).getLawyer().getEmail();
                         lawyerPhone = cases.get(i).getLawyer().getPhone();
                         lawyerOffice = cases.get(i).getLawyer().getOffice();
+//                        saCourtStatus.add(court_status);
+//                        hmCS.put(court_status,court_status);
+//                        saClientType.add(client_type);
+//                        hmCT.put(client_type,client_type);
                         caselist.add(new CaseModel(case_id,client_id,title,name,date,description,status,remarks,court_status,client_type,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
                     }
                     adapter = new CaseAdapter(getActivity(),caselist);
