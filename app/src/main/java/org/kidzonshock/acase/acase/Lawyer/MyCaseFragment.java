@@ -33,7 +33,11 @@ import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.CaseAdapter;
 import org.kidzonshock.acase.acase.Models.CaseModel;
 import org.kidzonshock.acase.acase.Models.Cases;
+import org.kidzonshock.acase.acase.Models.ClientType;
+import org.kidzonshock.acase.acase.Models.ClientTypeResponse;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.CourtStatus;
+import org.kidzonshock.acase.acase.Models.CourtStatusResponse;
 import org.kidzonshock.acase.acase.Models.DeleteCase;
 import org.kidzonshock.acase.acase.Models.EditCase;
 import org.kidzonshock.acase.acase.Models.GetCase;
@@ -303,6 +307,8 @@ public class MyCaseFragment extends Fragment {
     }
 
     private void getClients() {
+        getCS();
+        getCT();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -335,6 +341,77 @@ public class MyCaseFragment extends Fragment {
                 Toast.makeText(getActivity(), "Unable to list clients, please try again. " + t.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void getCS() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<CourtStatusResponse> listCS = service.getCourtStatus();
+        listCS.enqueue(new Callback<CourtStatusResponse>() {
+            @Override
+            public void onResponse(Call<CourtStatusResponse> call, Response<CourtStatusResponse> response) {
+                CourtStatusResponse listCourtS = response.body();
+                if(!listCourtS.isError()){
+                    ArrayList<CourtStatus> list_cs = response.body().getCourt_status();
+                    String court_status;
+                    for(int i=0; i < list_cs.size(); i++) {
+                        court_status = list_cs.get(i).getCourt_status();
+                        Log.d(TAG,"CourtStatus: "+court_status);
+                        saCourtStatus.add(court_status);
+                        hmCS.put(court_status,court_status);
+                    }
+                }else{
+                    loading.setVisibility(View.GONE);
+                    if(isAdded()) {
+                        Log.d(TAG, "No court status found");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CourtStatusResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getCT() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Case.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Case service = retrofit.create(Case.class);
+        Call<ClientTypeResponse> listCT = service.getClientType();
+        listCT.enqueue(new Callback<ClientTypeResponse>() {
+            @Override
+            public void onResponse(Call<ClientTypeResponse> call, Response<ClientTypeResponse> response) {
+                ClientTypeResponse listClientT = response.body();
+                if(!listClientT.isError()){
+                    ArrayList<ClientType> list_cs = response.body().getClient_type();
+                    String client_type;
+                    for(int i=0; i < list_cs.size(); i++) {
+                        client_type = list_cs.get(i).getClient_type();
+                        Log.d(TAG,"CourtStatus: "+client_type);
+                        saClientType.add(client_type);
+                        hmCT.put(client_type,client_type);
+                    }
+                }else{
+                    loading.setVisibility(View.GONE);
+                    if(isAdded()) {
+                        Log.d(TAG, "No client type found");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClientTypeResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
@@ -565,10 +642,6 @@ public class MyCaseFragment extends Fragment {
                         lawyerEmail = cases.get(i).getLawyer().getEmail();
                         lawyerPhone = cases.get(i).getLawyer().getPhone();
                         lawyerOffice = cases.get(i).getLawyer().getOffice();
-//                        saCourtStatus.add(court_status);
-//                        hmCS.put(court_status,court_status);
-//                        saClientType.add(client_type);
-//                        hmCT.put(client_type,client_type);
                         caselist.add(new CaseModel(case_id,client_id,title,name,date,description,status,remarks,court_status,client_type,clientEmail,clientPhone,clientAddress,lawyerName,lawyerEmail,lawyerPhone,lawyerOffice));
                     }
                     adapter = new CaseAdapter(getActivity(),caselist);

@@ -4,7 +4,9 @@ import org.kidzonshock.acase.acase.Models.AddCase;
 import org.kidzonshock.acase.acase.Models.AddFCMToken;
 import org.kidzonshock.acase.acase.Models.AddFile;
 import org.kidzonshock.acase.acase.Models.ClientPaymentModel;
+import org.kidzonshock.acase.acase.Models.ClientTypeResponse;
 import org.kidzonshock.acase.acase.Models.CommonResponse;
+import org.kidzonshock.acase.acase.Models.CourtStatusResponse;
 import org.kidzonshock.acase.acase.Models.CreateEventModelClient;
 import org.kidzonshock.acase.acase.Models.CreateEventModelLawyer;
 import org.kidzonshock.acase.acase.Models.DeleteCase;
@@ -267,4 +269,12 @@ public interface Case {
     @Headers("Content-Type: application/json")
     @GET("client/{client_id}/lawyer/feedback/{fid}")
     Call<SoloFeedback> getFeedback(@Path("client_id") String client_id, @Path("fid") String fid);
+
+    @Headers("Content-Type: application/json")
+    @GET("court-status")
+    Call<CourtStatusResponse> getCourtStatus();
+
+    @Headers("Content-Type: application/json")
+    @GET("client-type")
+    Call<ClientTypeResponse> getClientType();
 }
