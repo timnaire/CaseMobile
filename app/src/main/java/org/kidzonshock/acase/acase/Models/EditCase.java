@@ -19,12 +19,20 @@ public class EditCase {
     @SerializedName("remarks")
     private String remarks;
 
-    public EditCase(String case_id, String case_title, String case_description, String case_status, String remarks) {
+    @SerializedName("court_status")
+    private String court_status;
+
+    @SerializedName("client_type")
+    private String client_type;
+
+    public EditCase(String case_id, String case_title, String case_description, String case_status, String remarks, String court_status, String client_type) {
         this.case_id = case_id;
         this.case_title = case_title;
         this.case_description = case_description;
         this.case_status = case_status;
         this.remarks = remarks;
+        this.court_status = court_status;
+        this.client_type = client_type;
     }
 
     public String getCase_id() {
@@ -65,5 +73,21 @@ public class EditCase {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String getCourt_status() {
+        return court_status;
+    }
+
+    public void setCourt_status(String court_status) {
+        this.court_status = court_status;
+    }
+
+    public String getClient_type() {
+        return client_type;
+    }
+
+    public void setClient_type(String client_type) {
+        this.client_type = client_type;
     }
 }

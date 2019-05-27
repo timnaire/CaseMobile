@@ -73,6 +73,12 @@ public class MyCaseFragment extends Fragment {
     ArrayList<String> spinnerArray,statusSpinnerArray;
     Spinner spinner,statusSpinner;
 
+    ArrayList<String> saCourtStatus,listSACourtStatus;
+    Spinner spinnerCourtStatus,CSSpinner;
+
+    ArrayList<String> saClientType,listSAClientType;
+    Spinner spinnerClientType,CTSpinner;
+
     ListView lv;
     CaseAdapter adapter;
     ArrayList<CaseModel> caselist = new ArrayList<>();
@@ -121,17 +127,51 @@ public class MyCaseFragment extends Fragment {
         statusSpinnerArray.add("Case Moved");
         statusSpinnerArray.add("Case Closed");
 
+        listSACourtStatus = new ArrayList<>();
+        listSACourtStatus.add("Municipal Trial Court");
+        listSACourtStatus.add("Sandiganbayan");
+        listSACourtStatus.add("Court of Appeals");
+        listSACourtStatus.add("Regional Trial Court");
+
+        listSAClientType = new ArrayList<>();
+        listSAClientType.add("Civil Defendant");
+        listSAClientType.add("Criminal Defendant");
+
         statusSpinner = new Spinner(getActivity());
         ArrayAdapter<String> statusSpinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, statusSpinnerArray);
         statusSpinner.setAdapter(statusSpinnerArrayAdapter);
 
+        CSSpinner = new Spinner(getActivity());
+        ArrayAdapter<String> listSACourtStatusAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, listSACourtStatus);
+        CSSpinner.setAdapter(listSACourtStatusAdapter);
+
+        CTSpinner = new Spinner(getActivity());
+        ArrayAdapter<String> listSAClientTypeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, listSAClientType);
+        CTSpinner.setAdapter(listSAClientTypeAdapter);
+
         spinnerArray = new ArrayList<String>();
         spinnerArray.add("Select Client");
+
+        saCourtStatus = new ArrayList<String>();
+        saCourtStatus.add("Select Court");
+
+        saClientType = new ArrayList<String>();
+        saClientType.add("Select Client Type");
 
         spinner = new Spinner(getActivity());
         spinner.setPadding(getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),0);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, spinnerArray);
         spinner.setAdapter(spinnerArrayAdapter);
+
+        spinnerCourtStatus = new Spinner(getActivity());
+        spinnerCourtStatus.setPadding(getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),0);
+        ArrayAdapter<String> CSspinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, saCourtStatus);
+        spinnerCourtStatus.setAdapter(CSspinnerArrayAdapter);
+
+        spinnerClientType = new Spinner(getActivity());
+        spinnerClientType.setPadding(getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),0);
+        ArrayAdapter<String> CTspinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, saClientType);
+        spinnerClientType.setAdapter(CTspinnerArrayAdapter);
 
         AlertDialog.Builder addCase = new AlertDialog.Builder(getActivity());
         AlertDialog.Builder EditCase = new AlertDialog.Builder(getActivity());
@@ -170,6 +210,8 @@ public class MyCaseFragment extends Fragment {
         editlayout.addView(editlayoutCaseTitle);
 
         editlayout.addView(statusSpinner);
+        editlayout.addView(CSSpinner);
+
 
 //       edit  description
         editinputCaseDescription.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -177,6 +219,8 @@ public class MyCaseFragment extends Fragment {
         editlayoutCaseDescription.addView(editinputCaseDescription);
         editlayoutCaseDescription.setPadding(getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),getResources().getDimensionPixelOffset(R.dimen.dp_19),0);
         editlayout.addView(editlayoutCaseDescription);
+
+        editlayout.addView(CTSpinner);
 
         editinputCaseRemarks.setInputType(InputType.TYPE_CLASS_TEXT);
         editlayoutCaseRemarks.setHint("Remarks");
@@ -366,22 +410,28 @@ public class MyCaseFragment extends Fragment {
                 description = caselist.get(info.position).getCase_description();
                 case_status = caselist.get(info.position).getStatus();
                 remarks = caselist.get(info.position).getRemarks();
+                court_status = caselist.get(info.position).getCourt_status();
+                client_type = caselist.get(info.position).getClient_type();
                 editinputCaseTitle.setText(title);
                 editinputCaseDescription.setText(description);
                 editinputCaseRemarks.setText(remarks);
                 statusSpinner.setSelection(getIndex(statusSpinner, case_status));
+                CTSpinner.setSelection(getIndex(CTSpinner, court_status));
+                CSSpinner.setSelection(getIndex(CSSpinner, client_type));
                 edit.show();
                 edit.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String title, status, description, remarks, case_id;
+                        String title, status, description, remarks, case_id,court_status,client_type;
                         case_id = caselist.get(info.position).getCase_id();
                         title = editinputCaseTitle.getText().toString();
                         description = editinputCaseDescription.getText().toString();
                         remarks = editinputCaseRemarks.getText().toString();
                         status = statusSpinner.getSelectedItem().toString();
+                        court_status = CSSpinner.getSelectedItem().toString();
+                        client_type = CTSpinner.getSelectedItem().toString();
                         if(validateEditForm(title,description)){
-                            editCase(case_id,title,description,status, remarks);
+                            editCase(case_id,title,description,status, remarks,court_status,client_type);
                             adapter.notifyDataSetChanged();
 //                        FragmentTransaction ft = getFragmentManager().beginTransaction();
 //                        ft.detach(MyCaseFragment.this).attach(MyCaseFragment.this).commit();
@@ -446,13 +496,13 @@ public class MyCaseFragment extends Fragment {
         });
     }
 
-    private void editCase(String case_id,String title, String description,String status, String remarks) {
+    private void editCase(String case_id,String title, String description,String status, String remarks, String court_status, String client_type) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Case.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Case service = retrofit.create(Case.class);
-        final Call<CommonResponse> commonResponseCall = service.editCase(lawyer_id,new EditCase(case_id,title,description, status,remarks));
+        final Call<CommonResponse> commonResponseCall = service.editCase(lawyer_id,new EditCase(case_id,title,description, status,remarks, court_status, client_type));
         commonResponseCall.enqueue(new Callback<CommonResponse>() {
             @Override
             public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
